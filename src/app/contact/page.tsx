@@ -7,7 +7,7 @@ const ContactPage = () => {
       <div className="container mx-auto max-w-2xl text-center">
         <h1 className="text-4xl font-bold mb-4">Contactez-moi</h1>
         <p className="text-lg mb-8">
-          N'hésitez pas à me contacter pour toute question ou opportunité.
+          N&apos;hésitez pas à me contacter pour toute question ou opportunité.
         </p>
         <form
           action="mailto:edoyawosokpa@gmail.com"
