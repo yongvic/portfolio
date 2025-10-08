@@ -30,17 +30,16 @@
         
 }
 
-
 @keyframes fill-bar {
-          from { width: '0%' }
-          to { width: 'var(--skill-level, 0%)' }
-        }
+  from { width: 0%; }
+  to { width: var(--skill-level, 0%); } /* La destination est la variable ! */
+}
 
 @keyframes drift { 
           0%,
-          100% { transform: 'translate(0, 0) rotate(0deg)' };
-          25% { transform: 'translate(5px, 10px) rotate(5deg)' };
-          75% { transform: 'translate(-10px, -5px) rotate(-5deg)' };
+          100% { transform: translate(0, 0) rotate(0deg) };
+          25% { transform: translate(5px, 10px) rotate(5deg) };
+          75% { transform: translate(-10px, -5px) rotate(-5deg) };
         }
 
 @keyframes fadeInUp {

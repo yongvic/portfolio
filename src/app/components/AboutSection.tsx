@@ -1,7 +1,8 @@
+// src/app/components/AboutSection.tsx
+
 import React from 'react';
 import Image from 'next/image';
 import { FiDownload } from 'react-icons/fi';
-// import { IconType } from 'react-icons'; // CORRECTION: Ligne supprimée car IconType n'est pas utilisé
 
 // --- Interfaces & Données ---
 interface SkillPillProps {
@@ -16,7 +17,7 @@ interface SkillBarProps {
   delay: string;
 }
 
-// Données pour les compétences, faciles à modifier
+// Vous pouvez modifier vos compétences et pourcentages ici
 const skillsOnImage = [
   { name: 'React', position: 'top-[20%] left-[5%]', delay: 'delay-300' },
   { name: 'Next.js', position: 'top-[40%] right-[0%]', delay: 'delay-500' },
@@ -41,6 +42,7 @@ const SkillPill: React.FC<SkillPillProps> = ({ skill, position, delay }) => (
   </div>
 );
 
+// C'EST CE COMPOSANT QUI GÈRE VOS BARRES DE COMPÉTENCES
 const SkillBar: React.FC<SkillBarProps> = ({ skill, level, delay }) => (
   <div className={`w-full animate-fade-in-up ${delay}`}>
     <div className="flex justify-between mb-1">
@@ -50,7 +52,7 @@ const SkillBar: React.FC<SkillBarProps> = ({ skill, level, delay }) => (
     <div className="w-full bg-brand-purple-dark rounded-full h-2.5">
       <div 
         className="bg-gradient-to-r from-pink-500 to-purple-500 h-2.5 rounded-full animate-fill-bar" 
-        style={{ '--skill-level': `${level}%` } as React.CSSProperties}
+        style={{ '--skill-level': `${level}%` } as React.CSSProperties} // Passe le pourcentage à l'animation
       ></div>
     </div>
   </div>
@@ -62,6 +64,7 @@ const SkillBar: React.FC<SkillBarProps> = ({ skill, level, delay }) => (
 const AboutSection: React.FC = () => {
   return (
     <section id="about" className="relative py-20 lg:py-32 px-4 overflow-hidden">
+        {/* Formes décoratives en fond */}
         <div className="absolute top-10 left-5 w-8 h-8 bg-pink-500 rounded-full opacity-20 animate-drift animation-delay-300"></div>
         <div className="absolute top-1/2 right-10 w-12 h-12 border-2 border-teal-400 rounded-full opacity-20 animate-drift animation-delay-500"></div>
         <div className="absolute bottom-20 left-1/4 w-6 h-6 opacity-30 animate-drift">
@@ -73,6 +76,7 @@ const AboutSection: React.FC = () => {
       <div className="container mx-auto z-10">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-12 items-center">
 
+          {/* Colonne de Gauche (Image) */}
           <div className="relative flex justify-center items-center animate-fade-in-up">
             <div className="absolute w-[90%] h-[90%] bg-orange-400 rounded-full filter blur-xl opacity-30"></div>
             <div className="relative w-full max-w-md aspect-square p-4">
@@ -86,13 +90,13 @@ const AboutSection: React.FC = () => {
                   className="scale-105"
                 />
               </div>
-              {/* CORRECTION: On passe explicitement la prop 'skill' */}
               {skillsOnImage.map(pill => (
                 <SkillPill key={pill.name} skill={pill.name} position={pill.position} delay={pill.delay} />
               ))}
             </div>
           </div>
           
+          {/* Colonne de Droite (Texte) */}
           <div className="animate-fade-in-up delay-200">
             <h2 className="text-4xl font-bold mb-2 text-white">À Propos de Moi</h2>
             <p className="font-semibold text-pink-400 mb-6 text-lg">
@@ -103,13 +107,12 @@ const AboutSection: React.FC = () => {
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
-              {/* CORRECTION: On passe explicitement la prop 'skill' */}
               {skillsWithLevels.map(skill => (
                 <SkillBar key={skill.name} skill={skill.name} level={skill.level} delay={skill.delay} />
               ))}
             </div>
 
-            <a href="/cv-edo-sokpa.pdf" download>
+            <a href="/Cv-SOKPA-Edo-Yawo.pdf" download>
               <button className="group flex items-center justify-center gap-3 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 shadow-lg shadow-pink-500/30 text-white font-bold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 w-full sm:w-auto">
                 <span>Télécharger mon CV</span>
                 <FiDownload className="transition-transform duration-300 group-hover:translate-y-0.5" />
