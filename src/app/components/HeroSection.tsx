@@ -141,7 +141,7 @@ const HeroSection: React.FC = () => {
               
               <div className="absolute inset-12 lg:inset-20 animate-float">
                 <Image
-                  src="/moi.png"
+                  src="/img.jpg"
                   alt="SOKPA Edo Yawo"
                   width={350}
                   height={350}

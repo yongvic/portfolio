@@ -1,6 +1,6 @@
 // src/app/data/servicesData.ts
 import { IconType } from 'react-icons';
-import { FaCode, FaServer, FaPalette, FaRobot, FaSearch, FaShieldAlt } from 'react-icons/fa';
+import { FaCode, FaPenNib, FaPalette, FaRobot, FaSearch, FaBrush } from 'react-icons/fa';
 
 export interface Service {
   icon: IconType;
@@ -15,10 +15,10 @@ export const servicesData: Service[] = [
     description: 'Création d\'interfaces utilisateur réactives, modernes et performantes avec React, Next.js et TypeScript.',
   },
   {
-    icon: FaServer,
-    title: 'Développement Back-End',
-    description: 'Conception d\'API REST robustes et de logiques serveur sécurisées avec Node.js et Express.',
-  },
+  icon: FaPenNib,
+  title: 'Branding & Identité Visuelle',
+  description: 'Conception de logos, chartes graphiques et éléments de marque qui reflètent la personnalité de votre entreprise.',
+ },
   {
     icon: FaPalette,
     title: 'UX/UI Design',
@@ -30,9 +30,9 @@ export const servicesData: Service[] = [
     description: 'Mise en place de workflows automatisés avec des outils comme N8n pour optimiser vos processus métier.',
   },
   {
-    icon: FaShieldAlt,
-    title: 'Sécurité Web',
-    description: 'Analyse et renforcement de la sécurité de vos applications web pour protéger les données sensibles.',
+  icon: FaBrush,
+  title: 'Direction Artistique',
+  description: 'Création d’univers visuels cohérents et impactants pour donner une identité forte à chaque projet.',
   },
   {
     icon: FaSearch,
