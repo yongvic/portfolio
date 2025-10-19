@@ -55,7 +55,7 @@ const ContactSection: React.FC = () => {
           layout="fill" 
           objectFit="cover"
           objectPosition="center bottom" 
-          className="opacity-60"
+          className="hidden md:block opacity-60"
           priority 
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#11011B] via-transparent to-[#11011B]"></div>
