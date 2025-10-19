@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "SOKPA Edo Yawo - Portfolio",
-  description: "Portfolio de SOKPA Edo Yawo, étudiant en première année en Systèmes d'information / Ingénierie cybersécurité.",
+  description: "Portfolio de SOKPA Edo Yawo, étudiant en deuxième année en Systèmes d'information / Ingénierie cybersécurité.",
 };
 
 export default function RootLayout({
