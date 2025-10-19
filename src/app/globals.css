@@ -3,6 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
+  /* --- Couleurs & Typographie --- */
   --color-brand-dark: #1a202c;
   --color-brand-purple-dark: #2d3748;
   --color-brand-purple: #4a5568;
@@ -15,6 +16,7 @@
   --color-light-text-secondary: #e2e8f0;
   --font-sans: "Geist Sans", system-ui, sans-serif;
 
+  /* --- Animations --- */
   --animation-fade-in-up: fadeInUp 0.8s ease-out forwards;
   --animation-float: float 6s ease-in-out infinite;
   --animation-pulse-glow: pulse-glow 4s ease-in-out infinite;
@@ -25,296 +27,82 @@
   --animation-orb-5: orb-5 16s infinite alternate;
   --animation-orb-6: orb-6 13s infinite alternate;
   --animation-orb-7: orb-7 18s infinite alternate;
-  --annimation-fill-bar: fill-bar 2s ease-out forwards;
-  --annimation-drift: drift 15s ease-in-out infinite alternate;
-        
+  --animation-fill-bar: fill-bar 2s ease-out forwards;
+  --animation-drift: drift 15s ease-in-out infinite alternate;
 }
+
+/* --- Keyframes --- */
 
 @keyframes fill-bar {
   from { width: 0%; }
-  to { width: var(--skill-level, 0%); } /* La destination est la variable ! */
+  to { width: var(--skill-level, 0%); }
 }
 
 @keyframes drift { 
-          0%,
-          100% { transform: translate(0, 0) rotate(0deg) };
-          25% { transform: translate(5px, 10px) rotate(5deg) };
-          75% { transform: translate(-10px, -5px) rotate(-5deg) };
-        }
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes pulse-glow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 35px 10px rgba(199, 125, 255, 0.3);
-    transform: scale(1);
-  }
-
-  50% {
-    box-shadow: 0 0 50px 15px rgba(199, 125, 255, 0.1);
-    transform: scale(1.05);
-  }
-}
-
-@keyframes orb-1 {
-  0% {
-    transform: translate(10vw, -10vh), scale(1);
-    opacity: 0.2
-  }
-
-  100% {
-    transform: translate(15vw, 10vh), scale(1.2);
-    opacity: 0.3
-  }
-}
-
-@keyframes orb-2 {
-  0% {
-    transform: translate(80vw, 10vh), scale(1);
-    opacity: 0.2
-  }
-
-  100% {
-    transform: translate(70vw, -5vh), scale(0.8);
-    opacity: 0.3
-  }
-}
-
-@keyframes orb-3 {
-  0% {
-    transform: translate(50vw, 80vh), scale(1.1);
-    opacity: 0.1
-  }
-
-  100% {
-    transform: translate(45vw, 70vh), scale(1.3);
-    opacity: 0.2
-  }
-}
-
-@keyframes orb-4 {
-  0% {
-    transform: translate(25vw, 90vh), scale(0.7);
-    opacity: 0.3
-  }
-
-  100% {
-    transform: translate(35vw, 80vh), scale(1);
-    opacity: 0.4
-  }
-}
-
-@keyframes orb-5 {
-  0% {
-    transform: translate(5vw, 50vh), scale(1);
-    opacity: 0.1
-  }
-
-  100% {
-    transform: translate(10vw, 60vh), scale(1.2);
-    opacity: 0.2
-  }
-}
-
-@keyframes orb-6 {
-  0% {
-    transform: translate(90vw, 40vh), scale(0.9);
-    opacity: 0.3
-  }
-
-  100% {
-    transform: translate(80vw, 50vh), scale(1.1);
-    opacity: 0.4
-  }
-}
-
-@keyframes orb-7 {
-  0% {
-    transform: translate(60vw, 20vh), scale(0.8);
-    opacity: 0.2
-  }
-
-  100% {
-    transform: translate(55vw, 30vh), scale(1);
-    opacity: 0.3
-  }
-}
-
-@import "tailwindcss";
-
-@custom-variant dark (&:where(.dark, .dark *));
-
-@theme inline {
-  --color-brand-dark: #1a202c;
-  --color-brand-purple-dark: #2d3748;
-  --color-brand-purple: #4a5568;
-  --color-brand-purple-light: #718096;
-  --color-brand-mauve: #a0aec0;
-  --color-brand-pink: #cbd5e0;
-  --color-accent-pink: #e2e8f0;
-  --color-accent-violet: #edf2f7;
-  --color-light-text: #f7fafc;
-  --color-light-text-secondary: #e2e8f0;
-  --font-sans: "Geist Sans", system-ui, sans-serif;
-
-  --animation-fade-in-up: fadeInUp 0.8s ease-out forwards;
-  --animation-float: float 6s ease-in-out infinite;
-  --animation-pulse-glow: pulse-glow 4s ease-in-out infinite;
-  --animation-orb-1: orb-1 15s infinite alternate;
-  --animation-orb-2: orb-2 17s infinite alternate;
-  --animation-orb-3: orb-3 12s infinite alternate;
-  --animation-orb-4: orb-4 20s infinite alternate;
-  --animation-orb-5: orb-5 16s infinite alternate;
-  --animation-orb-6: orb-6 13s infinite alternate;
-  --animation-orb-7: orb-7 18s infinite alternate;
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(5px, 10px) rotate(5deg); }
+  75% { transform: translate(-10px, -5px) rotate(-5deg); }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-20px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
 }
 
 @keyframes pulse-glow {
-
-  0%,
-  100% {
+  0%, 100% {
     box-shadow: 0 0 35px 10px rgba(236, 72, 153, 0.3);
     transform: scale(1);
   }
-
   50% {
     box-shadow: 0 0 50px 15px rgba(236, 72, 153, 0.1);
     transform: scale(1.05);
   }
 }
 
+/* --- Keyframes pour les orbes de fond --- */
 @keyframes orb-1 {
-  0% {
-    transform: translate(10vw, -10vh), scale(1);
-    opacity: 0.2
-  }
-
-  100% {
-    transform: translate(15vw, 10vh), scale(1.2);
-    opacity: 0.3
-  }
+  0% { transform: translate(10vw, -10vh) scale(1); opacity: 0.2; }
+  100% { transform: translate(15vw, 10vh) scale(1.2); opacity: 0.3; }
 }
 
 @keyframes orb-2 {
-  0% {
-    transform: translate(80vw, 10vh), scale(1);
-    opacity: 0.2
-  }
-
-  100% {
-    transform: translate(70vw, -5vh), scale(0.8);
-    opacity: 0.3
-  }
+  0% { transform: translate(80vw, 10vh) scale(1); opacity: 0.2; }
+  100% { transform: translate(70vw, -5vh) scale(0.8); opacity: 0.3; }
 }
 
 @keyframes orb-3 {
-  0% {
-    transform: translate(50vw, 80vh), scale(1.1);
-    opacity: 0.1
-  }
-
-  100% {
-    transform: translate(45vw, 70vh), scale(1.3);
-    opacity: 0.2
-  }
+  0% { transform: translate(50vw, 80vh) scale(1.1); opacity: 0.1; }
+  100% { transform: translate(45vw, 70vh) scale(1.3); opacity: 0.2; }
 }
 
 @keyframes orb-4 {
-  0% {
-    transform: translate(25vw, 90vh), scale(0.7);
-    opacity: 0.3
-  }
-
-  100% {
-    transform: translate(35vw, 80vh), scale(1);
-    opacity: 0.4
-  }
+  0% { transform: translate(25vw, 90vh) scale(0.7); opacity: 0.3; }
+  100% { transform: translate(35vw, 80vh) scale(1); opacity: 0.4; }
 }
 
 @keyframes orb-5 {
-  0% {
-    transform: translate(5vw, 50vh), scale(1);
-    opacity: 0.1
-  }
-
-  100% {
-    transform: translate(10vw, 60vh), scale(1.2);
-    opacity: 0.2
-  }
+  0% { transform: translate(5vw, 50vh) scale(1); opacity: 0.1; }
+  100% { transform: translate(10vw, 60vh) scale(1.2); opacity: 0.2; }
 }
 
 @keyframes orb-6 {
-  0% {
-    transform: translate(90vw, 40vh), scale(0.9);
-    opacity: 0.3
-  }
-
-  100% {
-    transform: translate(80vw, 50vh), scale(1.1);
-    opacity: 0.4
-  }
+  0% { transform: translate(90vw, 40vh) scale(0.9); opacity: 0.3; }
+  100% { transform: translate(80vw, 50vh) scale(1.1); opacity: 0.4; }
 }
 
 @keyframes orb-7 {
-  0% {
-    transform: translate(60vw, 20vh), scale(0.8);
-    opacity: 0.2
-  }
-
-  100% {
-    transform: translate(55vw, 30vh), scale(1);
-    opacity: 0.3
-  }
+  0% { transform: translate(60vw, 20vh) scale(0.8); opacity: 0.2; }
+  100% { transform: translate(55vw, 30vh) scale(1); opacity: 0.3; }
 }
 
+
+/* --- Styles de Base --- */
 @layer base {
   html {
     scroll-behavior: smooth;

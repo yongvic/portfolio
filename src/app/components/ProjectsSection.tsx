@@ -5,7 +5,7 @@
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { projectsData, filters, Project } from '../data/projectsData';
+import { projectsData, filters, Project } from '../data/projectsData'; // Assurez-vous que ce chemin d'importation est correct
 import { FiArrowUpRight } from 'react-icons/fi';
 
 // --- Sous-composant : Carte de Projet ---
@@ -28,7 +28,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
       />
       {/* Superposition au survol */}
       <div className="absolute inset-0 bg-black/70 flex flex-col justify-end p-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-sm">
-        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
+        <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{project.title}</h3>
         <p className="text-sm text-brand-mauve mb-3">{project.description}</p>
         
         {/* Étiquettes de logiciels */}
@@ -41,7 +41,13 @@ const ProjectCard = ({ project }: { project: Project }) => {
         </div>
 
         {project.link && (
-          <a href={project.link} target="_blank" rel="noopener noreferrer" className="absolute top-4 right-4 text-white p-2 bg-white/10 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-45">
+          <a 
+            href={project.link} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="absolute top-4 right-4 text-white p-2 bg-white/10 rounded-full transition-transform duration-300 group-hover:scale-110 group-hover:rotate-45"
+            aria-label={`Voir le projet ${project.title}`}
+          >
             <FiArrowUpRight size={20} />
           </a>
         )}
@@ -63,24 +69,24 @@ const ProjectsSection = () => {
   }, [activeFilter]);
 
   return (
-    <section id="projects" className="py-20 lg:py-32 px-4">
+    <section id="projects" className="py-16 lg:py-32 px-4">
       <div className="container mx-auto">
         {/* Titre */}
         <div className="text-center mb-12">
-            <h2 className="text-5xl md:text-6xl font-bold text-white relative inline-block">
+            <h2 className="text-4xl md:text-6xl font-bold text-white relative inline-block">
                 Mes Projets
-                <span className="text-pink-400 text-6xl md:text-7xl absolute -top-4 -right-8">.</span>
+                <span className="text-pink-400 text-5xl md:text-7xl absolute -top-3 -right-6 md:-top-4 md:-right-8">.</span>
             </h2>
-            <p className="text-brand-mauve mt-4">Une sélection de mes travaux récents.</p>
+            <p className="text-brand-mauve mt-4 max-w-xl mx-auto">Une sélection de mes travaux récents.</p>
         </div>
         
-        {/* Filtres */}
-        <div className="flex justify-center flex-wrap gap-4 mb-12">
+        {/* Filtres - Maintenant plus responsives */}
+        <div className="flex justify-center flex-wrap gap-x-2 gap-y-3 mb-12">
           {filters.map(filter => (
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`relative px-4 py-2 text-md font-semibold transition-colors duration-300
+              className={`relative px-3 sm:px-4 py-2 text-sm sm:text-md font-semibold transition-colors duration-300
                 ${activeFilter === filter ? 'text-pink-400' : 'text-brand-mauve hover:text-white'}
               `}
             >
@@ -98,7 +104,7 @@ const ProjectsSection = () => {
         {/* Grille de Projets */}
         <motion.div
           layout // Permet d'animer les changements de position
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           <AnimatePresence>
             {filteredProjects.map(project => (

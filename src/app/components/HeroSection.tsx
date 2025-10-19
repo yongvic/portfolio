@@ -4,64 +4,75 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, Variants } from 'framer-motion'; // NOUVEAU: Import de Framer Motion
+import { motion, Variants, useTime, useTransform } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
 import { 
   FaFigma, 
   FaDocker, 
   FaNodeJs,
+  FaGithub, // NOUVEAU
+  FaJava,   // NOUVEAU
 } from 'react-icons/fa6'; 
 import { FaJsSquare } from "react-icons/fa";
-// Correction: Utilisation de fa6
 import { SiAdobephotoshop, SiN8N } from 'react-icons/si';
 import { IconType } from 'react-icons';
 
-// --- Interfaces (modifiées pour plus de flexibilité) ---
-interface TechIconProps {
-  icon: IconType;
-  position: string; // CORRECTION: On passe des classes Tailwind plutôt qu'un objet de style
-  delay: string;
-}
-
+// Interface pour les technologies
 interface Technology {
   icon: IconType;
-  position: string;
-  delay: string;
+  radius: number; // Rayon de l'orbite en pixels
 }
 
-// --- Sous-composant TechIcon (simplifié) ---
-const TechIcon: React.FC<TechIconProps> = ({ icon: Icon, position, delay }) => (
+// Sous-composant pour l'icône, conserve l'animation de flottement
+const TechIcon: React.FC<{ icon: IconType }> = ({ icon: Icon }) => (
   <div 
-    className={`absolute rounded-full bg-white/10 p-2 md:p-3 backdrop-blur-sm shadow-lg 
-                transition-transform duration-300 hover:scale-110 
-                animate-float ${position} ${delay}`}
+    className="rounded-full bg-white/10 p-2 md:p-3 backdrop-blur-sm shadow-lg transition-transform duration-300 hover:scale-110"
+    style={{ animation: 'var(--animation-float)' }} 
   >
     <Icon className="w-5 h-5 md:w-8 md:h-8 text-pink-400" />
   </div>
 );
 
+// Composant qui gère le calcul de l'orbite pour une seule icône
+const OrbitingIcon = ({ icon, radius, index, total }: { icon: IconType, radius: number, index: number, total: number }) => {
+  const time = useTime();
+  const angleOffset = (index / total) * 2 * Math.PI; // Espacement uniforme
+  const angle = useTransform(
+    time,
+    [0, 25000], // Durée d'une rotation complète (25 secondes)
+    [0 + angleOffset, 2 * Math.PI + angleOffset],
+    { clamp: false }
+  );
 
-// --- Composant Principal ---
+  const x = useTransform(angle, (latestAngle) => radius * Math.cos(latestAngle));
+  const y = useTransform(angle, (latestAngle) => radius * Math.sin(latestAngle));
+
+  return (
+    <motion.div className="absolute" style={{ x, y }}>
+      <TechIcon icon={icon} />
+    </motion.div>
+  );
+};
+
+
+// --- Composant Principal HeroSection ---
 const HeroSection: React.FC = () => {
-  // CORRECTION: Utilisation de classes Tailwind pour la position et les délais
+  // Liste mise à jour avec GitHub et Java
   const technologies: Technology[] = [
-    { icon: FaFigma, position: 'top-[10%] left-[20%]', delay: '[animation-delay:0s]' },
-    { icon: SiN8N, position: 'top-[30%] right-[-5%]', delay: '[animation-delay:1s]' },
-    { icon: SiAdobephotoshop, position: 'top-[65%] right-[0%]', delay: '[animation-delay:2s]' },
-    { icon: FaDocker, position: 'bottom-[5%] left-[40%]', delay: '[animation-delay:3s]' },
-    { icon: FaNodeJs, position: 'top-[70%] left-[-10%]', delay: '[animation-delay:1.5s]' },
-    { icon: FaJsSquare, position: 'top-[20%] left-[-5%]', delay: '[animation-delay:2.5s]' },
+    { icon: FaFigma, radius: 140 },
+    { icon: SiN8N, radius: 210 },
+    { icon: SiAdobephotoshop, radius: 140 },
+    { icon: FaDocker, radius: 210 },
+    { icon: FaNodeJs, radius: 140 },
+    { icon: FaGithub, radius: 210 }, // NOUVEAU
+    { icon: FaJsSquare, radius: 140 },
+    { icon: FaJava, radius: 210 },   // NOUVEAU
   ];
   
-  // NOUVEAU: Variantes d'animation pour Framer Motion
+  // Variantes d'animation pour Framer Motion
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2, // Délai entre l'animation des enfants
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
   };
 
   const itemVariants: Variants = {
@@ -71,7 +82,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a0528] via-[#2c0a3e] to-[#1a0528] text-white p-4 sm:p-8">
-      {/* Orbes de fond */}
+      {/* Orbes de fond décoratifs */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-teal-400/20 rounded-full filter blur-3xl opacity-50 animate-pulse"></div>
       <div className="absolute top-0 right-0 w-72 h-72 bg-pink-500/20 rounded-full filter blur-3xl opacity-50 animate-pulse [animation-delay:2s]"></div>
       <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-orange-400/20 rounded-full filter blur-3xl opacity-50 animate-pulse [animation-delay:4s]"></div>
@@ -79,7 +90,7 @@ const HeroSection: React.FC = () => {
       <div className="container mx-auto z-10">
         <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
           
-          {/* --- Colonne de Gauche (animée) --- */}
+          {/* --- Colonne de Gauche (Texte d'introduction) --- */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"
@@ -120,32 +131,45 @@ const HeroSection: React.FC = () => {
               <p className="text-brand-mauve">PHOTOSHOP</p>
               <p className="text-brand-mauve">DOCKER</p>
               <p className="text-brand-mauve">NODEJS</p>
+              <p className="text-brand-mauve">GITHUB</p> {/* NOUVEAU */}
+              <p className="text-brand-mauve">JAVA</p>   {/* NOUVEAU */}
             </motion.div>
           </motion.div>
 
-          {/* --- Colonne de Droite (animée) --- */}
+          {/* --- Colonne de Droite (Visuel avec Avatar et Icônes en Orbite) --- */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
             className="relative hidden md:flex justify-center items-center"
           >
-            {/* CORRECTION: Tailles responsives pour l'image et les orbites */}
-            <div className="relative w-[300px] h-[300px] lg:w-[450px] lg:h-[450px]">
+            <div className="relative w-[300px] h-[300px] lg:w-[450px] lg:h-[450px] flex items-center justify-center">
+              {/* Cercles décoratifs en rotation */}
               <div className="absolute inset-0 border-2 border-pink-500/30 rounded-full animate-slow-spin"></div>
               <div className="absolute inset-8 border-2 border-teal-400/30 rounded-full animate-slow-spin-reverse"></div>
               
-              {technologies.map((tech) => (
-                <TechIcon key={tech.delay} {...tech} />
+              {/* Génération des icônes en orbite contrôlée */}
+              {technologies.map((tech, index) => (
+                <OrbitingIcon
+                  key={index}
+                  icon={tech.icon}
+                  radius={tech.radius}
+                  index={index}
+                  total={technologies.length}
+                />
               ))}
               
-              <div className="absolute inset-12 lg:inset-20 animate-float">
+              {/* Avatar central flottant */}
+              <div 
+                className="relative w-[150px] h-[150px] lg:w-[220px] lg:h-[220px]"
+                style={{ animation: 'var(--animation-float)', animationDelay: '-1.5s' }}
+              >
                 <Image
-                  src="/img.jpg"
+                  src="/avatar.jpg"
                   alt="SOKPA Edo Yawo"
-                  width={350}
-                  height={350}
-                  className="rounded-full object-cover w-full h-full shadow-2xl shadow-black/50"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full shadow-2xl shadow-black/50"
                   priority
                 />
               </div>

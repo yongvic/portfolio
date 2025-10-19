@@ -5,6 +5,7 @@ import HeroSection from './components/HeroSection';
 import ProjectsSection from './components/ProjectsSection';
 import JourneySection from './components/JourneySection';
 import ServicesSection from './components/ServicesSection';
+import ScrollToTopButton from './components/ScrollToTopButton';
 
 export default function HomePage() {
   return (
@@ -15,6 +16,7 @@ export default function HomePage() {
       <JourneySection/>
       <ServicesSection />
       <ContactSection />
+      <ScrollToTopButton />
     </main>
   );
 }

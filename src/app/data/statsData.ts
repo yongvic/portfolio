@@ -10,8 +10,8 @@ export interface StatItem {
 
 export const statsData: StatItem[] = [
   {
-    value: 1500, // Nombre de lignes de code ou commits
-    label: 'Lignes de Code',
+    value: 50, // Nombre de maquettes réalisées
+    label: 'Maquettes Réalisées',
     icon: FaCode,
   },
   {

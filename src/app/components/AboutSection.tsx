@@ -1,7 +1,10 @@
 // src/app/components/AboutSection.tsx
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
+// CORRECTION : Importer le type 'Variants' en plus de 'motion'
+import { motion, Variants } from 'framer-motion'; 
 import { FiDownload } from 'react-icons/fi';
 
 // --- Interfaces & Données ---
@@ -13,11 +16,10 @@ interface SkillPillProps {
 
 interface SkillBarProps {
   skill: string;
-  level: number; // Pourcentage de 0 à 100
+  level: number;
   delay: string;
 }
 
-// Vous pouvez modifier vos compétences et pourcentages ici
 const skillsOnImage = [
   { name: 'React', position: 'top-[20%] left-[5%]', delay: 'delay-300' },
   { name: 'Next.js', position: 'top-[40%] right-[0%]', delay: 'delay-500' },
@@ -26,9 +28,9 @@ const skillsOnImage = [
 ];
 
 const skillsWithLevels = [
-  { name: 'Développement Front-End', level: 90, delay: 'delay-300' },
-  { name: 'Développement Back-End', level: 80, delay: 'delay-500' },
-  { name: 'Cybersécurité', level: 75, delay: 'delay-700' },
+  { name: 'Développement Front-End', level: 70, delay: 'delay-300' },
+  { name: 'Automatisation N8N', level: 50, delay: 'delay-500' },
+  { name: 'Créativité & Résolution de problèmes', level: 75, delay: 'delay-700' },
   { name: 'UI/UX Design', level: 85, delay: 'delay-900' },
 ];
 
@@ -42,21 +44,37 @@ const SkillPill: React.FC<SkillPillProps> = ({ skill, position, delay }) => (
   </div>
 );
 
-// C'EST CE COMPOSANT QUI GÈRE VOS BARRES DE COMPÉTENCES
-const SkillBar: React.FC<SkillBarProps> = ({ skill, level, delay }) => (
-  <div className={`w-full animate-fade-in-up ${delay}`}>
-    <div className="flex justify-between mb-1">
-      <span className="text-base font-medium text-brand-mauve">{skill}</span>
-      <span className="text-sm font-medium text-brand-mauve">{level}%</span>
+const SkillBar: React.FC<SkillBarProps> = ({ skill, level, delay }) => {
+  // CORRECTION : On type explicitement notre constante avec 'Variants'
+  const barVariants: Variants = {
+    hidden: { width: '0%' },
+    visible: {
+      width: `${level}%`,
+      transition: {
+        duration: 1.5,
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  return (
+    <div className={`w-full animate-fade-in-up ${delay}`}>
+      <div className="flex justify-between mb-1">
+        <span className="text-base font-medium text-brand-mauve">{skill}</span>
+        <span className="text-sm font-medium text-brand-mauve">{level}%</span>
+      </div>
+      <div className="w-full bg-brand-purple-dark rounded-full h-2.5">
+        <motion.div
+          className="bg-gradient-to-r from-pink-500 to-purple-500 h-2.5 rounded-full"
+          variants={barVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.8 }}
+        ></motion.div>
+      </div>
     </div>
-    <div className="w-full bg-brand-purple-dark rounded-full h-2.5">
-      <div 
-        className="bg-gradient-to-r from-pink-500 to-purple-500 h-2.5 rounded-full animate-fill-bar" 
-        style={{ '--skill-level': `${level}%` } as React.CSSProperties} // Passe le pourcentage à l'animation
-      ></div>
-    </div>
-  </div>
-);
+  );
+};
 
 
 // --- Composant Principal ---
@@ -83,7 +101,7 @@ const AboutSection: React.FC = () => {
               <div className="absolute inset-0 border-4 border-pink-500/50 rounded-full animate-pulse-glow"></div>
               <div className="relative w-full h-full rounded-full overflow-hidden shadow-2xl">
                 <Image
-                  src="/moi.png"
+                  src="/avatar.jpg"
                   alt="SOKPA Edo Yawo"
                   layout="fill"
                   objectFit="cover"
