@@ -1,0 +1,329 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: sans-serif;
+    overflow-x: hidden;
+}
+
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.navbar-wrapper {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    z-index: 500;
+}
+
+
+.navbar-wrapper p, a{
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+    user-select: none;
+}
+.container{
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    height: 100%;
+    will-change: transform, opacity;
+    z-index: 0;
+}
+
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  padding: 1.5rem 1.5rem;
+  color: var(--dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  mix-blend-mode: difference;
+  z-index: 500;
+  box-sizing: border-box;
+  will-change: transform;
+}
+nav > div {
+  flex-shrink: 0;
+}
+
+.logo {
+  cursor: pointer;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+  overflow: visible;
+  width: 110px;
+  height: 110px;
+}
+
+/* centrage absolu du logo */
+.nav-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+/* assure que les côtés ne prennent pas trop de place */
+.nav-left,
+.nav-right {
+  min-width: 0;
+}
+
+/* style existant pour le toggle */
+nav p {
+  padding: 1rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* style TimeDisplay reste */
+.time-container {
+  display: flex;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  line-height: 1;
+  color: var(--light);
+}
+
+.digit {
+  width: 0.85em;
+  text-align: center;
+  position: relative;
+  height: 1.2em;
+  overflow: hidden;
+}
+
+.digit-inner {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translateY(0);
+}
+
+.digit.animate .digit-inner {
+  transform: translateY(-100%);
+}
+
+
+
+
+.menu-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100svh;
+    overflow-x: hidden;
+    max-width: 100vw;
+    background-color: var(--light);
+    color: var(--dark);
+    z-index: 1;
+    will-change: clip-path;
+}
+
+.menu-content{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    will-change: transform, opacity;
+    font-family: var(--font-generale-sans);
+    
+}
+.menu-col{
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-col:nth-child(2){
+    text-align: right;
+
+}
+
+.menu-img{
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    will-change: transform, opacity;
+}
+
+.menu-links-wrapper{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: max-content;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    will-change: transform;
+
+}
+.menu-link{
+    position: relative;
+    will-change: transform;
+    overflow: hidden;
+}
+
+.menu-link a{
+    position: relative;
+    color: var(--dark);
+    font-family: var(--font-clash-display);
+    font-size: 10rem;    
+    font-weight: 500;
+    letter-spacing: -0.02rem;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.menu-link a span {
+  font-size: inherit !important;
+  display: inline-block;
+}
+
+.menu-link a span:nth-child(2){
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.link-highlighter{
+    position: absolute;
+    bottom: 12%;
+    left: 0;
+    width: 400px;
+    height: 0.75rem;
+    background-color: var(--accent);
+    will-change: transform, width;
+}
+
+.menu-overlay{
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+}
+
+.char{
+    position: relative; 
+    display: inline-block;
+    will-change: transform;
+}
+
+@media (max-width: 1000px) {
+
+    .menu-content{
+        top: 25%;
+    }
+    .menu-img, .link-highlighter{
+        display: none;
+    }
+    .menu-links-wrapper{
+        flex-direction: column;
+        gap: 0;
+    }
+      .menu-link a,
+  .menu-link a span {
+    font-size: 4rem !important;
+    letter-spacing: 0 !important;
+    line-height: 1 !important;
+  }
+    .nav-item .logo{
+        width: 32px;
+        height: 32px;
+    }
+    .menu-overlay{
+        height: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+  .menu-link a,
+  .menu-link a span {
+    font-size: 3rem !important;
+  }
+      .nav-item .logo{
+        width: 68px;
+        height: 68px;
+    }
+    .time-container{
+      font-size: 0.6rem;
+    }
+}
+/*  burger menu    */
+.burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 42px;
+  height: 18px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.burger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: var(--light);
+  border-radius: 2px;
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+              opacity 0.3s ease;
+  transform-origin: center;
+}
+
+.burger.open span:first-child {
+  transform: rotate(45deg) translate(4px, 2px);
+}
+
+.burger.open span:last-child {
+  transform: rotate(-45deg) translate(4px, -2px);
+}
+
+@media (max-width: 480px) {
+  .menu-link a,
+  .menu-link a span {
+    font-size: 2.25rem !important;
+  }
+    .nav-item .logo{
+        width: 78px;
+        height: 78px;
+    }
+    .burger{
+      width: 32px;
+    }
+  .burger span {
+    height: 3px;
+  }
+}
+

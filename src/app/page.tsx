@@ -1,22 +1,48 @@
+// app/page.tsx
+"use client";
 
-import AboutSection from './components/AboutSection';
-import ContactSection from './components/ContactSection';
-import HeroSection from './components/HeroSection';
-import ProjectsSection from './components/ProjectsSection';
-import JourneySection from './components/JourneySection';
-import ServicesSection from './components/ServicesSection';
-import ScrollToTopButton from './components/ScrollToTopButton';
+import { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export default function HomePage() {
+import Navbar from "@/components/Navbar/Navbar";
+import Hero from "@/components/Hero/Hero";
+import About from "@/components/About/About";
+import Services from "@/components/About/Services";
+import Works from "@/components/Works/Works";
+import Skills from "@/components/Skills/Skills";
+import SectionWords from "@/components/SectionWords/SectionWords";
+import Footer from "@/components/Footer/Footer";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function Home() {
+  useEffect(() => {
+    // Force un reset complet de ScrollTrigger
+    ScrollTrigger.refresh(true);
+    
+    // Scroll vers le haut
+    window.scrollTo(0, 0);
+
+    return () => {
+      // Cleanup lors du démontage
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, []);
+
   return (
-    <main>
-      <HeroSection />
-      <AboutSection />
-      <ProjectsSection />
-      <JourneySection/>
-      <ServicesSection />
-      <ContactSection />
-      <ScrollToTopButton />
-    </main>
+    <>
+      <Navbar />
+
+      <main id="scroll-root">
+        <Hero />
+        <About />
+        <Services />
+        <Works />
+        <Skills />
+        <SectionWords />
+        <Footer />
+      </main>
+    </>
   );
 }

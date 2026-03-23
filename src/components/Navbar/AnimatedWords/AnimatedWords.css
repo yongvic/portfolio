@@ -1,0 +1,49 @@
+.animated-words-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.animated-words-container.active {
+  opacity: 1;
+}
+
+.giant-word {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(8rem, 20vw, 25rem);
+  font-weight: 900;
+  color: var(--accent);
+  white-space: nowrap;
+  user-select: none;
+  will-change: transform;
+  font-family: var(--font-clash-display);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Effet de glow subtil */
+.giant-word::before {
+  content: attr(data-word);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: rgba(255, 255, 255, 0.01);
+  filter: blur(40px);
+  z-index: -1;
+}
+
+/* Responsif - désactivé sur mobile */
+@media (max-width: 1000px) {
+  .animated-words-container {
+    display: none;
+  }
+}

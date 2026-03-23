@@ -1,36 +1,174 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SOKPA Edo Yawo Portfolio
 
-## Getting Started
+Portfolio premium conçu avec Next.js App Router, orienté direction artistique, UX/UI et architecture fullstack moderne.
 
-First, run the development server:
+## Aperçu
+
+Ce projet transforme un portfolio personnel en expérience studio créative:
+
+- UI immersive (identité sombre + accents fuchsia/cyan)
+- sections éditoriales premium (hero, services, projets, process, témoignages, timeline)
+- backend intégré (Prisma + PostgreSQL Neon)
+- tracking analytics simple (visites et vues projet)
+- contact intelligent stocké en base
+- dashboard admin minimal pour gérer les projets
+
+## Stack
+
+- `Next.js 15` (App Router)
+- `React 19`
+- `TypeScript`
+- `Tailwind CSS v4`
+- `Prisma ORM`
+- `PostgreSQL (Neon)`
+- `Zod`
+
+## Fonctionnalités
+
+### Frontend
+
+- Hero visuel haut impact
+- narration orientée studio design
+- filtrage de projets par catégorie
+- responsive desktop/tablette/mobile
+- SEO (metadata complète + JSON-LD)
+- accessibilité de base (navigation claire, contrastes, labels)
+
+### Backend
+
+- `ContactMessage` persisté en base via Server Action
+- `SiteVisit` tracké via API route
+- `ProjectView` tracké au clic projet
+- récupération des statistiques globales
+- fallback statique robuste si la DB n'est pas disponible
+
+### Admin
+
+Route: `/admin?key=ADMIN_SECRET`
+
+- créer / mettre à jour un projet
+- supprimer un projet
+- catégories gérées automatiquement
+
+## Schéma de données (Prisma)
+
+Modèles principaux:
+
+- `Project`
+- `Category`
+- `ProjectView`
+- `ContactMessage`
+- `SiteVisit`
+- `Testimonial`
+
+Fichier: [`prisma/schema.prisma`](./prisma/schema.prisma)
+
+## Installation
+
+```bash
+npm install
+```
+
+## Configuration
+
+1. Copier l'environnement:
+
+```bash
+cp .env.example .env
+```
+
+2. Renseigner:
+
+- `DATABASE_URL` (chaîne PostgreSQL Neon)
+- `ADMIN_SECRET` (clé d'accès dashboard)
+
+## Base de données (Neon + Prisma)
+
+Générer le client Prisma:
+
+```bash
+npm run prisma:generate
+```
+
+Créer/mettre à jour les tables:
+
+```bash
+npm run db:push
+```
+
+Seeder des données initiales:
+
+```bash
+npm run db:seed
+```
+
+## Lancement local
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build production:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm run start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts utiles
 
-## Learn More
+- `npm run dev` : développement
+- `npm run lint` : lint ESLint
+- `npm run build` : build prod
+- `npm run prisma:generate` : génération client Prisma
+- `npm run db:push` : sync schéma DB
+- `npm run db:seed` : injection données initiales
 
-To learn more about Next.js, take a look at the following resources:
+## Structure du projet
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```txt
+src/
+  app/
+    actions/
+      contact.ts
+    admin/
+      actions.ts
+      page.tsx
+    api/
+      track/route.ts
+    components/
+      ContactForm.tsx
+      ProjectsShowcase.tsx
+      TrackVisit.tsx
+    layout.tsx
+    page.tsx
+  lib/
+    content.ts
+    db.ts
+    prisma.ts
+prisma/
+  schema.prisma
+  seed.mjs
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Déploiement
 
-## Deploy on Vercel
+### Vercel (recommandé)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Importer le repo dans Vercel
+2. Définir les variables d'environnement `DATABASE_URL` et `ADMIN_SECRET`
+3. Build command: `npm run build`
+4. Après déploiement, exécuter `npm run db:push` et `npm run db:seed` sur la base cible
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Captures d'écran
+
+Ajoute ici des captures après déploiement:
+
+- `hero.png`
+- `projects.png`
+- `admin-dashboard.png`
+
+## Notes
+
+- Le projet continue de fonctionner même sans DB (fallback de contenu statique).
+- Pour activer toutes les features backend, la DB Neon doit être configurée et migrée.

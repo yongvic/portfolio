@@ -1,0 +1,258 @@
+.hero{
+    position: relative;
+    width: 100vw;
+    height: 100svh;
+    color: var(--dark);
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
+
+/* Canvas en position absolute */
+.hero canvas {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 5 !important;
+    pointer-events: none;
+    background-color: transparent;
+}
+
+/* Conteneur pour les textes à gauche */
+.hero-container {
+    position: absolute;
+    bottom: 0;
+    z-index: 5;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    pointer-events: none;
+}
+
+.hero-container .presente{
+    position: relative;
+    top: 0.6rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 1.5rem;
+    font-size: clamp(0.6rem, 4.8vw, 1.5rem);
+    font-family: var(--font-generale-sans);
+    pointer-events: none;
+}
+
+.hero-name{
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.hero-name h1{
+    font-size: clamp(8.5rem, 8.5vw, 13rem);
+    line-height: 0.8;
+    font-family: var(--font-clash-display);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.hero-container .myjob, .mymessage{
+    letter-spacing: -0.2;
+    opacity: 0.7;
+}
+
+.hero-name h1 span{
+    letter-spacing: -5;
+}
+
+.hero .links-content{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 6;
+    top: 17%;
+    right: 2rem;
+}
+
+.hero .bar-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero .bar-content .dot{
+    height: 5px;
+    width: 5px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    position: relative;
+}
+
+.hero .bar-content .bar{
+    height: 200px;
+    width: 2px;
+    background-color: var(--accent);
+    border-radius: 4px;
+}
+
+.hero .links svg{
+    height: 28px;
+    width: 28px;
+    transition: fill 0.3s;
+    cursor: pointer;
+}
+
+.hero .links{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.hero .links svg, .social-contact svg{
+    transition: transform 0.3s;
+}
+
+.hero .links  svg:hover, .social-contact svg:hover{
+    transform: scale(1.1);
+    transition: transform 0.3s;
+}
+
+@media (max-width: 1000px) {
+    .hero .bar-content{
+        display: none;
+    }
+    
+    .hero .links{
+        display: flex;
+        flex-direction: row;
+    }
+    .hero {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    
+    .hero-name h1{
+        font-size: 5.2rem;
+        line-height: 1;
+        font-family: var(--font-clash-display);
+        text-transform: uppercase;
+        text-align: center;
+    }
+    
+    .hero-name h1 span{
+        letter-spacing: 1;
+    }
+    
+    .hero-name h1 .lastname{
+        display: none;
+    }
+
+    .hero-container{
+        z-index: 5;
+        min-width: 100%;
+        display: flex;
+        flex-direction: column-reverse;
+        width: 100vw;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .hero canvas {
+        display: none;
+    }
+    
+    .hero-container .presente{
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+    
+    .hero .links-content{
+        position: absolute;
+        display: flex;
+        gap: 1.5rem;
+        z-index: 6;
+        top: 70%;
+        right: 50%;
+        left: 50%;
+    }
+    
+    .hero-container .mymessage{
+        font-size: clamp(0.6rem, 4.1vw, 1.5rem);
+    }
+    
+    .hero .links-content{
+        position: absolute;
+        margin: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-name h1{
+        font-size: 4.5rem;
+    }
+    
+    .hero-container .presente{
+        padding: 0rem 1rem;
+        gap: 0.8rem;
+    }
+    
+    .hero .links-content{
+        top: 68%;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-name h1{
+        font-size: 3.8rem;
+    }
+    
+    .hero-container .presente{
+        gap: 0.6rem;
+    }
+    
+    .hero .links-content{
+        top: 65%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-name h1{
+        font-size: 4.2rem;
+    }
+    
+    .hero .links-content{
+        top: 62%;
+        gap: 1rem;
+    }
+    
+    .hero .links{
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .hero-name h1{
+        font-size: 2.8rem;
+    }
+    
+    .hero-container .presente{
+        padding: 0rem 0.8rem;
+    }
+    
+    .hero .links-content{
+        top: 60%;
+    }
+    
+    .hero .links svg{
+        height: 20px;
+        width: 20px;
+    }
+}
