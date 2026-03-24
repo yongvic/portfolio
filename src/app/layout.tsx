@@ -6,7 +6,7 @@ import PageTransition from "@/components/PageTransition/PageTransition";
 
 export const metadata: Metadata = {
   title: "SOKPA Edo Yawo — Portfolio",
-  description: "Designer graphique & développeur fullstack",
+  description: "Designer graphique & développeur Front-end",
   icons: "/edo-mark.svg",
 };
 
