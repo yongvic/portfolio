@@ -1,48 +1,8 @@
-// app/page.tsx
-"use client";
+import HomeClient from "./HomeClient";
+import { getProjects } from "@/lib/db";
 
-import { useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+export default async function Home() {
+  const projects = await getProjects();
 
-import Navbar from "@/components/Navbar/Navbar";
-import Hero from "@/components/Hero/Hero";
-import About from "@/components/About/About";
-import Services from "@/components/About/Services";
-import Works from "@/components/Works/Works";
-import Skills from "@/components/Skills/Skills";
-import SectionWords from "@/components/SectionWords/SectionWords";
-import Footer from "@/components/Footer/Footer";
-
-gsap.registerPlugin(ScrollTrigger);
-
-export default function Home() {
-  useEffect(() => {
-    // Force un reset complet de ScrollTrigger
-    ScrollTrigger.refresh(true);
-    
-    // Scroll vers le haut
-    window.scrollTo(0, 0);
-
-    return () => {
-      // Cleanup lors du démontage
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, []);
-
-  return (
-    <>
-      <Navbar />
-
-      <main id="scroll-root">
-        <Hero />
-        <About />
-        <Services />
-        <Works />
-        <Skills />
-        <SectionWords />
-        <Footer />
-      </main>
-    </>
-  );
+  return <HomeClient projects={projects} />;
 }

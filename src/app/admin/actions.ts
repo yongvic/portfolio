@@ -35,6 +35,12 @@ async function ensureCategory(categoryName: string) {
 }
 
 export async function upsertProjectAction(formData: FormData) {
+  const adminSecret = process.env.ADMIN_SECRET;
+  const adminKey = formData.get("key");
+  if (!adminSecret || adminKey !== adminSecret) {
+    return;
+  }
+
   const raw = {
     id: (formData.get("id") ?? "") as string,
     title: formData.get("title"),
@@ -86,6 +92,12 @@ export async function upsertProjectAction(formData: FormData) {
 }
 
 export async function deleteProjectAction(formData: FormData) {
+  const adminSecret = process.env.ADMIN_SECRET;
+  const adminKey = formData.get("key");
+  if (!adminSecret || adminKey !== adminSecret) {
+    return;
+  }
+
   const id = formData.get("id") as string;
   if (!id) return;
 

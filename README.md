@@ -9,8 +9,7 @@ Ce projet transforme un portfolio personnel en expérience studio créative:
 - UI immersive (identité sombre + accents fuchsia/cyan)
 - sections éditoriales premium (hero, services, projets, process, témoignages, timeline)
 - backend intégré (Prisma + PostgreSQL Neon)
-- tracking analytics simple (visites et vues projet)
-- contact intelligent stocké en base
+- données projets dynamiques avec fallback statique si la DB est indisponible
 - dashboard admin minimal pour gérer les projets
 
 ## Stack
@@ -29,18 +28,16 @@ Ce projet transforme un portfolio personnel en expérience studio créative:
 
 - Hero visuel haut impact
 - narration orientée studio design
-- filtrage de projets par catégorie
+- projets dynamiques (DB) avec fallback statique
 - responsive desktop/tablette/mobile
 - SEO (metadata complète + JSON-LD)
 - accessibilité de base (navigation claire, contrastes, labels)
 
 ### Backend
 
-- `ContactMessage` persisté en base via Server Action
-- `SiteVisit` tracké via API route
-- `ProjectView` tracké au clic projet
-- récupération des statistiques globales
-- fallback statique robuste si la DB n'est pas disponible
+- CRUD projets via Server Actions (admin)
+- modèle Prisma complet (prêt pour stats/analytics)
+- fallback statique si la DB n'est pas disponible
 
 ### Admin
 
@@ -49,6 +46,7 @@ Route: `/admin?key=ADMIN_SECRET`
 - créer / mettre à jour un projet
 - supprimer un projet
 - catégories gérées automatiquement
+- les actions vérifient la clé côté serveur
 
 ## Schéma de données (Prisma)
 
@@ -129,19 +127,17 @@ npm run start
 ```txt
 src/
   app/
-    actions/
-      contact.ts
     admin/
       actions.ts
       page.tsx
     api/
       track/route.ts
-    components/
-      ContactForm.tsx
-      ProjectsShowcase.tsx
-      TrackVisit.tsx
+    works/[slug]/page.tsx
+    HomeClient.tsx
     layout.tsx
     page.tsx
+  components/
+  hooks/
   lib/
     content.ts
     db.ts
@@ -158,7 +154,7 @@ prisma/
 1. Importer le repo dans Vercel
 2. Définir les variables d'environnement `DATABASE_URL` et `ADMIN_SECRET`
 3. Build command: `npm run build`
-4. Après déploiement, exécuter `npm run db:push` et `npm run db:seed` sur la base cible
+4. Après déploiement, exécuter `npm run db:push` (et `npm run db:seed` si besoin)
 
 ## Captures d'écran
 
@@ -171,4 +167,5 @@ Ajoute ici des captures après déploiement:
 ## Notes
 
 - Le projet continue de fonctionner même sans DB (fallback de contenu statique).
+- Le tracking `/api/track` est disponible mais non branché par défaut.
 - Pour activer toutes les features backend, la DB Neon doit être configurée et migrée.

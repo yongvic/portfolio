@@ -1,25 +1,24 @@
-// app/works/[slug]/page.tsx
-"use client"
-import React from 'react'
-import { useParams } from 'next/navigation'
 import './WorksDetails.css'
 import ParallaxImage from '@/components/Works/ParallaxImage'
 import { TransitionLink } from '@/components/TransitionLink/TransitionLink'
 import Navbar from '@/components/Navbar/Navbar'
-import { profile, projectCaseStudies, staticProjects } from '@/lib/content'
+import { profile, projectCaseStudies } from '@/lib/content'
 import { TechLogos } from '@/components/techlogo/TechLogos'
+import { getProjectBySlug } from '@/lib/db'
 
-const WorkDetail = () => {
-  const params = useParams()
-  const slug = params?.slug as string
-  const baseProject = staticProjects.find((project) => project.slug === slug)
-  const caseStudy = projectCaseStudies[slug]
+type WorkDetailProps = {
+  params: { slug: string };
+};
+
+export default async function WorkDetail({ params }: WorkDetailProps) {
+  const baseProject = await getProjectBySlug(params.slug);
+  const caseStudy = projectCaseStudies[params.slug];
   const images = caseStudy?.images ?? {
     hero: baseProject?.coverImage ?? "/moi.png",
     desktop: baseProject?.coverImage ?? "/moi.png",
     mobile: baseProject?.coverImage ?? "/moi.png",
     details: [baseProject?.coverImage ?? "/moi.png"],
-  }
+  };
 
   if (!baseProject) {
     return (
@@ -33,7 +32,7 @@ const WorkDetail = () => {
           </TransitionLink>
         </div>
       </>
-    )
+    );
   }
 
   const work = {
@@ -58,24 +57,23 @@ const WorkDetail = () => {
         "Identité visuelle cohérente et premium.",
         "Interface stable sur desktop et mobile.",
       ],
-  }
+  };
 
   const titleFontFamily = caseStudy?.fontFamily ?? 'var(--font-clash-display)';
   const accentColor = caseStudy?.accent ?? '#D7FB61';
 
   return (
     <>
-      {/* Ajouter la Navbar */}
       <Navbar />
-      
+
       <div className="work-detail">
         {/* Hero Section */}
         <section className="hero-work-section">
           <div className="hero-work-content">
             <span className="work-year" style={{ color: accentColor }}>{work.year}</span>
-                       <h1 
-              className="work-title" 
-              style={{ 
+            <h1
+              className="work-title"
+              style={{
                 fontFamily: titleFontFamily
               }}
             >
@@ -87,7 +85,7 @@ const WorkDetail = () => {
             </div>
           </div>
           <div className="hero-work-image">
-            <ParallaxImage 
+            <ParallaxImage
               src={work.images.hero}
               alt={work.title}
               speed={0.3}
@@ -100,7 +98,7 @@ const WorkDetail = () => {
           <div className="section-content">
             <h2>Aperçu</h2>
             <p className="large-text">{work.description}</p>
-            
+
             <div className="tech-stack">
               <h3>Technologies</h3>
               <div className="tech-tags">
@@ -114,7 +112,7 @@ const WorkDetail = () => {
               <div className="project-links">
                 {work.link && (
                   <a href={work.link} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                     <span>Visiter le site</span> <span className='arrow-visite'> <TechLogos.Arrowright /> </span>
+                    <span>Visiter le site</span> <span className='arrow-visite'> <TechLogos.Arrowright /> </span>
                   </a>
                 )}
                 {work.github && (
@@ -147,14 +145,14 @@ const WorkDetail = () => {
         <section className="showcase-section">
           <div className="showcase-grid">
             <div className="showcase-item large">
-              <ParallaxImage 
+              <ParallaxImage
                 src={work.images.desktop}
                 alt={`${work.title} desktop`}
                 speed={0.2}
               />
             </div>
             <div className="showcase-item">
-              <ParallaxImage 
+              <ParallaxImage
                 src={work.images.mobile}
                 alt={`${work.title} mobile`}
                 speed={0.15}
@@ -181,13 +179,11 @@ const WorkDetail = () => {
         {/* Navigation */}
         <section className="navigation-section">
           <TransitionLink href="/#projets" className="back-link">
-            <span><TechLogos.Arrowleft /> </span> 
+            <span><TechLogos.Arrowleft /> </span>
             <span>Retour aux projets</span>
           </TransitionLink>
         </section>
       </div>
     </>
-  )
+  );
 }
-
-export default WorkDetail

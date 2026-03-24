@@ -25,6 +25,23 @@ export async function getProjects(): Promise<UiProject[]> {
   }
 }
 
+export async function getProjectBySlug(slug: string): Promise<UiProject | null> {
+  try {
+    const project = await prisma.project.findUnique({
+      where: { slug },
+      include: { category: true },
+    });
+
+    if (project) {
+      return projectToUi(project);
+    }
+  } catch {
+    // fallback below
+  }
+
+  return staticProjects.find((item) => item.slug === slug) ?? null;
+}
+
 export async function getTopViewedProjects(): Promise<Array<UiProject & { views: number }>> {
   try {
     const projects = await prisma.project.findMany({

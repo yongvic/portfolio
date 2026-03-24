@@ -16,6 +16,7 @@ type ProjectWithCategory = {
 export default async function AdminPage({ searchParams }: AdminPageProps) {
   const params = await searchParams;
   const configuredSecret = process.env.ADMIN_SECRET;
+  const adminKey = params.key ?? "";
 
   if (!configuredSecret) {
     return (
@@ -41,6 +42,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       <section className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
         <h2 className="text-xl text-white">Ajouter / Modifier un projet</h2>
         <form action={upsertProjectAction} className="mt-4 grid gap-3 md:grid-cols-2">
+          <input type="hidden" name="key" value={adminKey} />
           <input name="id" placeholder="id (laisser vide pour création)" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm text-white" />
           <input name="title" required placeholder="Titre" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm text-white" />
           <input name="slug" required placeholder="slug" className="rounded-xl border border-white/15 bg-black/20 px-3 py-2 text-sm text-white" />
@@ -67,6 +69,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                 <p className="text-xs text-zinc-400">{project.slug} • {project.category?.name ?? "Sans catégorie"}</p>
               </div>
               <form action={deleteProjectAction}>
+                <input type="hidden" name="key" value={adminKey} />
                 <input type="hidden" name="id" value={project.id} />
                 <button className="rounded-full border border-rose-300/50 px-4 py-2 text-xs text-rose-200 hover:border-rose-300">Supprimer</button>
               </form>

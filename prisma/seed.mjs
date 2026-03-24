@@ -54,11 +54,11 @@ async function main() {
   });
 
   await prisma.project.upsert({
-    where: { slug: "affiche-word-fashion-agency" },
+    where: { slug: "affiche-wfa" },
     update: {},
     create: {
       title: "Affiche Word Fashion Agency",
-      slug: "affiche-word-fashion-agency",
+      slug: "affiche-wfa",
       excerpt: "Campagne visuelle mode à tonalité éditoriale.",
       description:
         "Création d'une affiche premium avec composition éditoriale, contraste fort et hiérarchie typographique.",
@@ -66,6 +66,23 @@ async function main() {
       technologies: ["Figma", "Brand Design"],
       categoryId: graphicCategory?.id,
       sortOrder: 3,
+    },
+  });
+
+  await prisma.project.upsert({
+    where: { slug: "never-bored-lovers" },
+    update: {},
+    create: {
+      title: "Never Bored Lovers",
+      slug: "never-bored-lovers",
+      excerpt: "Produit web ludique avec design émotionnel.",
+      description:
+        "Application web de mini-jeux pour couples avec UX mobile-first et parcours d'interaction rapide.",
+      coverImage: "/for_our.jpg",
+      projectUrl: "https://for-mira.vercel.app/",
+      technologies: ["Next.js", "React", "TypeScript"],
+      categoryId: webCategory?.id,
+      sortOrder: 4,
     },
   });
 

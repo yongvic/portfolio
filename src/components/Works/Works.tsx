@@ -5,9 +5,14 @@ import gsap from 'gsap'
 import ReactLenis from 'lenis/react'
 import ParallaxImage from './ParallaxImage'
 import { TransitionLink } from '../TransitionLink/TransitionLink'
-import { projectCaseStudies, staticProjects } from '@/lib/content'
+import { projectCaseStudies, staticProjects, type UiProject } from '@/lib/content'
 import { TechLogos } from '../techlogo/TechLogos'
-const Works = () => {
+
+type WorksProps = {
+  projects?: UiProject[];
+};
+
+const Works = ({ projects = staticProjects }: WorksProps) => {
   const linkRefs = useRef<Array<HTMLDivElement | null>>([])
 
   // Animation GSAP pour les boutons
@@ -56,8 +61,6 @@ const Works = () => {
       cleanups.forEach((cleanup) => cleanup?.())
     }
   }, [])
-
-  const projects = staticProjects;
 
   return (
     <ReactLenis>
