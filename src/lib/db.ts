@@ -44,7 +44,19 @@ export async function getProjectBySlug(slug: string): Promise<UiProject | null> 
 
 export async function getTopViewedProjects(): Promise<Array<UiProject & { views: number }>> {
   try {
-    const projects = await prisma.project.findMany({
+    const projects: Array<{
+      id: string;
+      title: string;
+      slug: string;
+      excerpt: string;
+      description: string;
+      coverImage: string;
+      projectUrl: string | null;
+      repository: string | null;
+      technologies: string[];
+      category: { name: string } | null;
+      _count: { views: number };
+    }> = await prisma.project.findMany({
       include: {
         category: true,
         _count: { select: { views: true } },
