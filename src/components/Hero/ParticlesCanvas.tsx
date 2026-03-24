@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from 'react';
 
 // les shaders
@@ -34,13 +36,11 @@ const config = {
     logoPath: "/edo-mark.svg",
     logoSize: 530,
     logoColor: "#808080",
-    canvasBg: "#f8f8f8",
     distortionRadius: 4000,
     forceStrength: 0.0035,
     maxDisplacement: 100,
     returnForce: 0.025,
     pointSize: 3.5,
-    logoOffsetX: 310,
 };
 
 // TYPES
@@ -117,11 +117,8 @@ export default function ParticlesCanvas() {
                 typeof window !== "undefined" &&
                 window.matchMedia &&
                 window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-            const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
-            const hardwareConcurrency = navigator.hardwareConcurrency ?? 8;
-            const lowPower = deviceMemory <= 4 || hardwareConcurrency <= 4;
-
-            setCanRender(desktop && !prefersReducedMotion && !lowPower);
+            
+            setCanRender(desktop && !prefersReducedMotion);
         };
 
         computeCanRender();
@@ -142,6 +139,7 @@ export default function ParticlesCanvas() {
         if (!canvas) return;
 
         const state = stateRef.current;
+        state.particles = [];
 
         // on Setup canvas size
         const dpr = window.devicePixelRatio || 1;
@@ -155,17 +153,19 @@ export default function ParticlesCanvas() {
 
         // on Setup WebGL
         const gl = canvas.getContext("webgl", {
-            alpha: false,
+            alpha: true,
             depth: false,
             stencil: false,
-            antialias: false,
+            antialias: true,
             powerPreference: "high-performance",
             premultipliedAlpha: false,
         });
-        if (!gl) throw new Error("WebGL not supported");
+        if (!gl) {
+            console.error("WebGL not supported");
+            return;
+        }
         
-        const bgColor = hexToRgb(config.canvasBg);
-        gl.clearColor(bgColor.r, bgColor.g, bgColor.b, 1.0);
+        gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
         
         gl.enable(gl.BLEND);
@@ -186,20 +186,20 @@ export default function ParticlesCanvas() {
 
         // Resize 
         const handleResize = () => {
+            const oldWidth = canvas.width;
+            const oldHeight = canvas.height;
             resizeCanvas();
-            if (state.particles.length > 0) {
-                const centerX = canvas.width / 2;
-                const centerY = canvas.height / 2;
-                const dim = Math.sqrt(state.particles.length);
+            
+            if (state.particles.length > 0 && oldWidth > 0 && oldHeight > 0) {
+                const ratioX = canvas.width / oldWidth;
+                const ratioY = canvas.height / oldHeight;
+                
                 for (let i = 0; i < state.particles.length; i++) {
-                    const row = Math.floor(i / dim);
-                    const col = i % dim;
-                    const repositionX = centerX + (col - dim / 2) * 1.0;
-                    const repositionY = centerY + (row - dim / 2) * 1.0;
-                    state.particles[i].originalX = repositionX;
-                    state.particles[i].originalY = repositionY;
-                    state.positionArray[i * 2] = repositionX;
-                    state.positionArray[i * 2 + 1] = repositionY;
+                    const p = state.particles[i];
+                    p.originalX *= ratioX;
+                    p.originalY *= ratioY;
+                    state.positionArray[i * 2] *= ratioX;
+                    state.positionArray[i * 2 + 1] *= ratioY;
                 }
                 gl.bindBuffer(gl.ARRAY_BUFFER, state.positionBuffer);
                 gl.bufferSubData(gl.ARRAY_BUFFER, 0, state.positionArray);
@@ -265,9 +265,7 @@ export default function ParticlesCanvas() {
                 gl.bufferSubData(gl.ARRAY_BUFFER, 0, positionArray);
             }
 
-            const bgColor = hexToRgb(config.canvasBg);
             gl.viewport(0, 0, canvas.width, canvas.height);
-            gl.clearColor(bgColor.r, bgColor.g, bgColor.b, 1.0);
             gl.clear(gl.COLOR_BUFFER_BIT);
 
             gl.useProgram(program);
@@ -301,10 +299,11 @@ export default function ParticlesCanvas() {
             tempCanvas.width = config.logoSize;
             tempCanvas.height = config.logoSize;
 
-            const scale = 0.9;
-            const size = config.logoSize * scale;
+            const scaleFactor = 0.9;
+            const size = config.logoSize * scaleFactor;
             const offset = (config.logoSize - size) / 2;
             const logoOffsetY = -50 * dpr;
+            
             ctx.drawImage(image, offset, offset, size, size);
 
             const imageData = ctx.getImageData(0, 0, config.logoSize, config.logoSize);
@@ -316,27 +315,26 @@ export default function ParticlesCanvas() {
             const logoTint = hexToRgb(config.logoColor);
 
             for (let i = 0; i < config.logoSize; i++) {
-    for (let j = 0; j < config.logoSize; j++) {
-        const pixelIndex = (i * config.logoSize + j) * 4;
-        const alpha = data[pixelIndex + 3];
-        if (alpha > 10) {
-            const particleX = centerX + (j - config.logoSize / 2) * scale;
-            const particleY = centerY + (i - config.logoSize / 2) * scale;
-            positions.push(particleX, particleY);
+                for (let j = 0; j < config.logoSize; j++) {
+                    const pixelIndex = (i * config.logoSize + j) * 4;
+                    const alpha = data[pixelIndex + 3];
+                    if (alpha > 10) {
+                        const particleX = centerX + (j - config.logoSize / 2) * scaleFactor;
+                        const particleY = centerY + (i - config.logoSize / 2) * scaleFactor;
+                        positions.push(particleX, particleY);
 
-            const originalA = data[pixelIndex + 3] / 255;
-            colors.push(logoTint.r, logoTint.g, logoTint.b, originalA);
+                        const originalA = data[pixelIndex + 3] / 255;
+                        colors.push(logoTint.r, logoTint.g, logoTint.b, originalA);
 
-            state.particles.push({
-                originalX: particleX,
-                originalY: particleY,
-                velocityX: 0,
-                velocityY: 0,
-            });
-        }
-    }
-}
-
+                        state.particles.push({
+                            originalX: particleX,
+                            originalY: particleY,
+                            velocityX: 0,
+                            velocityY: 0,
+                        });
+                    }
+                }
+            }
 
             state.positionArray = new Float32Array(positions);
             state.colorArray = new Float32Array(colors);
@@ -349,7 +347,6 @@ export default function ParticlesCanvas() {
             gl.bindBuffer(gl.ARRAY_BUFFER, state.colorBuffer);
             gl.bufferData(gl.ARRAY_BUFFER, state.colorArray, gl.STATIC_DRAW);
 
-            //  Marquer comme chargé et démarrer l'animation
             setIsLoaded(true);
             state.isAnimating = true;
             animate();
@@ -364,6 +361,12 @@ export default function ParticlesCanvas() {
             window.removeEventListener("resize", handleResize);
             if (state.animationFrameId) {
                 cancelAnimationFrame(state.animationFrameId);
+            }
+            if (state.gl) {
+                const gl = state.gl;
+                gl.deleteBuffer(state.positionBuffer);
+                gl.deleteBuffer(state.colorBuffer);
+                gl.deleteProgram(state.program);
             }
         };
     }, [canRender]);
@@ -381,6 +384,7 @@ export default function ParticlesCanvas() {
                 display: 'block',
                 opacity: isLoaded ? 1 : 0,
                 transition: 'opacity 0.3s ease',
+                background: 'transparent'
             }} 
         />
     );
