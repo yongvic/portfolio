@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar/Navbar'
 import { profile, projectCaseStudies } from '@/lib/content'
 import { TechLogos } from '@/components/techlogo/TechLogos'
 import { getProjectBySlug } from '@/lib/db'
+import TrackProjectView from '@/components/Track/TrackProjectView'
 
 type WorkDetailProps = {
   params: { slug: string };
@@ -65,6 +66,7 @@ export default async function WorkDetail({ params }: WorkDetailProps) {
   return (
     <>
       <Navbar />
+      {baseProject.id ? <TrackProjectView projectId={baseProject.id} /> : null}
 
       <div className="work-detail">
         {/* Hero Section */}

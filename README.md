@@ -11,6 +11,7 @@ Ce projet transforme un portfolio personnel en expérience studio créative:
 - backend intégré (Prisma + PostgreSQL Neon)
 - données projets dynamiques avec fallback statique si la DB est indisponible
 - dashboard admin minimal pour gérer les projets
+- tracking client côté UI (visites + vues projets)
 
 ## Stack
 
@@ -36,6 +37,7 @@ Ce projet transforme un portfolio personnel en expérience studio créative:
 ### Backend
 
 - CRUD projets via Server Actions (admin)
+- tracking `/api/track` branché dans l'UI (visites + vues projets)
 - modèle Prisma complet (prêt pour stats/analytics)
 - fallback statique si la DB n'est pas disponible
 

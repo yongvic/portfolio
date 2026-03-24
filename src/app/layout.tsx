@@ -33,35 +33,12 @@ const Generale_Sans = localFont({
   display: "swap",
 });
 
-const Generale_Sans_light = localFont({
-  src: [
-    { path: "./fonts/Generale_Sans/GeneralSans-Light.otf", weight: "100"},
-  ],
-  variable: "--font-generale-sans-light",
-  display: "swap",
-});
-
 const Aeonik = localFont({
   src: [
     { path: "./fonts/Aeonik/fonnts.com-Aeonik-Regular.ttf", weight: "400" },
     { path: "./fonts/Aeonik/fonnts.com-Aeonik-Bold.ttf", weight: "700" },
   ],
   variable: "--font-aeonik",
-  display: "swap",
-});
-const Anton = localFont({
-  src: [
-    { path: "./fonts/Anton/Anton-Regular.ttf", weight: "400" },
-  ],
-  variable: "--font-anton",
-  display: "swap",
-});
-
-const dancing = localFont({
-  src: [
-    { path: "./fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf", weight: "400" },
-  ],
-  variable: "--font-dancing",
   display: "swap",
 });
 
@@ -93,9 +70,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           ${Aeonik.variable}
           ${Generale_Sans.variable}
           ${gambarino.variable}
-          ${Generale_Sans_light.variable}
-          ${Anton.variable}
-          ${dancing.variable}
           antialiased h-full
         `}
       >

@@ -2,7 +2,6 @@
 import React, { useEffect, useRef } from 'react'
 import './Works.css'
 import gsap from 'gsap'
-import ReactLenis from 'lenis/react'
 import ParallaxImage from './ParallaxImage'
 import { TransitionLink } from '../TransitionLink/TransitionLink'
 import { projectCaseStudies, staticProjects, type UiProject } from '@/lib/content'
@@ -63,8 +62,6 @@ const Works = ({ projects = staticProjects }: WorksProps) => {
   }, [])
 
   return (
-    <ReactLenis>
-
       <div className='works'>
         <h1 id='projets' >Projets</h1>
         <div className="container-works">
@@ -143,7 +140,6 @@ const Works = ({ projects = staticProjects }: WorksProps) => {
 
         </div>
       </div>
-    </ReactLenis>
   )
 }
 

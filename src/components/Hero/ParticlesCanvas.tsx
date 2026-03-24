@@ -92,8 +92,8 @@ const setupShaders = (gl: WebGLRenderingContext): WebGLProgram => {
 //  COMPOSANT 
 export default function ParticlesCanvas() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [isDesktop, setIsDesktop] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [canRender, setCanRender] = useState(false);
     
     const stateRef = useRef({
         gl: null as WebGLRenderingContext | null,
@@ -111,11 +111,23 @@ export default function ParticlesCanvas() {
 
     // Détection desktop
     useEffect(() => {
-        const checkDesktop = () => window.innerWidth >= 1000;
-        setIsDesktop(checkDesktop());
+        const computeCanRender = () => {
+            const desktop = window.innerWidth >= 1000;
+            const prefersReducedMotion =
+                typeof window !== "undefined" &&
+                window.matchMedia &&
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const deviceMemory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
+            const hardwareConcurrency = navigator.hardwareConcurrency ?? 8;
+            const lowPower = deviceMemory <= 4 || hardwareConcurrency <= 4;
+
+            setCanRender(desktop && !prefersReducedMotion && !lowPower);
+        };
+
+        computeCanRender();
         
         const handleResize = () => {
-            setIsDesktop(checkDesktop());
+            computeCanRender();
         };
         
         window.addEventListener('resize', handleResize);
@@ -124,7 +136,7 @@ export default function ParticlesCanvas() {
 
     //  logique principale 
     useEffect(() => {
-        if (!isDesktop) return;
+        if (!canRender) return;
 
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -354,9 +366,9 @@ export default function ParticlesCanvas() {
                 cancelAnimationFrame(state.animationFrameId);
             }
         };
-    }, [isDesktop]);
+    }, [canRender]);
 
-    if (!isDesktop) {
+    if (!canRender) {
         return null;
     }
 
