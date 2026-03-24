@@ -9,6 +9,14 @@ interface InversionLensProps {
   className?: string;
 }
 
+const config = {
+  maskRadius: 0.15,
+  maxSpeed: 0.75,
+  lerpFractor: 0.05,
+  radiusSpeed: 0.1,
+  turbulenceIntensity: 0.075,
+};
+
 const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -18,14 +26,6 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
 
   // Détection mobile
   const isMobile = useRef(false);
-
-  const config = {
-    maskRadius: 0.15,
-    maxSpeed: 0.75,
-    lerpFractor: 0.05,
-    radiusSpeed: 0.1,
-    turbulenceIntensity: 0.075,
-  };
 
   const targetMouse = useRef(new THREE.Vector2(0.5, 0.5));
   const lerpedMouse = useRef(new THREE.Vector2(0.5, 0.5));
@@ -38,7 +38,8 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    if (!containerRef.current || !src) return;
+    const containerEl = containerRef.current;
+    if (!containerEl || !src) return;
 
     // Détection mobile
     isMobile.current = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
@@ -47,7 +48,7 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
     let isMounted = true;
 
     const setupScene = (texture: THREE.Texture) => {
-      if (!containerRef.current || !isMounted) return;
+      if (!containerEl || !isMounted) return;
       let imageAspect = 1;
 
       if (
@@ -65,8 +66,8 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
       const scene = new THREE.Scene();
       sceneRef.current = scene;
 
-      const width = containerRef.current.clientWidth;
-      const height = containerRef.current.clientHeight;
+      const width = containerEl.clientWidth;
+      const height = containerEl.clientHeight;
 
       const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
       cameraRef.current = camera;
@@ -109,16 +110,16 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
         renderer.capabilities.anisotropy = isMobile.current ? 4 : 16;
       }
 
-      containerRef.current.appendChild(renderer.domElement);
+      containerEl.appendChild(renderer.domElement);
     };
 
     const updateCursorState = (x: number, y: number) => {
-      if (!containerRef.current) return;
+      if (!containerEl) return;
 
       lastX.current = x;
       lastY.current = y;
 
-      const rect = containerRef.current.getBoundingClientRect();
+      const rect = containerEl.getBoundingClientRect();
 
       const inside = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
       isPointerInside.current = inside;
@@ -163,10 +164,10 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
     };
 
     const handleResize = () => {
-      if (!containerRef.current || !rendererRef.current || !uniformsRef.current) return;
+      if (!containerEl || !rendererRef.current || !uniformsRef.current) return;
 
-      const width = containerRef.current.clientWidth;
-      const height = containerRef.current.clientHeight;
+      const width = containerEl.clientWidth;
+      const height = containerEl.clientHeight;
 
       rendererRef.current.setSize(width, height);
       uniformsRef.current.u_resolution.value.set(width, height);
@@ -178,27 +179,23 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
       document.addEventListener('scroll', handleScroll);
       
       // Events tactiles
-      if (containerRef.current) {
-        containerRef.current.addEventListener('touchstart', handleTouchStart, { passive: false });
-        containerRef.current.addEventListener('touchmove', handleTouchMove, { passive: false });
-        containerRef.current.addEventListener('touchend', handleTouchEnd);
-        containerRef.current.addEventListener('touchcancel', handleTouchEnd);
-      }
+      containerEl.addEventListener('touchstart', handleTouchStart, { passive: false });
+      containerEl.addEventListener('touchmove', handleTouchMove, { passive: false });
+      containerEl.addEventListener('touchend', handleTouchEnd);
+      containerEl.addEventListener('touchcancel', handleTouchEnd);
       
       window.addEventListener('resize', handleResize);
 
-      if (containerRef.current) {
-        observerRef.current = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            isInView.current = entry.isIntersecting;
-            if (!isInView.current) {
-              targetRadius.current = 0.0;
-            }
-          });
-        }, { threshold: 0.1 });
+      observerRef.current = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          isInView.current = entry.isIntersecting;
+          if (!isInView.current) {
+            targetRadius.current = 0.0;
+          }
+        });
+      }, { threshold: 0.1 });
 
-        observerRef.current.observe(containerRef.current);
-      }
+      observerRef.current.observe(containerEl);
     };
 
     const animate = () => {
@@ -250,12 +247,10 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('scroll', handleScroll);
       
-      if (containerRef.current) {
-        containerRef.current.removeEventListener('touchstart', handleTouchStart);
-        containerRef.current.removeEventListener('touchmove', handleTouchMove);
-        containerRef.current.removeEventListener('touchend', handleTouchEnd);
-        containerRef.current.removeEventListener('touchcancel', handleTouchEnd);
-      }
+      containerEl.removeEventListener('touchstart', handleTouchStart);
+      containerEl.removeEventListener('touchmove', handleTouchMove);
+      containerEl.removeEventListener('touchend', handleTouchEnd);
+      containerEl.removeEventListener('touchcancel', handleTouchEnd);
       
       window.removeEventListener('resize', handleResize);
 
@@ -265,11 +260,9 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
 
       if (rendererRef.current) {
         rendererRef.current.dispose();
-        if (containerRef.current) {
-          const canvas = containerRef.current.querySelector('canvas');
-          if (canvas && canvas.parentNode === containerRef.current) {
-            containerRef.current.removeChild(canvas);
-          }
+        const canvas = containerEl.querySelector('canvas');
+        if (canvas && canvas.parentNode === containerEl) {
+          containerEl.removeChild(canvas);
         }
       }
 
@@ -293,7 +286,6 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
         className={`inversion-lens ${className || ''}`}
         style={{ touchAction: 'none' }} // Empêche les gestes par défaut du navigateur
       >
-        <img src={src} style={{ display: 'none' }} alt="" />
       </div>
     </div>
   );

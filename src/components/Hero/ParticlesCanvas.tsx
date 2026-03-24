@@ -63,6 +63,32 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
         : { r: 1, g: 1, b: 1 };
 }
 
+const compileShader = (gl: WebGLRenderingContext, type: number, source: string): WebGLShader => {
+    const shader = gl.createShader(type)!;
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        console.error("Shader compile error:", gl.getShaderInfoLog(shader));
+        gl.deleteShader(shader);
+        throw new Error("Shader compilation failed");
+    }
+    return shader;
+};
+
+const setupShaders = (gl: WebGLRenderingContext): WebGLProgram => {
+    const vs = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+    const fs = compileShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+    const program = gl.createProgram()!;
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error("Program link error:", gl.getProgramInfoLog(program));
+        throw new Error("Program linking failed");
+    }
+    return program;
+};
+
 //  COMPOSANT 
 export default function ParticlesCanvas() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -95,33 +121,6 @@ export default function ParticlesCanvas() {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    //  WEBGL
-    const compileShader = (gl: WebGLRenderingContext, type: number, source: string): WebGLShader => {
-        const shader = gl.createShader(type)!;
-        gl.shaderSource(shader, source);
-        gl.compileShader(shader);
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.error("Shader compile error:", gl.getShaderInfoLog(shader));
-            gl.deleteShader(shader);
-            throw new Error("Shader compilation failed");
-        }
-        return shader;
-    };
-
-    const setupShaders = (gl: WebGLRenderingContext): WebGLProgram => {
-        const vs = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-        const fs = compileShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
-        const program = gl.createProgram()!;
-        gl.attachShader(program, vs);
-        gl.attachShader(program, fs);
-        gl.linkProgram(program);
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.error("Program link error:", gl.getProgramInfoLog(program));
-            throw new Error("Program linking failed");
-        }
-        return program;
-    };
 
     //  logique principale 
     useEffect(() => {

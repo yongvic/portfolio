@@ -105,6 +105,7 @@ const ParallaxImage: React.FC<ParallaxImageProps> = ({ src, alt, speed = 0.5 }) 
         display: 'block',
       }}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imageRef}
         src={src}

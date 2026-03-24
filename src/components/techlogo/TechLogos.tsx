@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { socialLinks } from "@/lib/content";
 
 export const TechLogos = {
@@ -18,10 +19,12 @@ export const TechLogos = {
     </a>
   ),  
   brand: () => (
-    <img
+    <Image
       src="/edo-mark.svg"
       alt="Logo Edo Yawo"
-      style={{ width: "32px", height: "32px", display: "block" }}
+      width={32}
+      height={32}
+      style={{ display: "block" }}
     />
   ),
   LinkedIn: () => (
