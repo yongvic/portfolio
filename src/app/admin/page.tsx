@@ -1,13 +1,17 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { deleteProjectAction, upsertProjectAction } from "./actions";
-import type { Project, Category } from "@prisma/client";
 
 type AdminPageProps = {
   searchParams: Promise<{ key?: string }>;
 };
 
-type ProjectWithCategory = Project & { category: Category | null };
+type ProjectWithCategory = {
+  id: string;
+  title: string;
+  slug: string;
+  category: { name: string } | null;
+};
 
 export default async function AdminPage({ searchParams }: AdminPageProps) {
   const params = await searchParams;
@@ -56,7 +60,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       <section className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
         <h2 className="text-xl text-white">Projets existants</h2>
         <div className="mt-4 space-y-3">
-          {projects.map((project: ProjectWithCategory) => (
+          {projects.map((project) => (
             <div key={project.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 p-3">
               <div>
                 <p className="font-medium text-white">{project.title}</p>
