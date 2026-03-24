@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useActionState, useEffect, useState } from "react";
@@ -66,8 +67,8 @@ export default function AdminClient({ projects, projectToEdit, adminKey, stats }
       {/* Toast Notification */}
       {message && (
         <div className={`fixed bottom-6 right-6 z-[100] flex items-center gap-3 px-4 py-3 rounded-xl border shadow-2xl transition-all animate-in slide-in-from-bottom-5 ${message.type === 'success'
-            ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-            : "bg-rose-500/10 text-rose-400 border-rose-500/20"
+          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+          : "bg-rose-500/10 text-rose-400 border-rose-500/20"
           }`}>
           <div className={`h-2 w-2 rounded-full ${message.type === 'success' ? 'bg-emerald-500' : 'bg-rose-500'}`} />
           <p className="text-sm font-medium">{message.text}</p>
@@ -114,7 +115,7 @@ function DashboardView({ stats }: { stats: AdminClientProps['stats'] }) {
     <div className="space-y-10">
       <div>
         <h2 className="text-2xl font-semibold tracking-tight text-white mb-2">Overview</h2>
-        <p className="text-sm text-zinc-400">Your site's performance at a glance.</p>
+        <p className="text-sm text-zinc-400">Your site&apos;s performance at a glance.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

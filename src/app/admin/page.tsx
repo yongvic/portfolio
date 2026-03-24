@@ -43,15 +43,19 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     getStats()
   ]).catch(() => [[], { visits: 0, messages: 0, projects: 0 }]);
 
-  const projectToEdit = params.editId 
-    ? (projects as any[]).find(p => p.id === params.editId) 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const projectToEdit = params.editId
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ? (projects as any[]).find(p => p.id === params.editId)
     : null;
 
   return (
-    <AdminClient 
-      projects={projects as any} 
-      projectToEdit={projectToEdit} 
-      adminKey={adminKey} 
+    <AdminClient
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      projects={projects as any}
+      projectToEdit={projectToEdit}
+      adminKey={adminKey}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       stats={stats as any}
     />
   );
