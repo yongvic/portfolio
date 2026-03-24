@@ -1,5 +1,3 @@
-import type { Project } from "@prisma/client";
-
 export type UiProject = {
   id: string;
   title: string;
@@ -289,7 +287,20 @@ export const staticTestimonials = [
   },
 ];
 
-export function projectToUi(project: Project & { category?: { name: string } | null }): UiProject {
+type ProjectAdapter = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  description: string;
+  coverImage: string;
+  technologies: string[];
+  projectUrl?: string | null;
+  repository?: string | null;
+  category?: { name: string } | null;
+};
+
+export function projectToUi(project: ProjectAdapter): UiProject {
   return {
     id: project.id,
     slug: project.slug,
