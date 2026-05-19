@@ -18,6 +18,67 @@ async function main() {
   const graphicCategory = await prisma.category.findUnique({ where: { slug: "graphic" } });
   const autoCategory = await prisma.category.findUnique({ where: { slug: "automatisation" } });
 
+  // ── 1. Garden — B2B SaaS Marketplace ──
+  await prisma.project.upsert({
+    where: { slug: "garden" },
+    update: {},
+    create: {
+      title: "Garden",
+      slug: "garden",
+      excerpt: "Marketplace B2B de location d'espaces professionnels au Togo.",
+      description:
+        "Plateforme SaaS complète de location d'espaces de coworking, salles d'événements et équipements professionnels. Système de réservation, dashboard propriétaire, gestion des paiements et avis utilisateurs.",
+      coverImage: "/IMAGE_GARDEN_A_AJOUTER.png",
+      projectUrl: "https://garden-one-silk.vercel.app",
+      repository: "https://github.com/yongvic/Garden",
+      technologies: ["Next.js", "TypeScript", "Tailwind", "Prisma", "PostgreSQL", "Auth.js"],
+      categoryId: webCategory?.id,
+      sortOrder: 1,
+      isFeatured: true,
+    },
+  });
+
+  // ── 2. Résidence Moeris — SaaS Facturation ──
+  await prisma.project.upsert({
+    where: { slug: "moeris-facture" },
+    update: {},
+    create: {
+      title: "Résidence Moeris",
+      slug: "moeris-facture",
+      excerpt: "SaaS de gestion immobilière et facturation résidentielle.",
+      description:
+        "Application de gestion de résidences avec facturation automatisée, suivi des locataires, tableau de bord administrateur et génération de documents. Architecture sécurisée avec authentification et rôles.",
+      coverImage: "/IMAGE_MOERIS_A_AJOUTER.png",
+      projectUrl: "https://moeris.vercel.app",
+      repository: "https://github.com/yongvic/moeris-facture",
+      technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Auth.js"],
+      categoryId: webCategory?.id,
+      sortOrder: 2,
+      isFeatured: true,
+    },
+  });
+
+  // ── 3. KYA Energy Group ──
+  await prisma.project.upsert({
+    where: { slug: "kya-marketplace" },
+    update: {},
+    create: {
+      title: "KYA Energy Group",
+      slug: "kya-marketplace",
+      excerpt: "Site vitrine & marketplace solaire pour le marché togolais.",
+      description:
+        "Conception et développement du site corporate et de la marketplace e-commerce de KYA Energy Group. Design orienté confiance et conversion, catalogue produits solaires, parcours d'achat progressif et formulaire de contact.",
+      coverImage: "/kya_marketplace.jpg",
+      projectUrl: "https://kya-energy-website.vercel.app",
+      repository: "https://github.com/yongvic/kya-marketplace",
+      technologies: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
+      categoryId: webCategory?.id,
+      sortOrder: 3,
+      isFeatured: true,
+    },
+  });
+
+  // ── 4. Chatbot Moeris ──
   await prisma.project.upsert({
     where: { slug: "chatbot-moeris" },
     update: {},
@@ -26,33 +87,18 @@ async function main() {
       slug: "chatbot-moeris",
       excerpt: "Assistant conversationnel web avec interface instantanée.",
       description:
-        "Application de chatbot avec interface moderne, gestion des états de conversation et parcours utilisateur fluide.",
+        "Application de chatbot avec interface moderne, gestion des états de conversation et parcours utilisateur fluide. Intégration avec n8n pour l'automatisation des réponses.",
       coverImage: "/chatbot.png",
       projectUrl: "https://yongvic.github.io/ChatbotMoeris/",
+      repository: "https://github.com/yongvic/ChatbotMoeris",
       technologies: ["JavaScript", "CSS3", "n8n"],
       categoryId: autoCategory?.id,
-      sortOrder: 1,
+      sortOrder: 4,
       isFeatured: true,
     },
   });
 
-  await prisma.project.upsert({
-    where: { slug: "kya-marketplace" },
-    update: {},
-    create: {
-      title: "Marketplace KYA-Energy Group",
-      slug: "kya-marketplace",
-      excerpt: "Marketplace solaire orientée conversion et lisibilité.",
-      description:
-        "Conception et développement d'une plateforme e-commerce pour la vente de solutions solaires.",
-      coverImage: "/kya_marketplace.jpg",
-      technologies: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
-      categoryId: webCategory?.id,
-      sortOrder: 2,
-      isFeatured: true,
-    },
-  });
-
+  // ── 5. Affiche WFA ──
   await prisma.project.upsert({
     where: { slug: "affiche-wfa" },
     update: {},
@@ -65,10 +111,29 @@ async function main() {
       coverImage: "/WFA.png",
       technologies: ["Figma", "Brand Design"],
       categoryId: graphicCategory?.id,
-      sortOrder: 3,
+      sortOrder: 5,
     },
   });
 
+  // ── 6. API Java Spring Boot ──
+  await prisma.project.upsert({
+    where: { slug: "api-java" },
+    update: {},
+    create: {
+      title: "API Sécurisée Spring Boot",
+      slug: "api-java",
+      excerpt: "Backend REST sécurisé avec JWT et architecture professionnelle.",
+      description:
+        "API Spring Boot 3 complète avec authentification JWT, inscription, login, hashage BCrypt, routes protégées et filtre de sécurité. Architecture backend prête pour intégration React ou mobile.",
+      coverImage: "/IMAGE_API_JAVA_A_AJOUTER.png",
+      repository: "https://github.com/yongvic/api-java",
+      technologies: ["Java", "Spring Boot", "JWT", "MySQL"],
+      categoryId: webCategory?.id,
+      sortOrder: 6,
+    },
+  });
+
+  // ── 7. Never Bored Lovers ──
   await prisma.project.upsert({
     where: { slug: "never-bored-lovers" },
     update: {},
@@ -80,12 +145,51 @@ async function main() {
         "Application web de mini-jeux pour couples avec UX mobile-first et parcours d'interaction rapide.",
       coverImage: "/for_our.jpg",
       projectUrl: "https://for-mira.vercel.app/",
+      repository: "https://github.com/yongvic/For-Our",
       technologies: ["Next.js", "React", "TypeScript"],
       categoryId: webCategory?.id,
-      sortOrder: 4,
+      sortOrder: 7,
     },
   });
 
+  // ── 8. Ravi's — Portfolio Client ──
+  await prisma.project.upsert({
+    where: { slug: "ravi-s" },
+    update: {},
+    create: {
+      title: "Ravi's — Portfolio Client",
+      slug: "ravi-s",
+      excerpt: "Portfolio web premium conçu pour un client.",
+      description:
+        "Portfolio professionnel développé pour un client avec design sur-mesure, animations GSAP, navigation fluide et mise en valeur des réalisations. Déployé sur Vercel.",
+      coverImage: "/IMAGE_RAVIS_A_AJOUTER.png",
+      projectUrl: "https://ravi-s.vercel.app",
+      repository: "https://github.com/yongvic/Ravi-s",
+      technologies: ["Next.js", "TypeScript", "GSAP", "Tailwind"],
+      categoryId: webCategory?.id,
+      sortOrder: 8,
+    },
+  });
+
+  // ── 9. Zyra ──
+  await prisma.project.upsert({
+    where: { slug: "zyra" },
+    update: {},
+    create: {
+      title: "Zyra",
+      slug: "zyra",
+      excerpt: "Application web fullstack avec architecture modulaire.",
+      description:
+        "Projet web fullstack TypeScript avec architecture modulaire propre, gestion d'état avancée et interface utilisateur soignée.",
+      coverImage: "/IMAGE_ZYRA_A_AJOUTER.png",
+      repository: "https://github.com/yongvic/Zyra",
+      technologies: ["Next.js", "TypeScript"],
+      categoryId: webCategory?.id,
+      sortOrder: 9,
+    },
+  });
+
+  // ── Témoignages ──
   await prisma.testimonial.createMany({
     data: [
       {

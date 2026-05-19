@@ -119,29 +119,63 @@ export const processSteps = [
 ];
 
 export const staticProjects: UiProject[] = [
+  // ── 1. SaaS B2B — Projet phare ──
+  {
+    id: "garden",
+    slug: "garden",
+    title: "Garden",
+    excerpt: "Marketplace B2B de location d'espaces professionnels au Togo.",
+    description:
+      "Plateforme SaaS complète de location d'espaces de coworking, salles d'événements et équipements professionnels. Système de réservation, dashboard propriétaire, gestion des paiements et avis utilisateurs.",
+    coverImage: "/IMAGE_GARDEN_A_AJOUTER.png",
+    category: "Web",
+    technologies: ["Next.js", "TypeScript", "Tailwind", "Prisma", "PostgreSQL", "Auth.js"],
+    projectUrl: "https://garden-one-silk.vercel.app",
+    repository: "https://github.com/yongvic/Garden",
+  },
+  // ── 2. SaaS Gestion immobilière ──
+  {
+    id: "moeris-facture",
+    slug: "moeris-facture",
+    title: "Résidence Moeris",
+    excerpt: "SaaS de gestion immobilière et facturation résidentielle.",
+    description:
+      "Application de gestion de résidences avec facturation automatisée, suivi des locataires, tableau de bord administrateur et génération de documents. Architecture sécurisée avec authentification et rôles.",
+    coverImage: "/IMAGE_MOERIS_A_AJOUTER.png",
+    category: "Web",
+    technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Auth.js"],
+    projectUrl: "https://moeris.vercel.app",
+    repository: "https://github.com/yongvic/moeris-facture",
+  },
+  // ── 3. E-commerce solaire — KYA Energy Group ──
+  {
+    id: "kya-marketplace",
+    slug: "kya-marketplace",
+    title: "KYA Energy Group",
+    excerpt: "Site vitrine & marketplace solaire pour le marché togolais.",
+    description:
+      "Conception et développement du site corporate et de la marketplace e-commerce de KYA Energy Group. Design orienté confiance et conversion, catalogue produits solaires, parcours d'achat progressif et formulaire de contact.",
+    coverImage: "/kya_marketplace.jpg",
+    category: "Web",
+    technologies: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
+    projectUrl: "https://kya-energy-website.vercel.app",
+    repository: "https://github.com/yongvic/kya-marketplace",
+  },
+  // ── 4. Automatisation — Chatbot ──
   {
     id: "chatbot-moeris",
     slug: "chatbot-moeris",
     title: "Chatbot Moeris",
     excerpt: "Assistant conversationnel web avec interface instantanée.",
     description:
-      "Application de chatbot avec interface moderne, gestion des états de conversation et parcours utilisateur fluide.",
+      "Application de chatbot avec interface moderne, gestion des états de conversation et parcours utilisateur fluide. Intégration avec n8n pour l'automatisation des réponses.",
     coverImage: "/chatbot.png",
     category: "Automatisation",
     technologies: ["JavaScript", "CSS3", "n8n"],
     projectUrl: "https://yongvic.github.io/ChatbotMoeris/",
+    repository: "https://github.com/yongvic/ChatbotMoeris",
   },
-  {
-    id: "kya-marketplace",
-    slug: "kya-marketplace",
-    title: "Marketplace KYA-Energy Group",
-    excerpt: "Marketplace solaire orientée conversion et lisibilité.",
-    description:
-      "Conception et développement d'une plateforme e-commerce pour la vente de solutions solaires.",
-    coverImage: "/kya_marketplace.jpg",
-    category: "Web",
-    technologies: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
-  },
+  // ── 5. Design graphique — Contraste visuel ──
   {
     id: "affiche-wfa",
     slug: "affiche-wfa",
@@ -153,6 +187,20 @@ export const staticProjects: UiProject[] = [
     category: "Graphic",
     technologies: ["Figma", "Brand Design"],
   },
+  // ── 6. Backend sécurisé — Java ──
+  {
+    id: "api-java",
+    slug: "api-java",
+    title: "API Sécurisée Spring Boot",
+    excerpt: "Backend REST sécurisé avec JWT et architecture professionnelle.",
+    description:
+      "API Spring Boot 3 complète avec authentification JWT, inscription, login, hashage BCrypt, routes protégées et filtre de sécurité. Architecture backend prête pour intégration React ou mobile.",
+    coverImage: "/IMAGE_API_JAVA_A_AJOUTER.png",
+    category: "Web",
+    technologies: ["Java", "Spring Boot", "JWT", "MySQL"],
+    repository: "https://github.com/yongvic/api-java",
+  },
+  // ── 7. Produit web ludique ──
   {
     id: "never-bored-lovers",
     slug: "never-bored-lovers",
@@ -164,6 +212,34 @@ export const staticProjects: UiProject[] = [
     category: "Web",
     technologies: ["Next.js", "React", "TypeScript"],
     projectUrl: "https://for-mira.vercel.app/",
+    repository: "https://github.com/yongvic/For-Our",
+  },
+  // ── 8. Portfolio client ──
+  {
+    id: "ravi-s",
+    slug: "ravi-s",
+    title: "Ravi's — Portfolio Client",
+    excerpt: "Portfolio web premium conçu pour un client.",
+    description:
+      "Portfolio professionnel développé pour un client avec design sur-mesure, animations GSAP, navigation fluide et mise en valeur des réalisations. Déployé sur Vercel.",
+    coverImage: "/IMAGE_RAVIS_A_AJOUTER.png",
+    category: "Web",
+    technologies: ["Next.js", "TypeScript", "GSAP", "Tailwind"],
+    projectUrl: "https://ravi-s.vercel.app",
+    repository: "https://github.com/yongvic/Ravi-s",
+  },
+  // ── 9. App fullstack modulaire ──
+  {
+    id: "zyra",
+    slug: "zyra",
+    title: "Zyra",
+    excerpt: "Application web fullstack avec architecture modulaire.",
+    description:
+      "Projet web fullstack TypeScript avec architecture modulaire propre, gestion d'état avancée et interface utilisateur soignée.",
+    coverImage: "/IMAGE_ZYRA_A_AJOUTER.png",
+    category: "Web",
+    technologies: ["Next.js", "TypeScript"],
+    repository: "https://github.com/yongvic/Zyra",
   },
 ];
 
@@ -184,6 +260,69 @@ export type ProjectCaseStudy = {
 };
 
 export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
+  "garden": {
+    year: "2026",
+    role: "Développement fullstack & design produit",
+    challenge:
+      "Construire une marketplace B2B complète adaptée au marché togolais, avec gestion des réservations, paiements et avis multi-rôles.",
+    solution:
+      "Architecture Next.js avec App Router, Prisma ORM, Auth.js pour la gestion des rôles (locataire, propriétaire, admin), et un système de réservation avec workflow de validation.",
+    results: [
+      "Plateforme SaaS fonctionnelle avec dashboard propriétaire.",
+      "Système de réservation avec cycle complet (demande → confirmation → paiement).",
+      "Interface responsive adaptée aux utilisateurs mobiles africains.",
+    ],
+    accent: "#10B981",
+    fontFamily: "var(--font-clash-display)",
+    images: {
+      hero: "/IMAGE_GARDEN_A_AJOUTER.png",
+      desktop: "/IMAGE_GARDEN_A_AJOUTER.png",
+      mobile: "/IMAGE_GARDEN_MOBILE_A_AJOUTER.png",
+      details: ["/IMAGE_GARDEN_A_AJOUTER.png", "/IMAGE_GARDEN_MOBILE_A_AJOUTER.png"],
+    },
+  },
+  "moeris-facture": {
+    year: "2026",
+    role: "Développement fullstack & architecture",
+    challenge:
+      "Digitaliser la gestion d'une résidence avec facturation automatisée, tout en garantissant la sécurité des données locataires.",
+    solution:
+      "SaaS Next.js avec Prisma, système de rôles sécurisé, génération automatique de factures et dashboard admin complet pour le suivi en temps réel.",
+    results: [
+      "Facturation automatisée réduisant les tâches manuelles.",
+      "Tableau de bord administrateur clair et fonctionnel.",
+      "Architecture sécurisée avec Auth.js et gestion de rôles.",
+    ],
+    accent: "#3B82F6",
+    fontFamily: "var(--font-clash-display)",
+    images: {
+      hero: "/IMAGE_MOERIS_A_AJOUTER.png",
+      desktop: "/IMAGE_MOERIS_A_AJOUTER.png",
+      mobile: "/IMAGE_MOERIS_MOBILE_A_AJOUTER.png",
+      details: ["/IMAGE_MOERIS_A_AJOUTER.png", "/IMAGE_MOERIS_MOBILE_A_AJOUTER.png"],
+    },
+  },
+  "kya-marketplace": {
+    year: "2025",
+    role: "Design produit & développement Next.js",
+    challenge:
+      "Créer un écosystème web complet pour une entreprise solaire : site vitrine qui inspire confiance et marketplace orientée conversion.",
+    solution:
+      "Grille claire, cards produit hiérarchisées, parcours d'achat progressif et design corporate premium. Performance optimisée pour les visiteurs mobiles.",
+    results: [
+      "Meilleure compréhension de l'offre dès la première visite.",
+      "Parcours d'achat structuré et rassurant.",
+      "Image de marque professionnelle renforcée.",
+    ],
+    accent: "#FFB703",
+    fontFamily: "var(--font-clash-display)",
+    images: {
+      hero: "/kya_marketplace.jpg",
+      desktop: "/kya_marketplace.jpg",
+      mobile: "/KYA.png",
+      details: ["/kya_marketplace.jpg", "/KYA.png"],
+    },
+  },
   "chatbot-moeris": {
     year: "2025",
     role: "Direction artistique & développement front",
@@ -203,27 +342,6 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
       desktop: "/chatbot.png",
       mobile: "/chatbot.jpg",
       details: ["/chatbot.png", "/chatbot.jpg"],
-    },
-  },
-  "kya-marketplace": {
-    year: "2025",
-    role: "Design produit & intégration Next.js",
-    challenge:
-      "Créer une marketplace solaire lisible, orientée conversion, qui met en valeur les bénéfices techniques sans surcharger l'utilisateur.",
-    solution:
-      "J'ai travaillé une grille claire, des cards produit hiérarchisées et un parcours d'achat progressif, le tout optimisé pour la performance.",
-    results: [
-      "Meilleure compréhension de l'offre dès la première visite.",
-      "Temps de chargement optimisé pour les visiteurs mobiles.",
-      "Parcours d'achat structuré et rassurant.",
-    ],
-    accent: "#FFB703",
-    fontFamily: "var(--font-clash-display)",
-    images: {
-      hero: "/kya_marketplace.jpg",
-      desktop: "/kya_marketplace.jpg",
-      mobile: "/KYA.png",
-      details: ["/kya_marketplace.jpg", "/KYA.png"],
     },
   },
   "affiche-wfa": {
@@ -247,6 +365,27 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
       details: ["/WFA.png", "/ensemble.jpg"],
     },
   },
+  "api-java": {
+    year: "2025",
+    role: "Développement backend & sécurité",
+    challenge:
+      "Construire une API REST sécurisée et scalable avec authentification JWT, prête à être consommée par un frontend React ou une application mobile.",
+    solution:
+      "Architecture Spring Boot 3 propre avec filtres JWT, hashage BCrypt, routes protégées par rôle et configuration multi-environnement.",
+    results: [
+      "API 100% fonctionnelle avec authentification sécurisée.",
+      "Architecture réutilisable pour d'autres projets backend.",
+      "Documentation et tests REST Client intégrés.",
+    ],
+    accent: "#EF4444",
+    fontFamily: "var(--font-clash-display)",
+    images: {
+      hero: "/IMAGE_API_JAVA_A_AJOUTER.png",
+      desktop: "/IMAGE_API_JAVA_A_AJOUTER.png",
+      mobile: "/IMAGE_API_JAVA_MOBILE_A_AJOUTER.png",
+      details: ["/IMAGE_API_JAVA_A_AJOUTER.png", "/IMAGE_API_JAVA_MOBILE_A_AJOUTER.png"],
+    },
+  },
   "never-bored-lovers": {
     year: "2026",
     role: "UX/UI & développement front",
@@ -266,6 +405,48 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
       desktop: "/for_our.jpg",
       mobile: "/ensemble.jpg",
       details: ["/for_our.jpg", "/ensemble.jpg"],
+    },
+  },
+  "ravi-s": {
+    year: "2026",
+    role: "Design & développement front",
+    challenge:
+      "Créer un portfolio professionnel sur-mesure qui reflète l'identité créative du client tout en restant performant.",
+    solution:
+      "Design personnalisé avec animations GSAP, navigation fluide et déploiement optimisé sur Vercel pour un chargement rapide.",
+    results: [
+      "Portfolio unique avec identité visuelle cohérente.",
+      "Animations fluides et performantes.",
+      "Déploiement rapide et SEO optimisé.",
+    ],
+    accent: "#06B6D4",
+    fontFamily: "var(--font-clash-display)",
+    images: {
+      hero: "/IMAGE_RAVIS_A_AJOUTER.png",
+      desktop: "/IMAGE_RAVIS_A_AJOUTER.png",
+      mobile: "/IMAGE_RAVIS_MOBILE_A_AJOUTER.png",
+      details: ["/IMAGE_RAVIS_A_AJOUTER.png", "/IMAGE_RAVIS_MOBILE_A_AJOUTER.png"],
+    },
+  },
+  "zyra": {
+    year: "2026",
+    role: "Développement fullstack",
+    challenge:
+      "Développer une application web modulaire avec une architecture propre et une interface soignée.",
+    solution:
+      "Architecture TypeScript modulaire avec séparation des responsabilités, composants réutilisables et gestion d'état avancée.",
+    results: [
+      "Code maintenable et évolutif.",
+      "Interface utilisateur claire et responsive.",
+      "Architecture modulaire réutilisable.",
+    ],
+    accent: "#EC4899",
+    fontFamily: "var(--font-clash-display)",
+    images: {
+      hero: "/IMAGE_ZYRA_A_AJOUTER.png",
+      desktop: "/IMAGE_ZYRA_A_AJOUTER.png",
+      mobile: "/IMAGE_ZYRA_MOBILE_A_AJOUTER.png",
+      details: ["/IMAGE_ZYRA_A_AJOUTER.png", "/IMAGE_ZYRA_MOBILE_A_AJOUTER.png"],
     },
   },
 };
