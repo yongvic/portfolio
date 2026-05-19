@@ -68,7 +68,7 @@ async function main() {
       excerpt: "Site vitrine & marketplace solaire pour le marché togolais.",
       description:
         "Conception et développement du site corporate et de la marketplace e-commerce de KYA Energy Group. Design orienté confiance et conversion, catalogue produits solaires, parcours d'achat progressif et formulaire de contact.",
-      coverImage: "/KYA.png",
+      coverImage: "/kya_marketplace.png",
       projectUrl: "https://kya-energy-website.vercel.app",
       repository: "https://github.com/yongvic/kya-marketplace",
       technologies: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
@@ -200,6 +200,7 @@ async function main() {
       description:
         "Application e-commerce production-ready avec gestion de panier, checkout multi-étapes, espace admin sécurisé (KPIs, Datatables, logs), authentification JWT HttpOnly (jose) et contrôle d'accès RBAC via enums PostgreSQL.",
       coverImage: "/execly.png",
+      projectUrl: "https://execly-ashy.vercel.app/",
       repository: "https://github.com/yongvic/execly",
       technologies: ["Next.js", "TypeScript", "Tailwind v4", "Prisma", "PostgreSQL", "Jose JWT", "bcryptjs"],
       categoryId: webCategory?.id,
