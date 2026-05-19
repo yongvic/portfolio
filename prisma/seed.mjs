@@ -25,33 +25,33 @@ async function main() {
     create: {
       title: "Garden",
       slug: "garden",
-      excerpt: "Marketplace B2B de location d'espaces professionnels au Togo.",
+      excerpt: "Marketplace B2B SaaS de location d'espaces professionnels.",
       description:
-        "Plateforme SaaS complète de location d'espaces de coworking, salles d'événements et équipements professionnels. Système de réservation, dashboard propriétaire, gestion des paiements et avis utilisateurs.",
+        "Plateforme B2B Premium de mise en relation au Togo (Coworking, réunions). Gestion complète de la location, système d'approbation Landlord, uploader média interactif et paiements transparents.",
       coverImage: "/IMAGE_GARDEN_A_AJOUTER.png",
       projectUrl: "https://garden-one-silk.vercel.app",
       repository: "https://github.com/yongvic/Garden",
-      technologies: ["Next.js", "TypeScript", "Tailwind", "Prisma", "PostgreSQL", "Auth.js"],
+      technologies: ["Next.js 16", "TypeScript", "Tailwind 4", "Prisma", "PostgreSQL", "Auth.js v5", "Stripe", "Vercel Blob"],
       categoryId: webCategory?.id,
       sortOrder: 1,
       isFeatured: true,
     },
   });
 
-  // ── 2. Résidence Moeris — SaaS Facturation ──
+  // ── 2. Résidence Moeris — SaaS Hôtelier ──
   await prisma.project.upsert({
     where: { slug: "moeris-facture" },
     update: {},
     create: {
       title: "Résidence Moeris",
       slug: "moeris-facture",
-      excerpt: "SaaS de gestion immobilière et facturation résidentielle.",
+      excerpt: "SaaS de gestion hôtelière et CRM multiservice.",
       description:
-        "Application de gestion de résidences avec facturation automatisée, suivi des locataires, tableau de bord administrateur et génération de documents. Architecture sécurisée avec authentification et rôles.",
+        "SaaS de gestion hôtelière complet (CRM, consommations, restaurant POS, activités). Système RBAC poussé (Admin/Manager/Staff) et édition de factures dynamiques PDF.",
       coverImage: "/IMAGE_MOERIS_A_AJOUTER.png",
       projectUrl: "https://moeris.vercel.app",
       repository: "https://github.com/yongvic/moeris-facture",
-      technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Auth.js"],
+      technologies: ["Next.js", "TypeScript", "Prisma v7", "PostgreSQL", "React-pdf", "Auth.js"],
       categoryId: webCategory?.id,
       sortOrder: 2,
       isFeatured: true,

@@ -124,12 +124,12 @@ export const staticProjects: UiProject[] = [
     id: "garden",
     slug: "garden",
     title: "Garden",
-    excerpt: "Marketplace B2B de location d'espaces professionnels au Togo.",
+    excerpt: "Marketplace B2B SaaS de location d'espaces professionnels.",
     description:
-      "Plateforme SaaS complète de location d'espaces de coworking, salles d'événements et équipements professionnels. Système de réservation, dashboard propriétaire, gestion des paiements et avis utilisateurs.",
+      "Plateforme B2B Premium de mise en relation au Togo (Coworking, réunions). Gestion complète de la location, système d'approbation Landlord, uploader média interactif et paiements transparents.",
     coverImage: "/IMAGE_GARDEN_A_AJOUTER.png",
     category: "Web",
-    technologies: ["Next.js", "TypeScript", "Tailwind", "Prisma", "PostgreSQL", "Auth.js"],
+    technologies: ["Next.js 16", "TypeScript", "Tailwind 4", "PostgreSQL", "Auth.js v5", "Stripe", "Vercel Blob"],
     projectUrl: "https://garden-one-silk.vercel.app",
     repository: "https://github.com/yongvic/Garden",
   },
@@ -138,12 +138,12 @@ export const staticProjects: UiProject[] = [
     id: "moeris-facture",
     slug: "moeris-facture",
     title: "Résidence Moeris",
-    excerpt: "SaaS de gestion immobilière et facturation résidentielle.",
+    excerpt: "SaaS de gestion hôtelière et CRM multiservice.",
     description:
-      "Application de gestion de résidences avec facturation automatisée, suivi des locataires, tableau de bord administrateur et génération de documents. Architecture sécurisée avec authentification et rôles.",
+      "SaaS de gestion hôtelière complet (CRM, consommations, restaurant POS, activités). Système RBAC poussé (Admin/Manager/Staff) et édition de factures dynamiques PDF.",
     coverImage: "/IMAGE_MOERIS_A_AJOUTER.png",
     category: "Web",
-    technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Auth.js"],
+    technologies: ["Next.js", "TypeScript", "Prisma v7", "PostgreSQL", "React-pdf", "Auth.js"],
     projectUrl: "https://moeris.vercel.app",
     repository: "https://github.com/yongvic/moeris-facture",
   },
@@ -262,15 +262,15 @@ export type ProjectCaseStudy = {
 export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
   "garden": {
     year: "2026",
-    role: "Développement fullstack & design produit",
+    role: "Développement fullstack & architecture",
     challenge:
-      "Construire une marketplace B2B complète adaptée au marché togolais, avec gestion des réservations, paiements et avis multi-rôles.",
+      "Transformer la gestion locative professionnelle au Togo. Il s'agissait d’offrir une interface premium B2B SaaS permettant aux Landlords locaux de louer des Espaces de coworking ou des Salles avec un cycle complet (de la demande jusqu'à la gestion des sinistres et paiements).",
     solution:
-      "Architecture Next.js avec App Router, Prisma ORM, Auth.js pour la gestion des rôles (locataire, propriétaire, admin), et un système de réservation avec workflow de validation.",
+      "Création d'un SaaS Next.js 16 (App Router). Implémentation d'Auth.js v5 Beta pour la gestion multi-rôles, système d'upload média interactif (Drag & Drop) via Vercel Blob, Stripe, avec une vraie approche UI Dark mode premium (Radix UI, Tailwind 4).",
     results: [
-      "Plateforme SaaS fonctionnelle avec dashboard propriétaire.",
-      "Système de réservation avec cycle complet (demande → confirmation → paiement).",
-      "Interface responsive adaptée aux utilisateurs mobiles africains.",
+      "Processus de réservation 100% fluide (Demande → Validation Landlord → Paiement).",
+      "Tableau de bord pour propriétaires avec gestion des dommages (Damage Claims).",
+      "Architecture UI premium fluide inspirée des meilleurs standards SaaS B2B.",
     ],
     accent: "#10B981",
     fontFamily: "var(--font-clash-display)",
@@ -283,15 +283,15 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
   },
   "moeris-facture": {
     year: "2026",
-    role: "Développement fullstack & architecture",
+    role: "Développement fullstack & conception SaaS",
     challenge:
-      "Digitaliser la gestion d'une résidence avec facturation automatisée, tout en garantissant la sécurité des données locataires.",
+      "Centraliser la gestion complexe d'une résidence multiservice de prestige. Il fallait réunir dans un CRM sécurisé l'hébergement, le restaurant (système POS), les activités, tout en générant automatiquement des factures PDF professionnelles adaptées aux niveaux de rôles des employés.",
     solution:
-      "SaaS Next.js avec Prisma, système de rôles sécurisé, génération automatique de factures et dashboard admin complet pour le suivi en temps réel.",
+      "Développement from-scratch sous Next.js et Prisma v7. Intégration poussée de @react-pdf/renderer pour éditer des PDF dynamiques avec logo, création d'exports CSV complexes et mise en place d'un système RBAC complet (Admin, Manager, Staff).",
     results: [
-      "Facturation automatisée réduisant les tâches manuelles.",
-      "Tableau de bord administrateur clair et fonctionnel.",
-      "Architecture sécurisée avec Auth.js et gestion de rôles.",
+      "Génération automatique et standardisée des factures en format PDF.",
+      "Interface POS Restaurant fluidifiant les commandes et consommations.",
+      "Contrôle strict des accès pour éviter les erreurs d'annulation (RBAC).",
     ],
     accent: "#3B82F6",
     fontFamily: "var(--font-clash-display)",
