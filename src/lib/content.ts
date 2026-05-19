@@ -127,7 +127,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Marketplace B2B SaaS de location d'espaces professionnels.",
     description:
       "Plateforme B2B Premium de mise en relation au Togo (Coworking, réunions). Gestion complète de la location, système d'approbation Landlord, uploader média interactif et paiements transparents.",
-    coverImage: "/IMAGE_GARDEN_A_AJOUTER.png",
+    coverImage: "/Garden.png",
     category: "Web",
     technologies: ["Next.js 16", "TypeScript", "Tailwind 4", "PostgreSQL", "Auth.js v5", "Stripe", "Vercel Blob"],
     projectUrl: "https://garden-one-silk.vercel.app",
@@ -141,7 +141,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "SaaS de gestion hôtelière et CRM multiservice.",
     description:
       "SaaS de gestion hôtelière complet (CRM, consommations, restaurant POS, activités). Système RBAC poussé (Admin/Manager/Staff) et édition de factures dynamiques PDF.",
-    coverImage: "/IMAGE_MOERIS_A_AJOUTER.png",
+    coverImage: "/moeris.png",
     category: "Web",
     technologies: ["Next.js", "TypeScript", "Prisma v7", "PostgreSQL", "React-pdf", "Auth.js"],
     projectUrl: "https://moeris.vercel.app",
@@ -155,7 +155,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Site vitrine & marketplace solaire pour le marché togolais.",
     description:
       "Conception et développement du site corporate et de la marketplace e-commerce de KYA Energy Group. Design orienté confiance et conversion, catalogue produits solaires, parcours d'achat progressif et formulaire de contact.",
-    coverImage: "/kya_marketplace.jpg",
+    coverImage: "/kya_marketplace.png",
     category: "Web",
     technologies: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
     projectUrl: "https://kya-energy-website.vercel.app",
@@ -208,7 +208,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Produit web ludique avec design émotionnel.",
     description:
       "Application web de mini-jeux pour couples avec UX mobile-first et parcours d'interaction rapide.",
-    coverImage: "/for_our.jpg",
+    coverImage: "/For our.png",
     category: "Web",
     technologies: ["Next.js", "React", "TypeScript"],
     projectUrl: "https://for-mira.vercel.app/",
@@ -218,13 +218,13 @@ export const staticProjects: UiProject[] = [
   {
     id: "ravi-s",
     slug: "ravi-s",
-    title: "Ravi's — Portfolio Client",
-    excerpt: "Portfolio web premium conçu pour un client.",
+    title: "Ravi's — Plateforme Éducative",
+    excerpt: "Plateforme éducative d'anglais cabine avec simulation métier et gamification.",
     description:
-      "Portfolio professionnel développé pour un client avec design sur-mesure, animations GSAP, navigation fluide et mise en valeur des réalisations. Déployé sur Vercel.",
-    coverImage: "/IMAGE_RAVIS_A_AJOUTER.png",
+      "Application ludo-éducative structurée par niveaux CEFR. Contient une logique métier de génération de modules, passages d'examens oraux, système de badges de progression, et export automatique en PDF du plan d'apprentissage via Puppeteer.",
+    coverImage: "/ravis.png",
     category: "Web",
-    technologies: ["Next.js", "TypeScript", "GSAP", "Tailwind"],
+    technologies: ["Next.js 16", "TypeScript", "Prisma", "Auth.js", "Tailwind v4", "Puppeteer"],
     projectUrl: "https://ravi-s.vercel.app",
     repository: "https://github.com/yongvic/Ravi-s",
   },
@@ -232,14 +232,27 @@ export const staticProjects: UiProject[] = [
   {
     id: "zyra",
     slug: "zyra",
-    title: "Zyra",
-    excerpt: "Application web fullstack avec architecture modulaire.",
+    title: "Zyra — Couples App",
+    excerpt: "SaaS temps réel pour les relations à distance avec chat WebSockets.",
     description:
-      "Projet web fullstack TypeScript avec architecture modulaire propre, gestion d'état avancée et interface utilisateur soignée.",
-    coverImage: "/IMAGE_ZYRA_A_AJOUTER.png",
+      "MVP SaaS complet avec messagerie WebSockets (Socket.io), 7 mini-jeux interactifs en temps réel, gestion de playlists partagées et une authentification renforcée via NestJS et Google OAuth.",
+    coverImage: "/zyra.png",
     category: "Web",
-    technologies: ["Next.js", "TypeScript"],
+    technologies: ["Next.js 16", "NestJS", "Socket.io", "TypeScript", "PostgreSQL"],
     repository: "https://github.com/yongvic/Zyra",
+  },
+  // ── 10. Marketplace e-Commerce ──
+  {
+    id: "execly",
+    slug: "execly",
+    title: "Execly",
+    excerpt: "Marketplace Full-Stack avec RBAC et espace Administrateur complet.",
+    description:
+      "Véritable application e-commerce multi-vendeurs avec gestion de panier, paiement, espace administrateur sécurisé (Datatables, KPI), authentification JWT jose ultra-sécurisée et RBAC via enums SQL.",
+    coverImage: "/execly.png",
+    category: "Web",
+    technologies: ["Next.js", "TypeScript", "Tailwind v4", "Prisma", "PostgreSQL", "Jose JWT"],
+    repository: "https://github.com/yongvic/execly",
   },
 ];
 
@@ -275,10 +288,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#10B981",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/IMAGE_GARDEN_A_AJOUTER.png",
-      desktop: "/IMAGE_GARDEN_A_AJOUTER.png",
-      mobile: "/IMAGE_GARDEN_MOBILE_A_AJOUTER.png",
-      details: ["/IMAGE_GARDEN_A_AJOUTER.png", "/IMAGE_GARDEN_MOBILE_A_AJOUTER.png"],
+      hero: "/Garden.png",
+      desktop: "/Garden.png",
+      mobile: "/Garden.png",
+      details: ["/Garden.png"],
     },
   },
   "moeris-facture": {
@@ -296,10 +309,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#3B82F6",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/IMAGE_MOERIS_A_AJOUTER.png",
-      desktop: "/IMAGE_MOERIS_A_AJOUTER.png",
-      mobile: "/IMAGE_MOERIS_MOBILE_A_AJOUTER.png",
-      details: ["/IMAGE_MOERIS_A_AJOUTER.png", "/IMAGE_MOERIS_MOBILE_A_AJOUTER.png"],
+      hero: "/moeris.png",
+      desktop: "/moeris.png",
+      mobile: "/moeris.png",
+      details: ["/moeris.png"],
     },
   },
   "kya-marketplace": {
@@ -317,10 +330,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#FFB703",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/kya_marketplace.jpg",
-      desktop: "/kya_marketplace.jpg",
+      hero: "/KYA.png",
+      desktop: "/KYA.png",
       mobile: "/KYA.png",
-      details: ["/kya_marketplace.jpg", "/KYA.png"],
+      details: ["/KYA.png", "/kya_marketplace.png"],
     },
   },
   "chatbot-moeris": {
@@ -340,8 +353,8 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     images: {
       hero: "/chatbot.png",
       desktop: "/chatbot.png",
-      mobile: "/chatbot.jpg",
-      details: ["/chatbot.png", "/chatbot.jpg"],
+      mobile: "/chatbot.png",
+      details: ["/chatbot.png"],
     },
   },
   "affiche-wfa": {
@@ -401,52 +414,73 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#8B5CF6",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/for_our.jpg",
-      desktop: "/for_our.jpg",
-      mobile: "/ensemble.jpg",
-      details: ["/for_our.jpg", "/ensemble.jpg"],
+      hero: "/For our.png",
+      desktop: "/For our.png",
+      mobile: "/For our.png",
+      details: ["/For our.png"],
     },
   },
   "ravi-s": {
     year: "2026",
-    role: "Design & développement front",
+    role: "Fullstack Developer & product",
     challenge:
-      "Créer un portfolio professionnel sur-mesure qui reflète l'identité créative du client tout en restant performant.",
+      "Concevoir une plateforme d'apprentissage de l'anglais CAE (cabine) orientée progression CEFR, simulation métier et évaluation progressive, avec gamification et exports de plans pédagogiques personnalisés.",
     solution:
-      "Design personnalisé avec animations GSAP, navigation fluide et déploiement optimisé sur Vercel pour un chargement rapide.",
+      "Application Next.js 16 avec moteur CEFR centralisé (A1→C1), génération de modules hebdomadaires, badges de niveau, notation des oraux, et export PDF via Puppeteer. Upload d'avatar et profil personnalisé. Auth.js Credentials.",
     results: [
-      "Portfolio unique avec identité visuelle cohérente.",
-      "Animations fluides et performantes.",
-      "Déploiement rapide et SEO optimisé.",
+      "Plateforme éducative complète avec 5 compétences (Reading, Listening, Writing, Speaking, Vocab).",
+      "Export PDF du plan d'apprentissage personnalisé généré en temps réel.",
+      "Système de badges CEFR (A1→C1) motivant la progression.",
     ],
     accent: "#06B6D4",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/IMAGE_RAVIS_A_AJOUTER.png",
-      desktop: "/IMAGE_RAVIS_A_AJOUTER.png",
-      mobile: "/IMAGE_RAVIS_MOBILE_A_AJOUTER.png",
-      details: ["/IMAGE_RAVIS_A_AJOUTER.png", "/IMAGE_RAVIS_MOBILE_A_AJOUTER.png"],
+      hero: "/ravis.png",
+      desktop: "/ravis.png",
+      mobile: "/ravis.png",
+      details: ["/ravis.png"],
     },
   },
   "zyra": {
     year: "2026",
-    role: "Développement fullstack",
+    role: "Fullstack Developer (Next.js + NestJS)",
     challenge:
-      "Développer une application web modulaire avec une architecture propre et une interface soignée.",
+      "Créer une app SaaS complète pour les couples en situation de distance. Gestion du chat temps réel, mini-jeux interactifs, souvenirs photo/playlists partagés, tout en garantissant sécurité et faible latence.",
     solution:
-      "Architecture TypeScript modulaire avec séparation des responsabilités, composants réutilisables et gestion d'état avancée.",
+      "Architecture full-stack Next.js 16 (frontend) + NestJS 6 modules (backend). Messaging WebSockets via Socket.io Gateway, auth JWT + Google OAuth, 9 tables PostgreSQL (Neon serverless).",
     results: [
-      "Code maintenable et évolutif.",
-      "Interface utilisateur claire et responsive.",
-      "Architecture modulaire réutilisable.",
+      "MVP Phase 1 complète : chat, 7 jeux, souvenirs, playlist, profils.",
+      "Latence sub-second sur le WebSocket (Socket.io).",
+      "Architecture prête pour la Phase 2 (logique jeux, push notifications).",
     ],
     accent: "#EC4899",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/IMAGE_ZYRA_A_AJOUTER.png",
-      desktop: "/IMAGE_ZYRA_A_AJOUTER.png",
-      mobile: "/IMAGE_ZYRA_MOBILE_A_AJOUTER.png",
-      details: ["/IMAGE_ZYRA_A_AJOUTER.png", "/IMAGE_ZYRA_MOBILE_A_AJOUTER.png"],
+      hero: "/zyra.png",
+      desktop: "/zyra.png",
+      mobile: "/zyra.png",
+      details: ["/zyra.png"],
+    },
+  },
+  "execly": {
+    year: "2026",
+    role: "Fullstack Developer",
+    challenge:
+      "Construire une vraie marketplace e-commerce production-ready avec gestion sécurisée des utilisateurs, panier, checkout et un espace administrateur complet permettant la modération et le suivi des KPIs.",
+    solution:
+      "Application Next.js App Router avec API Routes serverless, authentification JWT HttpOnly ultra-sécurisée via jose (HmacSHA256), RBAC PostgreSQL Enums (USER/ADMIN/MODERATOR/SUPER_ADMIN), dashboard admin avec Recharts.",
+    results: [
+      "Marketplace complète fonctionnelle : browse, cart, checkout multi-étapes avec codes promo.",
+      "Espace Admin V2 avec KPIs interactifs, datatables utilisateurs et logs de sécurité.",
+      "Authéentification JWT HttpOnly + cookies sécurisés et RBAC strict.",
+    ],
+    accent: "#2563EB",
+    fontFamily: "var(--font-clash-display)",
+    images: {
+      hero: "/execly.png",
+      desktop: "/execly.png",
+      mobile: "/execly.png",
+      details: ["/execly.png"],
     },
   },
 };

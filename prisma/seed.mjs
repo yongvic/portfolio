@@ -27,8 +27,8 @@ async function main() {
       slug: "garden",
       excerpt: "Marketplace B2B SaaS de location d'espaces professionnels.",
       description:
-        "Plateforme B2B Premium de mise en relation au Togo (Coworking, réunions). Gestion complète de la location, système d'approbation Landlord, uploader média interactif et paiements transparents.",
-      coverImage: "/IMAGE_GARDEN_A_AJOUTER.png",
+        "Plateforme B2B Premium de mise en relation au Togo (Coworking, réunions). Gestion complète de la location, système d'approbation Landlord, uploader média interactif (Drag & Drop via Vercel Blob), paiements Stripe et rôles multi-utilisateurs via Auth.js v5.",
+      coverImage: "/Garden.png",
       projectUrl: "https://garden-one-silk.vercel.app",
       repository: "https://github.com/yongvic/Garden",
       technologies: ["Next.js 16", "TypeScript", "Tailwind 4", "Prisma", "PostgreSQL", "Auth.js v5", "Stripe", "Vercel Blob"],
@@ -47,11 +47,11 @@ async function main() {
       slug: "moeris-facture",
       excerpt: "SaaS de gestion hôtelière et CRM multiservice.",
       description:
-        "SaaS de gestion hôtelière complet (CRM, consommations, restaurant POS, activités). Système RBAC poussé (Admin/Manager/Staff) et édition de factures dynamiques PDF.",
-      coverImage: "/IMAGE_MOERIS_A_AJOUTER.png",
+        "SaaS de gestion hôtelière centralisant CRM, facturation, consommations, chambres, restaurant POS, activités et événements. Génération PDF de factures avec logo, exports CSV, et contrôle d'accès RBAC (Admin, Manager, Staff).",
+      coverImage: "/moeris.png",
       projectUrl: "https://moeris.vercel.app",
       repository: "https://github.com/yongvic/moeris-facture",
-      technologies: ["Next.js", "TypeScript", "Prisma v7", "PostgreSQL", "React-pdf", "Auth.js"],
+      technologies: ["Next.js App Router", "TypeScript", "Prisma v7", "PostgreSQL", "@react-pdf/renderer", "Auth.js", "Tailwind v4"],
       categoryId: webCategory?.id,
       sortOrder: 2,
       isFeatured: true,
@@ -68,7 +68,7 @@ async function main() {
       excerpt: "Site vitrine & marketplace solaire pour le marché togolais.",
       description:
         "Conception et développement du site corporate et de la marketplace e-commerce de KYA Energy Group. Design orienté confiance et conversion, catalogue produits solaires, parcours d'achat progressif et formulaire de contact.",
-      coverImage: "/kya_marketplace.jpg",
+      coverImage: "/KYA.png",
       projectUrl: "https://kya-energy-website.vercel.app",
       repository: "https://github.com/yongvic/kya-marketplace",
       technologies: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
@@ -143,7 +143,7 @@ async function main() {
       excerpt: "Produit web ludique avec design émotionnel.",
       description:
         "Application web de mini-jeux pour couples avec UX mobile-first et parcours d'interaction rapide.",
-      coverImage: "/for_our.jpg",
+      coverImage: "/For our.png",
       projectUrl: "https://for-mira.vercel.app/",
       repository: "https://github.com/yongvic/For-Our",
       technologies: ["Next.js", "React", "TypeScript"],
@@ -152,40 +152,59 @@ async function main() {
     },
   });
 
-  // ── 8. Ravi's — Portfolio Client ──
+  // ── 8. Ravi's — Plateforme Éducative ──
   await prisma.project.upsert({
     where: { slug: "ravi-s" },
     update: {},
     create: {
-      title: "Ravi's — Portfolio Client",
+      title: "Ravi's — Plateforme Éducative",
       slug: "ravi-s",
-      excerpt: "Portfolio web premium conçu pour un client.",
+      excerpt: "Plateforme éducative d'anglais cabine avec simulation métier et gamification.",
       description:
-        "Portfolio professionnel développé pour un client avec design sur-mesure, animations GSAP, navigation fluide et mise en valeur des réalisations. Déployé sur Vercel.",
-      coverImage: "/IMAGE_RAVIS_A_AJOUTER.png",
+        "Application ludo-éducative structurée par niveaux CEFR (A1→C1). Logique de génération de modules, passages d'examens oraux notés, système de badges de progression, et export PDF du plan d'apprentissage personnalisé via Puppeteer.",
+      coverImage: "/ravis.png",
       projectUrl: "https://ravi-s.vercel.app",
       repository: "https://github.com/yongvic/Ravi-s",
-      technologies: ["Next.js", "TypeScript", "GSAP", "Tailwind"],
+      technologies: ["Next.js 16", "TypeScript", "Prisma", "Auth.js", "Tailwind v4", "Puppeteer", "Vercel Blob"],
       categoryId: webCategory?.id,
       sortOrder: 8,
     },
   });
 
-  // ── 9. Zyra ──
+  // ── 9. Zyra — Couples App ──
   await prisma.project.upsert({
     where: { slug: "zyra" },
     update: {},
     create: {
-      title: "Zyra",
+      title: "Zyra — Couples App",
       slug: "zyra",
-      excerpt: "Application web fullstack avec architecture modulaire.",
+      excerpt: "SaaS temps réel pour les relations à distance avec chat WebSockets.",
       description:
-        "Projet web fullstack TypeScript avec architecture modulaire propre, gestion d'état avancée et interface utilisateur soignée.",
-      coverImage: "/IMAGE_ZYRA_A_AJOUTER.png",
+        "MVP SaaS complet avec messagerie temps réel (Socket.io), 7 mini-jeux interactifs, gestion de souvenirs partagés, playlists communes et authentification sécurisée JWT + Google OAuth via NestJS.",
+      coverImage: "/zyra.png",
       repository: "https://github.com/yongvic/Zyra",
-      technologies: ["Next.js", "TypeScript"],
+      technologies: ["Next.js 16", "React 19", "NestJS", "Socket.io", "TypeScript", "PostgreSQL"],
       categoryId: webCategory?.id,
       sortOrder: 9,
+    },
+  });
+
+  // ── 10. Execly — Marketplace Full-Stack ──
+  await prisma.project.upsert({
+    where: { slug: "execly" },
+    update: {},
+    create: {
+      title: "Execly",
+      slug: "execly",
+      excerpt: "Marketplace Full-Stack avec RBAC et espace Administrateur complet.",
+      description:
+        "Application e-commerce production-ready avec gestion de panier, checkout multi-étapes, espace admin sécurisé (KPIs, Datatables, logs), authentification JWT HttpOnly (jose) et contrôle d'accès RBAC via enums PostgreSQL.",
+      coverImage: "/execly.png",
+      repository: "https://github.com/yongvic/execly",
+      technologies: ["Next.js", "TypeScript", "Tailwind v4", "Prisma", "PostgreSQL", "Jose JWT", "bcryptjs"],
+      categoryId: webCategory?.id,
+      sortOrder: 10,
+      isFeatured: true,
     },
   });
 
