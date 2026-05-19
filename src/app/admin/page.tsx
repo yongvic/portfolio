@@ -43,7 +43,6 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     getStats()
   ]).catch(() => [[], { visits: 0, messages: 0, projects: 0 }]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const projectToEdit = params.editId
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ? (projects as any[]).find(p => p.id === params.editId)

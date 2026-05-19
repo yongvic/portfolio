@@ -107,7 +107,7 @@ const Works = ({ projects = staticProjects }: WorksProps) => {
       <div className='works'>
         <div className="works-header">
            <h1 id='projets'>Selected Works</h1>
-           <p className="works-subtitle">Création d'expériences digitales, identités de marque et applications SaaS.</p>
+           <p className="works-subtitle">Création d&apos;expériences digitales, identités de marque et applications SaaS.</p>
         </div>
         
         <div className="container-works">
