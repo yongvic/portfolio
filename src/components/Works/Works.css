@@ -1,264 +1,288 @@
-
-
+/* -------------------------------------------
+   NOUVEAU CSS SECTION PROJETS "WAOUH"
+---------------------------------------------- */
 .works {
   position: relative;
   width: 100%;
   min-height: 100svh;
   padding-bottom: 10rem;
+  overflow: hidden;
+  background-color: var(--light);
 }
 
-.works h1 {
-  font-family: var(--font-clash-display);
-  font-size: clamp(3rem, 5vw, 8rem);
+.works-header {
   text-align: center;
-  margin-bottom: 1.3rem;
-  transform: translateY(calc((1 - var(--title-opacity)) * 20px));
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  text-transform: uppercase;
-}
-
-.works .container-works {
-  width: 100%;
+  padding-top: 10rem;
+  margin-bottom: 8rem;
   display: flex;
   flex-direction: column;
-  gap: 10rem;
-}
-
-.works .container-works .works1 {
-  display: flex;
-  width: 95%;
-  gap: 2rem;
-  margin: auto;
-  min-height: 600px;
-}
-
-.works1-left {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  flex: 1;
-}
-
-.works1 .img-left {
-  height: 500px;
-  width: 100%;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.3s ease;
-}
-
-.works1 .img-left:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-}
-
-.works1-right {
-  height: 800px;
-  width: 100%;
-  flex: 1;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.3s ease;
-}
-
-.works1-right:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-}
-
-.works img {
-  width: 100%;
-  height: 100%;
-  will-change: transform;
-  object-fit: cover;
-  display: block;
-}
-
-.work-desc {
-  flex: 1;
-  width: 100%;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
   gap: 1rem;
 }
 
-.work-desc p {
+.works-header h1 {
+  font-family: var(--font-clash-display);
+  font-size: clamp(3.5rem, 8vw, 8rem);
+  text-transform: uppercase;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--dark);
+}
+
+.works-subtitle {
   font-family: var(--font-generale-sans);
-  font-size: clamp(1.1rem, 2.5vw, 2.5rem);
-  transition: color 0.8s ease;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  opacity: 0.6;
+  max-width: 600px;
+  text-align: center;
 }
 
-.works .learn-more {
-  font-family: var(--font-aeonik);
-  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-  opacity: 0.7;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-  position: relative;
-  mix-blend-mode: difference;
-}
-.work-desc p{
-  font-size: clamp(0.8rem, 4vw, 1.5rem);
-}
-.work-desc .opa_desc{
-  opacity: 0.7;
-}
-
-.work-desc p .work-title {
-  font-optical-sizing: auto;
-  font-size: clamp(2rem, 2.8vw, 3.4rem);
-}
-
-.work-desc .work-title-block {
+.container-works {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  gap: 15rem; /* Grand espace respiratoire entre les projets */
 }
-.link{
-  position: relative;
+
+/* Grille Asymétrique Alternée */
+.works-project {
   display: flex;
   justify-content: space-between;
+  align-items: stretch;
+  width: 90%;
+  margin: 0 auto;
+  gap: 5rem;
+  min-height: 600px;
+}
+
+/* Bloc Texte */
+.works-text {
+  flex: 0 0 35%; /* Prend 35% de la largeur */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  position: relative;
+}
+
+.work-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem;
+  opacity: 0.5;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.work-title {
+  font-size: clamp(2.5rem, 4vw, 4.5rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.work-excerpt {
+  font-family: var(--font-generale-sans);
+  font-size: clamp(1rem, 1.2vw, 1.3rem);
+  opacity: 0.7;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+/* Tags de technologies */
+.work-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: 2rem;
+}
+
+.tech-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  padding: 0.4em 0.8em;
+  border-radius: 2em;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.03);
+  color: var(--dark);
+  text-transform: uppercase;
+}
+
+/* Boutons / Liens */
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: max-content;
+  cursor: pointer;
+}
+
+.pink1 {
+  width: 2.2em;
+  height: 2.2em;
+  border-radius: 2em;
+  background-color: var(--accent1);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -0.6em;
+  z-index: 0;
+}
+
+.learn-more, .button-arrow {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-aeonik);
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  letter-spacing: 1.5px;
+  mix-blend-mode: difference;
+  color: white; /* Forcé en blanc pour le mix-blend d'inversion */
+  text-transform: uppercase;
+}
+
+.button-arrow {
+  margin-left: 0.8em;
+  display: flex;
   align-items: center;
 }
 
-.pink1{
-    width: 2em;
-    height: 2em;
-    border-radius: 2em;
-    background-color: var(--accent1);
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: -0.65em;
-}
-.button-arrow{
+/* Container de l'image (WAOUH Hover effect) */
+.works-image-wrapper {
+  flex: 0 0 55%; /* Prend 55% de la largeur */
   position: relative;
-  left: 0.18em;
-  top: 0.08em;
-  mix-blend-mode: difference;
-  opacity: 0.7;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+  will-change: transform;
 }
-.button-arrow{
-  margin-left: 0.5em;
+
+.works-image-inner {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
-/*
-   RESPONSIVE - TABLET */
+
+.works-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+}
+
+/* L'effet Overlay "Voir" sur le Hover */
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  backdrop-filter: blur(4px);
+}
+
+.image-overlay span {
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  padding: 1rem 2rem;
+  font-family: var(--font-clash-display);
+  text-transform: uppercase;
+  border-radius: 100px;
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  opacity: 0;
+}
+
+/* Les intéractions de survol ! */
+.works-image-wrapper:hover {
+  transform: scale(0.98);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.works-image-wrapper:hover img {
+  transform: scale(1.05); /* L'image zoome pendant que le wrapper dézoome */
+}
+
+.works-image-wrapper:hover .image-overlay {
+  opacity: 1;
+}
+
+.works-image-wrapper:hover .image-overlay span {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Survol global des projets (floutage des inactifs) */
+/* Astuce CSS ultra premium : Quand on hover sur "container-works", on floute TOUS les projets sauf celui survolé */
+.container-works:hover .works-project {
+  opacity: 0.3;
+  filter: blur(3px);
+  transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.container-works .works-project:hover {
+  opacity: 1;
+  filter: blur(0px);
+}
+
+
+/* -----------------------------------
+   RESPONSIVE
+-------------------------------------- */
+
 @media (max-width: 1024px) {
-
-  .works1-right{
-    display: none;
-  }
-  .pink1{
-    display: none;
-  }
-  .works .container-works {
-    gap: 6rem;
-  }
-
-  .works .container-works .works1 {
-    flex-direction: column;
-    min-height: auto;
-    gap: 2rem;
-  }
-
-  .works1 .img-left {
-    height: 400px;
-  }
-
-  .works1-right {
-    height: 500px;
+  .works-header { margin-bottom: 5rem; padding-top: 5rem;}
+  .container-works { gap: 8rem; }
+  .works-project { gap: 3rem; }
+  .works-text { flex: 0 0 40%; }
+  .works-image-wrapper { flex: 0 0 50%; }
+  .works-project.odd .works-text,
+  .works-project.even .works-text {
+      order: 2; /* Force text to appear on bottom on smaller screens later */
   }
 }
 
-/*RESPONSIVE - MOBILE*/
 @media (max-width: 768px) {
-  .works .container-works {
-    gap: 4rem;
+  .works-project {
+      flex-direction: column !important;
+      align-items: center;
+      gap: 3rem;
   }
-
-  .works .container-works .works1 {
-    width: 90%;
-    gap: 1.5rem;
+  .works-text, .works-image-wrapper {
+      flex: 0 0 auto;
+      width: 100%;
   }
-
-  .works1-left {
-    gap: 1.5rem;
+  .works-image-wrapper {
+      height: 450px;
   }
-
-  .works1 .img-left {
-    height: 300px;
-  }
-
-  .works1-right {
-    height: 400px;
-  }
-
-  .work-desc {
-    gap: 1.5rem;
-  }
-
-
-  .link {
-    padding: 0.7em 1.5em;
-  }
-
-  .button-arrow {
-    margin-left: 0.3em;
-    font-size: 0.9em;
+  .image-overlay { display: none; } /* Désactiver l'overlay complexe sur mobile */
+  
+  /* Supprimer l'effet de blur global sur mobile (trop gourmand en perfs) */
+  .container-works:hover .works-project {
+    opacity: 1;
+    filter: blur(0px);
   }
 }
 
-/* 
-   RESPONSIVE - SMALL MOBILE */
 @media (max-width: 480px) {
-  .works {
-    padding: 0 0.5rem;
-  }
-
-  .works h1 {
-    font-size: clamp(1.8rem, 10vw, 2.5rem);
-    margin-bottom: 1.5rem;
-  }
-
-  .works .container-works {
-    gap: 3rem;
-  }
-
-  .works .container-works .works1 {
-    width: 95%;
-  }
-
-  .works1 .img-left {
-    height: 250px;
-  }
-
-  .works1-right {
-    height: 350px;
-  }
-
-
-  .link {
-    padding: 0.6em 1.3em;
-  }
-
+  .works-header { margin-bottom: 3rem; }
+  .works-header h1 { font-size: clamp(2.5rem, 10vw, 3.5rem); }
+  .works-image-wrapper { height: 350px; border-radius: 8px;}
+  .work-title { font-size: 2.2rem; }
+  .container-works { gap: 5rem; }
+  
   .pink1 {
-    width: 1.8em;
-    height: 1.8em;
-  }
-}
-
-/* Désactiver les animations hover sur mobile */
-@media (hover: none) {
-  .works1 .img-left:hover,
-  .works1-right:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  }
-
-  .link:hover {
-    transform: scale(1);
-  }
-
-  .link:hover .button-arrow {
-    transform: translateX(0);
+      width: 1.8em;
+      height: 1.8em;
+      left: -0.4em;
   }
 }

@@ -250,6 +250,7 @@ export const staticProjects: UiProject[] = [
     description:
       "Véritable application e-commerce multi-vendeurs avec gestion de panier, paiement, espace administrateur sécurisé (Datatables, KPI), authentification JWT jose ultra-sécurisée et RBAC via enums SQL.",
     coverImage: "/execly.png",
+    projectUrl: "https://execly-ashy.vercel.app",
     category: "Web",
     technologies: ["Next.js", "TypeScript", "Tailwind v4", "Prisma", "PostgreSQL", "Jose JWT"],
     repository: "https://github.com/yongvic/execly",
@@ -330,7 +331,7 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#FFB703",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/KYA.png",
+      hero: "/kya_marketplace.png",
       desktop: "/KYA.png",
       mobile: "/KYA.png",
       details: ["/KYA.png", "/kya_marketplace.png"],
