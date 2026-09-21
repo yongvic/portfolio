@@ -1,0 +1,45 @@
+.admin-shell {
+  --admin-bg: #09090b;
+  --admin-surface: #18181b;
+  --admin-line: rgba(255, 255, 255, 0.08);
+  --admin-text: #fafafa;
+  --admin-muted: #a1a1aa;
+  --admin-faint: #71717a;
+  --admin-accent: #d7fb61;
+  --admin-danger: #f43f5e;
+  --admin-radius: 12px;
+  min-height: 100svh;
+  background: var(--admin-bg);
+  color: var(--admin-muted);
+}
+
+.admin-shell :focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #09090b, 0 0 0 4px #d7fb61;
+}
+
+.admin-bottom-nav {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+.admin-input {
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #18181b;
+  padding: 0.7rem 1rem;
+  color: #fafafa;
+  font-size: 0.875rem;
+}
+
+input[type="search"].admin-input,
+input[type="search"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+textarea.admin-input {
+  min-height: 0;
+  resize: vertical;
+}
