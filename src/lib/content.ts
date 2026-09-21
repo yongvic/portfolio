@@ -22,6 +22,10 @@ export const profile = {
   site: "young-vic.vercel.app",
   heroTagline:
     "Je conçois des identités visuelles et des expériences web premium avec une exigence studio internationale.",
+  heroTaglineLines: [
+    "Je conçois des identités visuelles et des expériences web premium",
+    "avec une exigence studio internationale.",
+  ],
   intro:
     "Étudiant en Bachelor 2 Systèmes d'Information, je combine direction artistique, UX/UI et développement Next.js pour transformer des idées en produits digitaux élégants, performants et sécurisés.",
   languages: ["Français", "Anglais"],

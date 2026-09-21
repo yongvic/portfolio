@@ -27,13 +27,9 @@ const Hero = () => {
     
     const firstnameSplit = new SplitText(firstnameRef.current, { type: 'chars' })
     const lastnameSplit = lastnameRef.current ? new SplitText(lastnameRef.current, { type: 'chars' }) : null
-    const jobSplit = new SplitText(jobRef.current, { type: 'chars' })
-    const messageSplit = new SplitText(messageRef.current, { type: 'chars' })
 
     const chars = [
       firstnameSplit.chars,
-      jobSplit.chars,
-      messageSplit.chars,
       ...(lastnameSplit ? [lastnameSplit.chars] : []),
     ]
 
@@ -42,6 +38,10 @@ const Hero = () => {
       yPercent: 120,
       rotationX: -90,
       transformOrigin: '50% 100%',
+    })
+    gsap.set([jobRef.current, messageRef.current], {
+      opacity: 0,
+      y: 18,
     })
 
     const tl = gsap.timeline({ delay: 0.3 })
@@ -66,29 +66,23 @@ const Hero = () => {
       }, '-=0.8')
     }
 
-    tl.to(jobSplit.chars, {
-      opacity: 1,
-      yPercent: 0,
-      rotationX: 0,
-      duration: 1,
-      stagger: 0.02,
+    tl.to(jobRef.current, {
+      opacity: 0.72,
+      y: 0,
+      duration: 0.8,
       ease: 'power3.out',
     }, '-=0.9')
 
-    tl.to(messageSplit.chars, {
-      opacity: 1,
-      yPercent: 0,
-      rotationX: 0,
-      duration: 1,
-      stagger: 0.02,
+    tl.to(messageRef.current, {
+      opacity: 0.72,
+      y: 0,
+      duration: 0.8,
       ease: 'power3.out',
-    }, '-=0.8')
+    }, '-=0.7')
 
     return () => {
       firstnameSplit.revert()
       lastnameSplit?.revert()
-      jobSplit.revert()
-      messageSplit.revert()
     }
   }, [showContent])
 
@@ -122,7 +116,11 @@ const Hero = () => {
         <div className="hero-container">
           <div className="presente">
             <h3 className='myjob' translate="no" ref={jobRef}>{profile.role}</h3>
-            <h4 className='mymessage' translate="no" ref={messageRef}>{profile.heroTagline}</h4>          
+            <h4 className='mymessage' translate="no" ref={messageRef}>
+              {(profile.heroTaglineLines ?? [profile.heroTagline]).map((line) => (
+                <span className="mymessage-line" key={line}>{line}</span>
+              ))}
+            </h4>          
           </div>
           <div className="hero-name">
             <h1>
