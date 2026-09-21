@@ -147,6 +147,16 @@ export default function Navbar() {
 
     toggleMenuRef.current = toggleMenu;
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && menuOpenRef.current) {
+        toggleMenu();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    cleanupFunctionsRef.current.push(() => {
+      window.removeEventListener("keydown", handleKeyDown);
+    });
+
     const handleNavToggleClick = () => toggleMenu();
     navtoggle?.addEventListener("click", handleNavToggleClick);
     cleanupFunctionsRef.current.push(() => {
@@ -432,14 +442,20 @@ useEffect(() => {
       <NavAreaClickSound />
       <div className="navbar-wrapper">
         <AnimatedWords  isMenuOpen={isBurgerOpen} />
-        <nav>
+        <nav aria-label="Navigation principale">
           <div className="nav-left">
-            <div className="nav-toggle" aria-label={isBurgerOpen ? "Close menu" : "Open menu"}>
+            <button
+              type="button"
+              className="nav-toggle"
+              aria-label={isBurgerOpen ? "Fermer le menu de navigation" : "Ouvrir le menu de navigation"}
+              aria-expanded={isBurgerOpen}
+              aria-controls="navigation-overlay"
+            >
               <div className={`burger ${isBurgerOpen ? "open" : ""}`}>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
               </div>
-            </div>
+            </button>
           </div>
 
           <div className="nav-center">
@@ -457,7 +473,13 @@ useEffect(() => {
           </div>
         </nav>
 
-        <div className="menu-overlay">
+        <div
+          id="navigation-overlay"
+          className="menu-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu plein écran"
+        >
           <div className="menu-content">
             {menuColumns.map((col, colIndex) => (
               <div className="menu-col" key={colIndex}>

@@ -12,6 +12,10 @@ interface TransitionLinkProps {
   smoothScroll?: boolean;
   scrollDuration?: number;
   scrollOffset?: number;
+  title?: string;
+  "aria-label"?: string;
+  target?: string;
+  rel?: string;
 }
 
 export function TransitionLink({ 
@@ -20,7 +24,11 @@ export function TransitionLink({
   className,
   smoothScroll = true,
   scrollDuration = 1.2,
-  scrollOffset = 80
+  scrollOffset = 80,
+  title,
+  "aria-label": ariaLabel,
+  target,
+  rel
 }: TransitionLinkProps) {
   const { navigateWithTransition } = usePageTransition();
   const lenis = useLenis();
@@ -155,14 +163,30 @@ export function TransitionLink({
 
   if (href.startsWith("#") || href.startsWith("http")) {
     return (
-      <a href={href} onClick={handleClick} className={className}>
+      <a
+        href={href}
+        onClick={handleClick}
+        className={className}
+        title={title}
+        aria-label={ariaLabel}
+        target={target}
+        rel={rel}
+      >
         {children}
       </a>
     );
   }
 
   return (
-    <Link href={href} onClick={handleClick} className={className}>
+    <Link
+      href={href}
+      onClick={handleClick}
+      className={className}
+      title={title}
+      aria-label={ariaLabel}
+      target={target}
+      rel={rel}
+    >
       {children}
     </Link>
   );

@@ -65,8 +65,8 @@ img{
     position: relative;
     overflow: hidden;
 
-    width: clamp(90px, 25vw, 130px);
-    height: 45px;
+    width: clamp(120px, 25vw, 160px);
+    height: 48px;
 
     border: none;
     border-radius: 1em;
@@ -74,7 +74,7 @@ img{
     background: var(--dark);
     cursor: pointer;
 
-    font-family: var(--font-general-sans);
+    font-family: var(--font-generale-sans);
     font-size: 1rem;
 
     will-change: transform;
@@ -100,8 +100,9 @@ img{
     z-index: 1;
     display: inline-flex;
     transition: transform 0.4s ease;
-    font-size: clamp(0.6rem, 3.5vw, 0.88rem);
-    font-family: var(--font-general-sans);
+    font-size: clamp(0.75rem, 3.5vw, 0.95rem);
+    font-family: var(--font-generale-sans);
+    font-weight: 600;
 }
 .fill-btn:hover .text {
     transform: translateX(2px);
@@ -120,65 +121,25 @@ img{
 .fill-btn:hover .char {
     color: black;
 }
-
-/* DÉCALAGE LETTRE PAR LETTRE */
-.fill-btn .char {
-    transition-delay: calc(var(--i) * 0.04s);
-}
-
 .img_inversed{
     position: relative;
-    width: 22vw;
-    height: 55svh;
 }
-.sign {
+.img_inversed .sign{
     position: absolute;
-    top: 1.2rem;
-    left: 1.2rem;
-
-    width: 45%;
-    height: auto;
-
-    z-index: 3;
-    pointer-events: none;
-    transform: rotate(-15deg);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
 }
-.magnetic-btn {
-    will-change: transform;
-    pointer-events: auto !important; /* Force l'interaction */
-    cursor: pointer;
-}
-.magnetic-btn:hover {
-    transform: scale(1.05);
-}
-
-@media (max-width: 1000px){
-    .about-content1{
-        flex-direction: column-reverse;
-        gap: 3rem;
-        padding: 0 2rem;
-    }
-    .img_inversed, .inversion-lens{
-        width: 40vw;
-        height: 30svh;
-    }
-    .about-me-description{
-        align-items: center;
-        text-align: center;
-    }
-    .about-container{
-    margin-top: 0vh;
-}
-}
-@media (max-width: 500px){
-    .img_inversed, .inversion-lens{
-        width: 48vw;
-        height: 30svh;
-    }
-    .sign {
-    top: 0.8rem;
-    left: -0.6rem;
-
-    width: 55%;
-}
+@media (max-width: 768px) {
+  .about-content1 {
+    flex-direction: column-reverse;
+    padding: 0 1.5rem;
+    gap: 3rem;
+  }
+  .inversion-lens {
+    width: 80vw;
+    height: 45vh;
+  }
 }

@@ -7,6 +7,7 @@
     "build": "npm run prisma:generate && npm run db:push && npm run db:seed && next build --turbopack",
     "start": "next start",
     "lint": "eslint",
+    "postinstall": "prisma generate",
     "prisma:generate": "npm exec prisma generate",
     "db:push": "npm exec prisma db push",
     "db:seed": "node prisma/seed.mjs"

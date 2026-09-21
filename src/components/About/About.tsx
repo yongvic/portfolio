@@ -91,32 +91,26 @@ const About = () => {
   }, []);
 
   const handleContactClick = () => {
-    const email = profile.email;
-    const subject = "Demande de collaboration";
-    const body = `Bonjour Edo,
-
-Je vous contacte suite à la consultation de votre portfolio.
-
-J'aimerais discuter d'un projet/collaboration avec vous.
-
-Cordialement,
-[Votre Nom]`;
-
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    window.open(gmailUrl, "_blank");
+    const contactEl = document.getElementById("contact");
+    if (contactEl) {
+      contactEl.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = `mailto:${profile.email}`;
+    }
   };
 
   return (
-    <div className="about-container">
-      <h1 className='about-title' id="a-propos">À propos</h1>
+    <section className="about-container" aria-label="À propos de moi">
+      <h1 className="about-title" id="a-propos">
+        À propos
+      </h1>
 
       <div className="about-content1">
         <div className="about-me-description">
           <AnimatedCopy>
             <p>{profile.intro}</p>
           </AnimatedCopy>
-          
+
           <AnimatedCopy>
             <p>
               Je privilégie une <span>direction artistique</span> nette, une <span>UX</span> claire et
@@ -124,13 +118,13 @@ Cordialement,
               automatisation et développement Next.js pour livrer des produits prêts à être déployés.
             </p>
           </AnimatedCopy>
-          
-          <button 
-          translate="no"
-            ref={buttonRef} 
+
+          <button
+            translate="no"
+            ref={buttonRef}
             className="magnetic-btn fill-btn"
             onClick={handleContactClick}
-            aria-label="Me contacter par email"
+            aria-label="Accéder au formulaire de contact et brief"
           >
             <span className="fill-bg"></span>
             <span className="text">
@@ -142,14 +136,13 @@ Cordialement,
             </span>
           </button>
         </div>
-        
+
         <div className="img_inversed">
           <Signature className="sign" ref={svgRef} color="#d7fb61" />
-
-          <InversionLens src="/moi.png" className="inversion-lens"/>
+          <InversionLens src="/moi.png" className="inversion-lens" />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

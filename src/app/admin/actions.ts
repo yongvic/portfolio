@@ -6,13 +6,13 @@ import { prisma } from "@/lib/prisma";
 
 const projectSchema = z.object({
   id: z.string().optional(),
-  title: z.string().min(3, "Titre trop court"),
-  slug: z.string().min(3, "Slug trop court"),
-  excerpt: z.string().min(10, "Résumé trop court"),
-  description: z.string().min(20, "Description trop courte"),
-  coverImage: z.string().min(3, "Image requise"),
+  title: z.string().min(3, "Titre trop court (minimum 3 caractères)"),
+  slug: z.string().min(3, "Identifiant URL trop court (minimum 3 caractères)"),
+  excerpt: z.string().min(10, "Résumé trop court (minimum 10 caractères)"),
+  description: z.string().min(20, "Description trop courte (minimum 20 caractères)"),
+  coverImage: z.string().min(3, "URL de l'image de couverture requise"),
   category: z.string().min(2, "Catégorie requise"),
-  technologies: z.string().min(2, "Technos requises"),
+  technologies: z.string().min(2, "Technologies requises (séparées par virgules)"),
   projectUrl: z.string().optional(),
   repository: z.string().optional(),
   sortOrder: z.coerce.number().int().min(0).default(0),
@@ -24,7 +24,7 @@ const testimonialSchema = z.object({
   name: z.string().min(2, "Nom requis"),
   role: z.string().min(2, "Rôle requis"),
   company: z.string().optional(),
-  quote: z.string().min(10, "Citation trop courte"),
+  quote: z.string().min(10, "Témoignage trop court"),
 });
 
 export type ActionState = {
@@ -63,7 +63,7 @@ export async function upsertProjectAction(
   try {
     await checkAuth(formData);
   } catch {
-    return { success: false, message: "Accès non autorisé" };
+    return { success: false, message: "Accès non autorisé : clé admin invalide." };
   }
 
   const raw = {
@@ -86,7 +86,7 @@ export async function upsertProjectAction(
   if (!parsed.success) {
     return {
       success: false,
-      message: "Erreur de validation",
+      message: "Erreur de validation du formulaire",
       errors: parsed.error.flatten().fieldErrors,
     };
   }
@@ -124,11 +124,11 @@ export async function upsertProjectAction(
       await prisma.project.create({ data: payload });
       revalidatePath("/");
       revalidatePath("/admin");
-      return { success: true, message: "Projet créé avec succès" };
+      return { success: true, message: "Nouveau projet publié avec succès" };
     }
   } catch (error) {
     console.error(error);
-    return { success: false, message: "Erreur lors de l'enregistrement" };
+    return { success: false, message: "Erreur lors de l'enregistrement en base de données" };
   }
 }
 
@@ -143,16 +143,16 @@ export async function deleteProjectAction(
   }
 
   const id = formData.get("id") as string;
-  if (!id) return { success: false, message: "ID manquant" };
+  if (!id) return { success: false, message: "Identifiant du projet manquant" };
 
   try {
     await prisma.project.delete({ where: { id } });
     revalidatePath("/");
     revalidatePath("/admin");
-    return { success: true, message: "Projet supprimé" };
+    return { success: true, message: "Projet supprimé définitivement" };
   } catch (error) {
     console.error(error);
-    return { success: false, message: "Erreur lors de la suppression" };
+    return { success: false, message: "Erreur lors de la suppression du projet" };
   }
 }
 
@@ -196,7 +196,7 @@ export async function markMessageReadAction(
       data: { isRead },
     });
     revalidatePath("/admin");
-    return { success: true, message: isRead ? "Marqué comme lu" : "Marqué comme non lu" };
+    return { success: true, message: isRead ? "Message marqué comme lu" : "Message marqué comme non lu" };
   } catch (error) {
     console.error(error);
     return { success: false, message: "Erreur lors de la mise à jour" };
@@ -244,12 +244,14 @@ export async function upsertTestimonialAction(
         where: { id: parsed.data.id as string },
         data: payload,
       });
+      revalidatePath("/");
       revalidatePath("/admin");
       return { success: true, message: "Témoignage mis à jour" };
     } else {
       await prisma.testimonial.create({ data: payload });
+      revalidatePath("/");
       revalidatePath("/admin");
-      return { success: true, message: "Témoignage ajouté" };
+      return { success: true, message: "Témoignage créé" };
     }
   } catch (error) {
     console.error(error);
@@ -270,6 +272,7 @@ export async function deleteTestimonialAction(
   const id = formData.get("id") as string;
   try {
     await prisma.testimonial.delete({ where: { id } });
+    revalidatePath("/");
     revalidatePath("/admin");
     return { success: true, message: "Témoignage supprimé" };
   } catch (error) {

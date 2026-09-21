@@ -1,235 +1,337 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import "./Footer.css";
 import { TechLogos } from "../techlogo/TechLogos";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { profile } from "@/lib/content";
+import { profile, socialLinks } from "@/lib/content";
 import Signature from "../Signature/Signature";
+import { submitContactMessageAction } from "@/app/contact/actions";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Regex email
+const AVAILABLE_SERVICES = [
+  "Direction Artistique & Branding",
+  "UI/UX Design & Figma",
+  "Développement Web Next.js / SaaS",
+  "Automatisation n8n & Workflows",
+];
 
-const EMAIL_REGEX =
-  /^[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]{2,255}\.[a-zA-Z]{2,}$/;
+const TIMELINE_OPTIONS = [
+  "Urgent (< 2 semaines)",
+  "1 à 2 mois",
+  "3 mois et plus",
+  "Conseil / Audit ponctuel",
+];
 
-const MAX_EMAIL_LENGTH = 60;
-
-const Footer = () => {
+export default function Footer() {
   const svgRef = useRef<SVGSVGElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  // États du formulaire de brief
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedTimeline, setSelectedTimeline] = useState<string>("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "error" | "success">("idle");
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
 
-  const isValidEmail = EMAIL_REGEX.test(email);
+  const [feedback, setFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [isPending, startTransition] = useTransition();
 
-  // Fonction pour valider et retourner un message d'erreur spécifique
-  const getEmailError = (value: string): string => {
-    if (value.length === 0) return "";
-    if (!value.includes("@")) return "L'email doit contenir @";
-    if (value.startsWith("@")) return "L'email ne peut pas commencer par @";
-    if (value.endsWith("@")) return "L'email est incomplet";
-    if (!value.includes(".")) return "Ajoute un domaine (.com, .fr, etc.)";
-    if (value.split("@").length > 2) return "Un seul @ est autorisé";
-    const [local, domain] = value.split("@");
-    if (local.length === 0) return "Ajoute un texte avant @";
-    if (domain.length === 0) return "Ajoute un domaine après @";
-    if (!domain.includes(".")) return "Le domaine doit contenir un point";
-    if (domain.endsWith(".")) return "L'email ne peut pas finir par un point";
-    if (domain.split(".").pop()!.length < 2) return "Extension de domaine trop courte";
-    if (!isValidEmail) return "Adresse email invalide";
-    return "";
-  };
-
-  /*GSAP*/
+  // Animation de la signature GSAP
   useEffect(() => {
-  if (!svgRef.current || !sectionRef.current) return;
+    if (!svgRef.current || !sectionRef.current) return;
 
-  const clipRect = svgRef.current.querySelector(".signature-clip-rect") as SVGRectElement | null;
-  if (!clipRect) return;
+    const clipRect = svgRef.current.querySelector(".signature-clip-rect") as SVGRectElement | null;
+    if (!clipRect) return;
 
-  const viewBoxWidth = svgRef.current.viewBox.baseVal.width || 0;
+    const viewBoxWidth = svgRef.current.viewBox.baseVal.width || 0;
 
-  gsap.set(clipRect, {
-    attr: { width: 0 },
-  });
+    gsap.set(clipRect, {
+      attr: { width: 0 },
+    });
 
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: sectionRef.current,
-      start: "top 10%",
-      once: true,
-    },
-  });
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 25%",
+        once: true,
+      },
+    });
 
-  tl.to(clipRect, {
-    attr: { width: viewBoxWidth },
-    duration: 1.8,
-    ease: "power2.out",
-  });
+    tl.to(clipRect, {
+      attr: { width: viewBoxWidth },
+      duration: 1.8,
+      ease: "power2.out",
+    });
 
-  return () => {
-    tl.kill(); // clean & suffisant
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
+  const toggleService = (srv: string) => {
+    setSelectedServices((prev) =>
+      prev.includes(srv) ? prev.filter((s) => s !== srv) : [...prev, srv]
+    );
   };
-}, []);
-// Tableau de dépendances vide pour exécuter une seule fois
 
-  /*formulaire */
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isValidEmail) {
-      setStatus("error");
+    if (!email || !email.includes("@")) {
+      setFeedback({ type: "error", text: "Veuillez renseigner une adresse email valide." });
+      return;
+    }
+    if (!name.trim()) {
+      setFeedback({ type: "error", text: "Veuillez renseigner votre nom ou entreprise." });
+      return;
+    }
+    if (!message.trim()) {
+      setFeedback({ type: "error", text: "Veuillez décrire brièvement votre besoin ou projet." });
       return;
     }
 
-    try {
-      setLoading(true);
-      setStatus("idle");
+    setFeedback(null);
 
-      const subject = "Demande de collaboration";
-      const body = `Bonjour Edo,
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("message", message);
+    formData.append("services", selectedServices.join(", "));
+    formData.append("timeline", selectedTimeline);
 
-Je vous contacte suite à la consultation de votre portfolio.
-
-Mon email : ${email}
-
-J'aimerais discuter d'un projet/collaboration avec vous.
-
-Cordialement,
-[Votre Nom]`;
-
-      window.open(
-        `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-        "_blank"
-      );
-
-      setStatus("success");
-      setEmail("");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      setStatus("error");
-    } finally {
-      setLoading(false);
-    }
+    startTransition(async () => {
+      const result = await submitContactMessageAction(null, formData);
+      if (result?.success) {
+        setFeedback({
+          type: "success",
+          text: result.message || "Message reçu avec succès ! Je reviens vers vous sous 24h.",
+        });
+        setName("");
+        setEmail("");
+        setMessage("");
+        setSelectedServices([]);
+        setSelectedTimeline("");
+      } else {
+        setFeedback({
+          type: "error",
+          text: result?.message || "Erreur lors de l'envoi. Vous pouvez me joindre sur WhatsApp ou par email direct.",
+        });
+      }
+    });
   };
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    
-    // Mise à jour du message d'erreur en temps réel
-    const error = getEmailError(value);
-    setErrorMessage(error);
-    
-    if (status !== "idle") {
-      setStatus("idle");
-    }
+  const handleWhatsAppDirect = () => {
+    const srvText = selectedServices.length ? selectedServices.join(", ") : "Projet digital";
+    const text = `Bonjour Edo, je vous contacte au sujet d'un projet (${srvText}). Mon nom est ${name || "un client potentiel"}.`;
+    window.open(`https://wa.me/22891480288?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   return (
-    <div className="say-hello"  ref={sectionRef}>
-      <h1 className="say-hello-title" >Dites bonjour !</h1>
+    <footer className="say-hello" id="contact" ref={sectionRef} aria-label="Contact et brief de projet">
+      <div className="contact-main-wrapper">
+        <div className="contact-header">
+          <span className="contact-eyebrow">Démarrer une collaboration</span>
+          <h2 className="say-hello-title">Parlons de votre prochain projet</h2>
+          <p className="contact-sub">
+            Disponible pour des projets de direction artistique, conception UI/UX et développement Next.js sur-mesure.
+          </p>
+        </div>
 
-      <div className="message">
-        <p>Construisons une expérience forte et mémorable ensemble.</p>
+        {/* Studio Brief Builder Form */}
+        <div className="brief-builder-container">
+          <form className="brief-form" onSubmit={handleSubmit} noValidate>
+            {/* Étape 1 : Services souhaités */}
+            <div className="form-step">
+              <label className="step-label">
+                <span>01</span> Quels services recherchez-vous ?
+              </label>
+              <div className="chips-grid" role="group" aria-label="Sélection des services">
+                {AVAILABLE_SERVICES.map((srv) => (
+                  <button
+                    key={srv}
+                    type="button"
+                    className={`chip-btn ${selectedServices.includes(srv) ? "selected" : ""}`}
+                    onClick={() => toggleService(srv)}
+                    aria-pressed={selectedServices.includes(srv)}
+                  >
+                    {srv}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-        <div style={{ position: "relative" }}>
-          <form className="email-container" onSubmit={handleSubmit} noValidate>
-            <input
-              type="email"
-              placeholder="Votre email"
-              value={email}
-              maxLength={MAX_EMAIL_LENGTH}
-              onChange={handleEmailChange}
-              aria-invalid={!isValidEmail && email.length > 0}
-              aria-describedby={status === "error" ? "email-error" : undefined}
-              required
-            />
+            {/* Étape 2 : Délais / Planning */}
+            <div className="form-step">
+              <label className="step-label">
+                <span>02</span> Quel est votre calendrier ?
+              </label>
+              <div className="chips-grid" role="group" aria-label="Sélection du calendrier">
+                {TIMELINE_OPTIONS.map((time) => (
+                  <button
+                    key={time}
+                    type="button"
+                    className={`chip-btn ${selectedTimeline === time ? "selected" : ""}`}
+                    onClick={() => setSelectedTimeline(selectedTimeline === time ? "" : time)}
+                    aria-pressed={selectedTimeline === time}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-            <button
-              className="send"
-              type="submit"
-              disabled={!isValidEmail || loading}
-              aria-busy={loading}
-            >
-              {loading ? "Envoi…" : "Envoyer"}
-            </button>
+            {/* Étape 3 : Coordonnées & Message */}
+            <div className="form-step">
+              <label className="step-label">
+                <span>03</span> Vos coordonnées & détails du besoin
+              </label>
+              <div className="inputs-grid">
+                <div className="input-group">
+                  <label htmlFor="contact-name">Nom & Entreprise</label>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    placeholder="Ex: Sophie Laurent — Agence Nova"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label htmlFor="contact-email">Adresse Email</label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    placeholder="Ex: sophie@agence-nova.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="input-group mt-4">
+                <label htmlFor="contact-message">Parlez-moi de votre vision ou objectif</label>
+                <textarea
+                  id="contact-message"
+                  rows={4}
+                  placeholder="Décrivez votre produit, vos attentes, vos liens d'inspiration..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Notification de statut */}
+            {feedback && (
+              <div
+                className={`feedback-banner ${feedback.type === "success" ? "success" : "error"}`}
+                role="status"
+              >
+                <span>{feedback.type === "success" ? "✓" : "⚠"}</span>
+                <p>{feedback.text}</p>
+              </div>
+            )}
+
+            {/* Actions de validation */}
+            <div className="form-actions-bar">
+              <button
+                type="submit"
+                className="btn-send-brief"
+                disabled={isPending}
+                aria-busy={isPending}
+              >
+                {isPending ? "Envoi du brief en cours..." : "Envoyer le brief projet →"}
+              </button>
+
+              <div className="direct-channels">
+                <button
+                  type="button"
+                  onClick={handleWhatsAppDirect}
+                  className="btn-channel-whatsapp"
+                >
+                  <TechLogos.Whatsapp />
+                  <span>Discussion WhatsApp Direct</span>
+                </button>
+
+                <a
+                  href={`mailto:${profile.email}?subject=Collaboration%20Portfolio`}
+                  className="btn-channel-email"
+                >
+                  <span>{profile.email}</span>
+                </a>
+              </div>
+            </div>
           </form>
+        </div>
 
-          <div style={{
-            position: "absolute",
-            top: "100%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            marginTop: "0.5rem",
-            whiteSpace: "nowrap",
-            minHeight: "1.5rem"
-          }}>
-            {status === "error" && (
-              <p id="email-error" className="form-error" role="alert" style={{ margin: 0 }}>
-                Envoi impossible. Réessaie.
-              </p>
-            )}
-
-            {errorMessage && status === "idle" && (
-              <p className="form-error" role="alert" style={{ margin: 0 }}>
-                {errorMessage}
-              </p>
-            )}
-
-            {status === "success" && (
-              <p className="form-success" role="status" style={{ margin: 0 }}>
-                Merci ! Je te réponds rapidement.
-              </p>
-            )}
+        {/* Liens Réseaux Sociaux & Contact Direct */}
+        <div className="say-hello-contact">
+          <div className="social-contact" aria-label="Réseaux sociaux">
+            <a
+              href={socialLinks.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Profil GitHub d'Edo Sokpa"
+              className="social-link"
+            >
+              <TechLogos.GitHub />
+            </a>
+            <a
+              href={socialLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Profil LinkedIn d'Edo Sokpa"
+              className="social-link"
+            >
+              <TechLogos.LinkedIn />
+            </a>
+            <a
+              href={socialLinks.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Contact WhatsApp direct"
+              className="social-link"
+            >
+              <TechLogos.Whatsapp />
+            </a>
           </div>
-        </div>
-      </div>
 
-      <div className="say-hello-contact">
-        <div className="social-contact">
-          <TechLogos.GitHub />
-          <TechLogos.LinkedIn />
-          <TechLogos.Whatsapp />
-        </div>
-
-        <div className="my-contact">
-          <p>{profile.email}</p>
-          <p>{profile.phone}</p>
-        </div>
-      </div>
-
-      <div className="say-name">
-        <div className="copyright-container">
-          <div className="copyright">
-            <TechLogos.brand />
-            <p>© {profile.name} | {new Date().getFullYear()}</p>
-          </div>
-          <div className="designed-by">
-            <p>design & développement par Edo Yawo</p>
+          <div className="my-contact">
+            <p className="contact-coord-title">Localisation & Fuseau</p>
+            <p className="contact-city">{profile.city} (GMT+0)</p>
+            <p className="contact-phone">{profile.phone}</p>
           </div>
         </div>
 
-        <div className="name-mask" id="contact">
-          <h1>
-            ED
-            <Signature
-              className="sign"
-              ref={svgRef}
-              color="#d7fb61"
-            />
-            O
-          </h1>
+        {/* Signature Finale & Copyright */}
+        <div className="say-name">
+          <div className="copyright-container">
+            <div className="copyright">
+              <TechLogos.brand />
+              <p>
+                © {profile.name} · {new Date().getFullYear()} — Tous droits réservés
+              </p>
+            </div>
+            <div className="designed-by">
+              <p>Direction artistique & ingénierie front-end par Edo Yawo Sokpa</p>
+            </div>
+          </div>
+
+          <div className="name-mask" aria-hidden="true">
+            <h1>
+              ED
+              <Signature className="sign" ref={svgRef} color="#d7fb61" />
+              O
+            </h1>
+          </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
-};
-
-export default Footer;
+}
