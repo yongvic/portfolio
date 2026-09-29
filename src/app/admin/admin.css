@@ -1,45 +1,436 @@
+/*
+ * Admin design tokens. Contrast ratios measured against --a-bg (#121212):
+ * text 17.0:1 · muted 9.5:1 · faint 5.7:1 (5.3:1 on --a-surface) · accent 15.9:1 ·
+ * danger-text 9.9:1 · white on --a-danger 4.7:1. Nothing dimmer than --a-faint is used for text.
+ */
+
+/* Same order as Tailwind declares; repeated so it holds whichever stylesheet loads first. */
+@layer theme, base, components, utilities;
+
 .admin-shell {
-  --admin-bg: #09090b;
-  --admin-surface: #18181b;
-  --admin-line: rgba(255, 255, 255, 0.08);
-  --admin-text: #fafafa;
-  --admin-muted: #a1a1aa;
-  --admin-faint: #71717a;
-  --admin-accent: #d7fb61;
-  --admin-danger: #f43f5e;
-  --admin-radius: 12px;
+  --a-bg: #121212;
+  --a-surface: #1a1a1e;
+  --a-raised: #222228;
+  --a-line: rgba(255, 255, 255, 0.1);
+  --a-line-strong: rgba(255, 255, 255, 0.2);
+  --a-text: #f4f4f5;
+  --a-muted: #b8b8bf;
+  --a-faint: #8e8e93;
+  --a-accent: #d7fb61;
+  --a-on-accent: #0d0d0e;
+  --a-danger: #e11d48;
+  --a-danger-text: #fda4af;
+  --a-warn-bg: rgba(250, 204, 21, 0.12);
+  --a-warn-text: #fde68a;
+
+  --a-r-sm: 8px;
+  --a-r-md: 14px;
+
+  --a-fs-meta: 0.8125rem; /* 13 */
+  --a-fs-body: 0.9375rem; /* 15 */
+  --a-fs-section: 1.0625rem; /* 17 */
+  --a-fs-screen: 1.75rem; /* 28 */
+
+  --a-target: 44px;
+  --a-target-main: 48px;
+
   min-height: 100svh;
-  background: var(--admin-bg);
-  color: var(--admin-muted);
+  background: var(--a-bg);
+  color: var(--a-muted);
+  font-family: var(--font-generale-sans, system-ui, sans-serif);
+  font-size: var(--a-fs-body);
+  line-height: 1.5;
 }
 
-.admin-shell :focus-visible {
+body:has(.admin-shell) {
+  background: #121212;
+}
+
+/* globals.css resets margin/padding outside any cascade layer, which beats every Tailwind
+   spacing utility. Hand spacing back to the layers; rules below still override. */
+.admin-shell,
+.admin-shell * {
+  margin: revert-layer;
+  padding: revert-layer;
+}
+
+.admin-shell *,
+.admin-shell *::before,
+.admin-shell *::after {
+  scroll-behavior: auto;
+}
+
+.admin-shell :focus-visible:not([tabindex="-1"]) {
+  outline: 2px solid var(--a-accent);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+.admin-shell [tabindex="-1"]:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #09090b, 0 0 0 4px #d7fb61;
+  box-shadow: none;
 }
 
-.admin-bottom-nav {
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+/* Components sit in a layer so Tailwind utilities on the same element can adjust them. */
+@layer components {
+/* ---------- Typography ---------- */
+.a-screen-title {
+  font-family: var(--font-clash-display, inherit);
+  font-size: var(--a-fs-screen);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--a-text);
+}
+.a-section-title {
+  font-size: var(--a-fs-section);
+  font-weight: 700;
+  color: var(--a-text);
+}
+.a-strong {
+  color: var(--a-text);
+}
+.a-meta {
+  font-size: var(--a-fs-meta);
+  color: var(--a-faint);
+}
+.a-brand {
+  font-family: var(--font-clash-display, inherit);
+  color: var(--a-text);
+  letter-spacing: 0.01em;
 }
 
-.admin-input {
+/* ---------- Buttons ---------- */
+.a-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: var(--a-target);
+  padding: 0 1rem;
+  border-radius: var(--a-r-sm);
+  font-size: var(--a-fs-body);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms, transform 80ms;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.a-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.a-btn:disabled,
+.a-btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.a-btn--main {
+  min-height: var(--a-target-main);
+}
+.a-btn--primary {
+  background: var(--a-accent);
+  color: var(--a-on-accent);
+}
+.a-btn--primary:hover:not(:disabled) {
+  background: #e4ff86;
+}
+.a-btn--secondary {
+  border: 1px solid var(--a-line-strong);
+  color: var(--a-text);
+}
+.a-btn--secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+}
+.a-btn--quiet {
+  color: var(--a-muted);
+  padding: 0 0.75rem;
+}
+.a-btn--quiet:hover:not(:disabled) {
+  color: var(--a-text);
+  background: rgba(255, 255, 255, 0.05);
+}
+.a-btn--danger {
+  background: var(--a-danger);
+  color: #fff;
+}
+.a-btn--danger-quiet {
+  color: var(--a-danger-text);
+  padding: 0 0.75rem;
+}
+.a-btn--danger-quiet:hover:not(:disabled) {
+  background: rgba(225, 29, 72, 0.12);
+}
+
+.a-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--a-target);
+  color: var(--a-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--a-line-strong);
+}
+.a-link:hover {
+  color: var(--a-text);
+}
+
+/* ---------- Forms ---------- */
+.a-field {
+  display: grid;
+  gap: 0.375rem;
+}
+.a-label {
+  font-weight: 600;
+  color: var(--a-text);
+}
+.a-label-note {
+  font-weight: 400;
+  color: var(--a-faint);
+}
+.a-hint {
+  font-size: var(--a-fs-meta);
+  color: var(--a-faint);
+}
+.a-error {
+  font-size: var(--a-fs-meta);
+  color: var(--a-danger-text);
+}
+.a-input {
   width: 100%;
-  min-height: 3rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #18181b;
-  padding: 0.7rem 1rem;
-  color: #fafafa;
-  font-size: 0.875rem;
+  min-height: var(--a-target-main);
+  border-radius: var(--a-r-sm);
+  border: 1px solid var(--a-line-strong);
+  background: var(--a-surface);
+  padding: 0.7rem 0.875rem;
+  color: var(--a-text);
+  font-size: 1rem; /* 16px prevents iOS zoom on focus */
 }
-
-input[type="search"].admin-input,
-input[type="search"] {
+.a-input::placeholder {
+  color: var(--a-faint);
+}
+.a-input[aria-invalid="true"] {
+  border-color: var(--a-danger-text);
+}
+textarea.a-input {
+  min-height: 0;
+  resize: vertical;
+  line-height: 1.55;
+}
+input[type="search"].a-input {
   -webkit-appearance: none;
   appearance: none;
 }
+.a-check {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  min-height: var(--a-target);
+  cursor: pointer;
+  padding: 0.625rem 0;
+}
+.a-check input {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.125rem;
+  accent-color: var(--a-accent);
+  flex-shrink: 0;
+}
 
-textarea.admin-input {
-  min-height: 0;
-  resize: vertical;
+/* ---------- Surfaces ---------- */
+.a-panel {
+  border: 1px solid var(--a-line);
+  border-radius: var(--a-r-md);
+  background: var(--a-surface);
+}
+.a-divide > * + * {
+  border-top: 1px solid var(--a-line);
+}
+
+.a-tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--a-line);
+}
+.a-tab {
+  min-height: var(--a-target);
+  padding: 0 0.875rem;
+  font-weight: 600;
+  color: var(--a-faint);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.a-tab[aria-current="true"] {
+  color: var(--a-text);
+  border-bottom-color: var(--a-accent);
+}
+
+.a-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 999px;
+  padding: 0.125rem 0.625rem;
+  font-size: var(--a-fs-meta);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.a-badge--new {
+  background: var(--a-accent);
+  color: var(--a-on-accent);
+}
+.a-badge--neutral {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--a-muted);
+}
+.a-badge--outline {
+  border: 1px solid var(--a-line-strong);
+  color: var(--a-muted);
+}
+
+.a-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  border-radius: var(--a-r-sm);
+  padding: 0.75rem 1rem;
+  font-size: var(--a-fs-body);
+}
+.a-banner--warn {
+  background: var(--a-warn-bg);
+  color: var(--a-warn-text);
+}
+.a-banner--danger {
+  background: rgba(225, 29, 72, 0.14);
+  color: var(--a-danger-text);
+}
+.a-banner--info {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--a-muted);
+}
+
+.a-row {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  min-height: 64px;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.a-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.a-row[aria-current="true"] {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 3px 0 0 var(--a-accent);
+}
+
+.a-thumb {
+  width: 64px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: var(--a-raised);
+  flex-shrink: 0;
+}
+
+/* ---------- Navigation ---------- */
+.a-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: var(--a-target);
+  padding: 0 0.75rem;
+  border-radius: var(--a-r-sm);
+  font-weight: 600;
+  color: var(--a-muted);
+}
+.a-nav-item:hover {
+  color: var(--a-text);
+  background: rgba(255, 255, 255, 0.05);
+}
+.a-nav-item[aria-current="page"] {
+  color: var(--a-text);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 3px 0 0 var(--a-accent);
+}
+
+.a-tabbar {
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--a-bg);
+  border-top: 1px solid var(--a-line);
+}
+.a-tabbar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  font-weight: 600;
+  color: var(--a-faint);
+  border-top: 2px solid transparent;
+}
+.a-tabbar-item[aria-current="page"] {
+  color: var(--a-text);
+  border-top-color: var(--a-accent);
+}
+
+.a-actionbar {
+  padding: 0.75rem 1rem max(0.75rem, env(safe-area-inset-bottom));
+  background: rgba(18, 18, 18, 0.96);
+  border-top: 1px solid var(--a-line);
+}
+.admin-shell input,
+.admin-shell textarea,
+.admin-shell select {
+  scroll-margin-bottom: 6.5rem;
+}
+
+/* ---------- Dialog & toast ---------- */
+.a-dialog {
+  margin: auto auto 0;
+  width: 100%;
+  max-width: 28rem;
+  border: 1px solid var(--a-line);
+  border-radius: var(--a-r-md) var(--a-r-md) 0 0;
+  background: var(--a-raised);
+  color: var(--a-muted);
+  padding: 1.25rem;
+  padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+}
+@media (min-width: 640px) {
+  .a-dialog {
+    margin: auto;
+    border-radius: var(--a-r-md);
+    padding-bottom: 1.25rem;
+  }
+}
+.a-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.a-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: var(--a-r-sm);
+  border: 1px solid var(--a-line-strong);
+  background: var(--a-raised);
+  color: var(--a-text);
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+.a-toast--error {
+  border-color: rgba(253, 164, 175, 0.5);
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-shell * {
+    transition: none !important;
+    animation: none !important;
+  }
 }
