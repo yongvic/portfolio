@@ -7,6 +7,7 @@ export const menuLinks: MenuLink[] = [
   { label: "Accueil", href: "/#accueil" },
   { label: "À propos", href: "/#a-propos" },
   { label: "Projets", href: "/projets" },
+  { label: "Identités", href: "/identites" },
   { label: "Compétences", href: "/#competences" },
   { label: "Contact", href: "/#contact" },
 ];

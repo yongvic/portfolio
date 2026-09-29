@@ -18,10 +18,21 @@ type WorksProps = {
   variant?: "featured" | "catalog";
 };
 
-type CategoryFilter = "ALL" | "WEB" | "GRAPHIC" | "AUTO";
+type CategoryFilter = "ALL" | "WEB" | "BRAND" | "GRAPHIC" | "AUTO";
+
+const CATEGORY_FILTERS: CategoryFilter[] = ["ALL", "WEB", "BRAND", "GRAPHIC", "AUTO"];
+
+const projectHref = (project: UiProject) => project.href ?? `/works/${project.slug}`;
 
 export default function Works({ projects = staticProjects, variant = "featured" }: WorksProps) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("ALL");
+
+  useEffect(() => {
+    const filter = new URLSearchParams(window.location.search).get("filtre")?.toUpperCase();
+    if (filter && (CATEGORY_FILTERS as string[]).includes(filter)) {
+      setSelectedCategory(filter as CategoryFilter);
+    }
+  }, []);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [quickViewProject, setQuickViewProject] = useState<UiProject | null>(null);
 
@@ -31,6 +42,7 @@ export default function Works({ projects = staticProjects, variant = "featured" 
   // Normalisation des catégories
   const getProjectFilterCategory = (p: UiProject): CategoryFilter => {
     const cat = (p.category || "").toLowerCase();
+    if (cat.includes("identit")) return "BRAND";
     if (cat.includes("graph") || cat.includes("brand") || cat.includes("design")) return "GRAPHIC";
     if (cat.includes("auto") || cat.includes("n8n") || cat.includes("bot")) return "AUTO";
     return "WEB";
@@ -70,6 +82,7 @@ export default function Works({ projects = staticProjects, variant = "featured" 
     return {
       ALL: projects.length,
       WEB: projects.filter((p) => getProjectFilterCategory(p) === "WEB").length,
+      BRAND: projects.filter((p) => getProjectFilterCategory(p) === "BRAND").length,
       GRAPHIC: projects.filter((p) => getProjectFilterCategory(p) === "GRAPHIC").length,
       AUTO: projects.filter((p) => getProjectFilterCategory(p) === "AUTO").length,
     };
@@ -152,7 +165,7 @@ export default function Works({ projects = staticProjects, variant = "featured" 
         <h1 className="works-title">{isCatalog ? "Tous les projets" : "Selected Works"}</h1>
         <p className="works-subtitle">
           {isCatalog
-            ? "SaaS, sites clients, automatisation et direction artistique — l'ensemble des livrables, filtrable par discipline."
+            ? "SaaS, sites clients, identités visuelles, automatisation et direction artistique — l'ensemble des livrables, filtrable par discipline."
             : "Quatre livrables récents. Le catalogue complet est sur une page dédiée, pour garder cet accueil lisible."}
         </p>
       </div>
@@ -179,6 +192,17 @@ export default function Works({ projects = staticProjects, variant = "featured" 
             <span>Web & SaaS</span>
             <span className="cat-count">{counts.WEB}</span>
           </button>
+          {counts.BRAND > 0 && (
+            <button
+              role="tab"
+              aria-selected={selectedCategory === "BRAND"}
+              className={`cat-tab ${selectedCategory === "BRAND" ? "active" : ""}`}
+              onClick={() => setSelectedCategory("BRAND")}
+            >
+              <span>Identités visuelles</span>
+              <span className="cat-count">{counts.BRAND}</span>
+            </button>
+          )}
           <button
             role="tab"
             aria-selected={selectedCategory === "GRAPHIC"}
@@ -282,7 +306,7 @@ export default function Works({ projects = staticProjects, variant = "featured" 
 
               {/* Barre d'actions du projet */}
               <div className="work-actions">
-                <TransitionLink href={`/works/${project.slug}`} className="btn-case-study">
+                <TransitionLink href={projectHref(project)} className="btn-case-study">
                   <div
                     className="link"
                     ref={(el) => {
@@ -344,8 +368,15 @@ export default function Works({ projects = staticProjects, variant = "featured" 
 
           const imageBlock = (
             <div className="works-image-wrapper">
-              <TransitionLink href={`/works/${project.slug}`} className="works-image-inner">
-                <ParallaxImage src={images.hero} alt={project.title} speed={0.15} />
+              <TransitionLink href={projectHref(project)} className="works-image-inner">
+                {project.coverBackground ? (
+                  <div className="works-logo-stage" style={{ background: project.coverBackground }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={project.coverImage} alt={`Logo ${project.title}`} draggable={false} />
+                  </div>
+                ) : (
+                  <ParallaxImage src={images.hero} alt={project.title} speed={0.15} />
+                )}
                 <div className="image-overlay">
                   <span>Ouvrir l&apos;étude de cas</span>
                 </div>
@@ -451,11 +482,14 @@ export default function Works({ projects = staticProjects, variant = "featured" 
               <p className="quickview-excerpt">{quickViewProject.description}</p>
             </div>
 
-            <div className="quickview-media">
+            <div
+              className="quickview-media"
+              style={quickViewProject.coverBackground ? { background: quickViewProject.coverBackground } : undefined}
+            >
               <img
                 src={quickViewProject.coverImage}
                 alt={quickViewProject.title}
-                className="quickview-img"
+                className={`quickview-img${quickViewProject.coverBackground ? " is-logo" : ""}`}
               />
             </div>
 
@@ -477,7 +511,7 @@ export default function Works({ projects = staticProjects, variant = "featured" 
 
             <div className="quickview-footer">
               <TransitionLink
-                href={`/works/${quickViewProject.slug}`}
+                href={projectHref(quickViewProject)}
                 className="btn-modal-primary"
               >
                 Lire l&apos;étude de cas complète →

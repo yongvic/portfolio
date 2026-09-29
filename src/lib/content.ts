@@ -11,6 +11,10 @@ export type UiProject = {
   repository?: string | null;
   views?: number;
   isFeatured?: boolean;
+  /** Lien de la page de cas quand elle n'est pas sous /works (ex. identités visuelles). */
+  href?: string;
+  /** Si défini, la couverture est un logo affiché en entier sur ce fond au lieu d'une image recadrée. */
+  coverBackground?: string;
 };
 
 export const profile = {
