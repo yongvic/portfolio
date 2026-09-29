@@ -179,6 +179,10 @@ export const brandIdentities: BrandIdentity[] = [
 
 export const IDENTITY_CATEGORY = "Identité visuelle";
 
+export function identityPlanche(slug: string) {
+  return `/identites/${slug}/planche.png`;
+}
+
 export type IdentityPlacement = {
   slug: string;
   isHidden: boolean;
@@ -199,15 +203,13 @@ export function visibleIdentities(settings: IdentityPlacement[]) {
 }
 
 export function identityToUiProject(identity: BrandIdentity): UiProject {
-  const cover = identity.variants[identity.coverVariant] ?? identity.variants[0];
   return {
     id: `identite-${identity.slug}`,
     slug: identity.slug,
     title: identity.name,
     excerpt: identity.excerpt,
     description: identity.story[0],
-    coverImage: cover.src,
-    coverBackground: cover.background,
+    coverImage: identityPlanche(identity.slug),
     category: IDENTITY_CATEGORY,
     technologies: [
       "Logo",

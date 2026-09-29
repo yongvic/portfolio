@@ -456,7 +456,7 @@ export default function ProjectEditor({ project, projects, categories, images, i
                     <img
                       src={values.coverImage.trim()}
                       alt="Aperçu de la couverture"
-                      className="aspect-[16/10] w-full max-w-sm rounded-lg bg-[var(--a-raised)] object-cover lg:hidden"
+                      className="aspect-square w-full max-w-sm rounded-lg bg-[var(--a-raised)] object-contain lg:hidden"
                       onError={() => setCoverBroken(true)}
                     />
                   )}
@@ -673,7 +673,7 @@ export default function ProjectEditor({ project, projects, categories, images, i
                 <img
                   src={values.coverImage.trim()}
                   alt="Aperçu de la couverture"
-                  className="aspect-[16/10] w-full bg-[var(--a-raised)] object-cover"
+                  className="aspect-square w-full bg-[var(--a-raised)] object-contain"
                   onError={() => setCoverBroken(true)}
                 />
               ) : (

@@ -8,12 +8,6 @@ body{
     overflow-x: hidden;
 }
 
-img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 .navbar-wrapper {
     width: 100%;
     max-width: 100vw;
@@ -272,13 +266,13 @@ nav p {
   .menu-link a span {
     font-size: clamp(2.2rem, 8vw, 3rem) !important;
   }
-      .nav-item .logo{
-        width: 68px;
-        height: 68px;
-    }
-    .time-container{
-      font-size: 0.6rem;
-    }
+  .nav-item .logo {
+    width: 56px;
+    height: 56px;
+  }
+  .time-container {
+    font-size: 0.6rem;
+  }
 }
 /*  burger menu    */
 .burger {

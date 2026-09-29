@@ -8,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
 import { TransitionLink } from "@/components/TransitionLink/TransitionLink";
-import type { BrandIdentity } from "@/lib/identities";
+import { identityPlanche, type BrandIdentity } from "@/lib/identities";
 import "./identites.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -72,7 +72,6 @@ export default function IdentitesClient({ identities }: IdentitesClientProps) {
 
         <section className="identites-grid" aria-label="Liste des identités visuelles">
           {identities.map((identity, index) => {
-            const cover = identity.variants[identity.coverVariant] ?? identity.variants[0];
             return (
               <TransitionLink
                 key={identity.slug}
@@ -80,12 +79,11 @@ export default function IdentitesClient({ identities }: IdentitesClientProps) {
                 className="identity-card"
                 aria-label={`Voir l'identité ${identity.name}`}
               >
-                <div className="identity-card-stage" style={{ background: cover.background }}>
+                <div className="identity-card-stage identity-card-stage--planche">
                   <Image
-                    src={cover.src}
-                    alt={`Logo ${identity.name}`}
-                    width={cover.width}
-                    height={cover.height}
+                    src={identityPlanche(identity.slug)}
+                    alt={`Planche ${identity.name}`}
+                    fill
                     sizes="(max-width: 900px) 90vw, 45vw"
                     className="identity-card-cover"
                     draggable={false}

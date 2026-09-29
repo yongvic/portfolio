@@ -162,6 +162,12 @@ export default function Works({
     >
       {/* En-tête de section */}
       <div className="works-header">
+        {isCatalog && (
+          <TransitionLink href="/" className="works-back">
+            <TechLogos.Arrowleft />
+            <span>Retour à l&apos;accueil</span>
+          </TransitionLink>
+        )}
         <span className="section-eyebrow">
           {isCatalog ? "Catalogue complet" : "Portfolio & Réalisations"}
         </span>

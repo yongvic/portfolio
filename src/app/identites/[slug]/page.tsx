@@ -7,7 +7,7 @@ import CharterViewer from "@/components/CharterViewer/CharterViewer";
 import { TransitionLink } from "@/components/TransitionLink/TransitionLink";
 import { TechLogos } from "@/components/techlogo/TechLogos";
 import { getIdentityPlacements } from "@/lib/db";
-import { brandIdentities, getBrandIdentity, placementOf, visibleIdentities } from "@/lib/identities";
+import { brandIdentities, getBrandIdentity, identityPlanche, placementOf, visibleIdentities } from "@/lib/identities";
 import "../identites.css";
 
 type IdentityPageProps = {
@@ -41,8 +41,6 @@ export default async function IdentityPage({ params }: IdentityPageProps) {
   const index = Math.max(0, visible.findIndex((item) => item.slug === slug));
   const prev = visible[(index - 1 + visible.length) % visible.length];
   const next = visible[(index + 1) % visible.length];
-  const cover = identity.variants[identity.coverVariant] ?? identity.variants[0];
-
   return (
     <>
       <Navbar />
@@ -82,12 +80,11 @@ export default async function IdentityPage({ params }: IdentityPageProps) {
               <CharterViewer brandName={identity.name} charter={identity.charter} accent={identity.accent} />
             )}
           </div>
-          <div className="identity-hero-stage" style={{ background: cover.background }}>
+          <div className="identity-hero-stage is-planche">
             <Image
-              src={cover.src}
-              alt={`Logo ${identity.name}`}
-              width={cover.width}
-              height={cover.height}
+              src={identityPlanche(identity.slug)}
+              alt={`Planche ${identity.name}`}
+              fill
               sizes="(max-width: 1000px) 90vw, 50vw"
               priority
               draggable={false}

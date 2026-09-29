@@ -4,7 +4,7 @@ import path from "path";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import AdminClient from "./AdminClient";
-import { brandIdentities, type IdentityPlacement } from "@/lib/identities";
+import { brandIdentities, identityPlanche, type IdentityPlacement } from "@/lib/identities";
 import type { Brief, Category, IdentityAdmin, Project } from "./model";
 
 type AdminPageProps = {
@@ -104,13 +104,12 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   }
 
   const identities: IdentityAdmin[] = brandIdentities.map((identity) => {
-    const cover = identity.variants[identity.coverVariant] ?? identity.variants[0];
     const setting = placements.find((item) => item.slug === identity.slug);
     return {
       slug: identity.slug,
       name: identity.name,
       excerpt: identity.excerpt,
-      coverImage: cover.src,
+      coverImage: identityPlanche(identity.slug),
       isHidden: setting?.isHidden ?? false,
       homeLane: setting?.homeLane ?? null,
     };

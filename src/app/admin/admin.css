@@ -327,10 +327,11 @@ input[type="search"].a-input {
 }
 
 .a-thumb {
-  width: 64px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   border-radius: 6px;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   background: var(--a-raised);
   flex-shrink: 0;
 }
