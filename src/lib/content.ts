@@ -11,6 +11,8 @@ export type UiProject = {
   repository?: string | null;
   views?: number;
   isFeatured?: boolean;
+  /** Onglet Selected Works : développement ou design. Vide = pas choisi explicitement. */
+  homeLane?: "dev" | "design" | null;
   /** Lien de la page de cas quand elle n'est pas sous /works (ex. identités visuelles). */
   href?: string;
   /** Si défini, la couverture est un logo affiché en entier sur ce fond au lieu d'une image recadrée. */
@@ -770,6 +772,7 @@ type ProjectAdapter = {
   projectUrl?: string | null;
   repository?: string | null;
   isFeatured?: boolean;
+  homeLane?: string | null;
   category?: { name: string } | null;
 };
 
@@ -786,5 +789,6 @@ export function projectToUi(project: ProjectAdapter): UiProject {
     projectUrl: project.projectUrl,
     repository: project.repository,
     isFeatured: project.isFeatured ?? false,
+    homeLane: project.homeLane === "dev" || project.homeLane === "design" ? project.homeLane : null,
   };
 }

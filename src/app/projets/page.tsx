@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { getProjects } from "@/lib/db";
-import { brandIdentities, identityToUiProject } from "@/lib/identities";
+import { getIdentityPlacements, getProjects } from "@/lib/db";
+import { identityToUiProject, visibleIdentities } from "@/lib/identities";
 import ProjetsClient from "./ProjetsClient";
 
 export const metadata: Metadata = {
@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjetsPage() {
-  const projects = await getProjects();
-  return <ProjetsClient projects={[...projects, ...brandIdentities.map(identityToUiProject)]} />;
+  const [projects, placements] = await Promise.all([getProjects(), getIdentityPlacements()]);
+  const identities = visibleIdentities(placements).map(identityToUiProject);
+  return <ProjetsClient projects={[...projects, ...identities]} />;
 }

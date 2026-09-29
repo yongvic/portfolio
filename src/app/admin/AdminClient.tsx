@@ -7,7 +7,7 @@ import type { AdminRoute } from "./admin-path";
 import { NEW_PROJECT } from "./admin-path";
 import { AdminLink, AdminNavProvider, BackLink, useAdminNav } from "./nav";
 import { EmptyState, ScreenHeader, ToastProvider, useActionFailure, useOnline, useToast } from "./ui";
-import type { Brief, Category, Project } from "./model";
+import type { Brief, Category, IdentityAdmin, Project } from "./model";
 import BriefsView from "./BriefsView";
 import ProjectsView from "./ProjectsView";
 import ProjectEditor from "./ProjectEditor";
@@ -18,6 +18,7 @@ type AdminClientProps = {
   briefs: Brief[];
   categories: Category[];
   images: string[];
+  identities: IdentityAdmin[];
   dataUnavailable: boolean;
 };
 
@@ -39,7 +40,7 @@ export type BriefActions = {
   pendingIds: ReadonlySet<string>;
 };
 
-function Shell({ adminKey, projects, briefs, categories, images, dataUnavailable }: AdminClientProps) {
+function Shell({ adminKey, projects, briefs, categories, images, identities, dataUnavailable }: AdminClientProps) {
   const { route, go } = useAdminNav();
   const router = useRouter();
   const toast = useToast();
@@ -191,7 +192,9 @@ function Shell({ adminKey, projects, briefs, categories, images, dataUnavailable
             online={online}
           />
         )}
-        {route.view === "projects" && <ProjectsView projects={projects} dataUnavailable={dataUnavailable} />}
+        {route.view === "projects" && (
+          <ProjectsView projects={projects} identities={identities} adminKey={adminKey} dataUnavailable={dataUnavailable} />
+        )}
         {editing && editing.found && (
           <ProjectEditor
             key={route.view === "editor" ? route.project : ""}
@@ -199,6 +202,7 @@ function Shell({ adminKey, projects, briefs, categories, images, dataUnavailable
             projects={projects}
             categories={categories}
             images={images}
+            identities={identities}
             canSave={online && !dataUnavailable}
           />
         )}

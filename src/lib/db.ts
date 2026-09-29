@@ -7,6 +7,43 @@ import {
   type UiProject,
   projectToUi,
 } from "@/lib/content";
+import { identityToUiProject, visibleIdentities, type IdentityPlacement } from "@/lib/identities";
+
+const HOME_LIMIT = 4;
+
+function asLane(value: string | null | undefined): "dev" | "design" | null {
+  return value === "dev" || value === "design" ? value : null;
+}
+
+export async function getIdentityPlacements(): Promise<IdentityPlacement[]> {
+  try {
+    const rows = await prisma.identitySetting.findMany();
+    return rows.map((row) => ({
+      slug: row.slug,
+      isHidden: row.isHidden,
+      homeLane: asLane(row.homeLane),
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export async function getHomeLanes(): Promise<{ dev: UiProject[]; design: UiProject[] }> {
+  const [projects, placements] = await Promise.all([getProjects(), getIdentityPlacements()]);
+  const identities = visibleIdentities(placements).map((identity) => ({
+    ...identityToUiProject(identity),
+    homeLane: placements.find((item) => item.slug === identity.slug)?.homeLane ?? null,
+  }));
+
+  const devChosen = projects.filter((project) => project.homeLane === "dev");
+  const designChosen = [...projects, ...identities].filter((project) => project.homeLane === "design");
+  const flagged = projects.filter((project) => project.isFeatured);
+
+  return {
+    dev: (devChosen.length ? devChosen : flagged.length ? flagged : projects).slice(0, HOME_LIMIT),
+    design: (designChosen.length ? designChosen : identities).slice(0, HOME_LIMIT),
+  };
+}
 
 export async function getProjects(): Promise<UiProject[]> {
   try {
@@ -19,7 +56,7 @@ export async function getProjects(): Promise<UiProject[]> {
       return staticProjects;
     }
 
-    return projects.map(projectToUi);
+    return projects.filter((project) => !project.isHidden).map(projectToUi);
   } catch {
     return staticProjects;
   }
@@ -33,7 +70,7 @@ export async function getProjectBySlug(slug: string): Promise<UiProject | null> 
     });
 
     if (project) {
-      return projectToUi(project);
+      return project.isHidden ? null : projectToUi(project);
     }
   } catch {
     // fallback below
@@ -57,6 +94,7 @@ export async function getTopViewedProjects(): Promise<Array<UiProject & { views:
       category: { name: string } | null;
       _count: { views: number };
     }> = await prisma.project.findMany({
+      where: { isHidden: false },
       include: {
         category: true,
         _count: { select: { views: true } },

@@ -6,7 +6,8 @@ import Navbar from "@/components/Navbar/Navbar";
 import CharterViewer from "@/components/CharterViewer/CharterViewer";
 import { TransitionLink } from "@/components/TransitionLink/TransitionLink";
 import { TechLogos } from "@/components/techlogo/TechLogos";
-import { brandIdentities, getBrandIdentity } from "@/lib/identities";
+import { getIdentityPlacements } from "@/lib/db";
+import { brandIdentities, getBrandIdentity, placementOf, visibleIdentities } from "@/lib/identities";
 import "../identites.css";
 
 type IdentityPageProps = {
@@ -18,22 +19,28 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: IdentityPageProps): Promise<Metadata> {
-  const identity = getBrandIdentity((await params).slug);
-  if (!identity) return { title: "Identité introuvable — SOKPA Edo Yawo" };
+  const slug = (await params).slug;
+  const identity = getBrandIdentity(slug);
+  const placements = await getIdentityPlacements();
+  if (!identity || placementOf(placements, slug).isHidden) return { title: "Identité introuvable — SOKPA Edo Yawo" };
   return {
     title: `${identity.name} — Identité visuelle — SOKPA Edo Yawo`,
     description: identity.excerpt,
   };
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function IdentityPage({ params }: IdentityPageProps) {
   const { slug } = await params;
   const identity = getBrandIdentity(slug);
-  if (!identity) notFound();
+  const placements = await getIdentityPlacements();
+  if (!identity || placementOf(placements, slug).isHidden) notFound();
 
-  const index = brandIdentities.findIndex((item) => item.slug === slug);
-  const prev = brandIdentities[(index - 1 + brandIdentities.length) % brandIdentities.length];
-  const next = brandIdentities[(index + 1) % brandIdentities.length];
+  const visible = visibleIdentities(placements);
+  const index = Math.max(0, visible.findIndex((item) => item.slug === slug));
+  const prev = visible[(index - 1 + visible.length) % visible.length];
+  const next = visible[(index + 1) % visible.length];
   const cover = identity.variants[identity.coverVariant] ?? identity.variants[0];
 
   return (

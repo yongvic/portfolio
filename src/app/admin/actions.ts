@@ -3,6 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { brandIdentities } from "@/lib/identities";
+
+const LANE_LIMIT = 4;
+const LANE_LABEL = { dev: "Développement", design: "Design" } as const;
 
 const projectSchema = z.object({
   id: z.string().optional(),
@@ -16,7 +20,8 @@ const projectSchema = z.object({
   projectUrl: z.string().optional(),
   repository: z.string().optional(),
   sortOrder: z.coerce.number().int().min(0).default(0),
-  isFeatured: z.coerce.boolean().default(false),
+  isHidden: z.boolean().default(false),
+  homeLane: z.enum(["dev", "design"]).nullable().optional(),
 });
 
 const testimonialSchema = z.object({
@@ -39,6 +44,33 @@ async function checkAuth(formData: FormData) {
   if (!adminSecret || adminKey !== adminSecret) {
     throw new Error("Accès non autorisé");
   }
+}
+
+function publishChanges() {
+  revalidatePath("/");
+  revalidatePath("/projets");
+  revalidatePath("/identites");
+  revalidatePath("/admin");
+}
+
+async function laneIsFull(lane: "dev" | "design", except?: { projectId?: string; identitySlug?: string }) {
+  const [projects, identities] = await Promise.all([
+    prisma.project.count({
+      where: {
+        homeLane: lane,
+        isHidden: false,
+        ...(except?.projectId ? { id: { not: except.projectId } } : {}),
+      },
+    }),
+    prisma.identitySetting.count({
+      where: {
+        homeLane: lane,
+        isHidden: false,
+        ...(except?.identitySlug ? { slug: { not: except.identitySlug } } : {}),
+      },
+    }),
+  ]);
+  return projects + identities >= LANE_LIMIT;
 }
 
 async function ensureCategory(categoryName: string) {
@@ -78,7 +110,13 @@ export async function upsertProjectAction(
     projectUrl: formData.get("projectUrl"),
     repository: formData.get("repository"),
     sortOrder: formData.get("sortOrder"),
-    isFeatured: formData.get("isFeatured") === "on",
+    isHidden: formData.get("isHidden") === "on",
+    homeLane:
+      formData.get("isHidden") === "on"
+        ? null
+        : formData.get("homeLane") === "dev" || formData.get("homeLane") === "design"
+          ? formData.get("homeLane")
+          : null,
   };
 
   const parsed = projectSchema.safeParse(raw);
@@ -92,6 +130,14 @@ export async function upsertProjectAction(
   }
 
   try {
+    const homeLane = parsed.data.isHidden ? null : parsed.data.homeLane ?? null;
+    if (homeLane && (await laneIsFull(homeLane, { projectId: parsed.data.id || undefined }))) {
+      return {
+        success: false,
+        message: `L’onglet ${LANE_LABEL[homeLane]} a déjà ${LANE_LIMIT} projets. Retire-en un avant d’en ajouter un autre.`,
+      };
+    }
+
     const category = await ensureCategory(parsed.data.category);
     const technologies = parsed.data.technologies
       .split(",")
@@ -107,7 +153,8 @@ export async function upsertProjectAction(
       projectUrl: (parsed.data.projectUrl as string) || null,
       repository: (parsed.data.repository as string) || null,
       sortOrder: parsed.data.sortOrder,
-      isFeatured: parsed.data.isFeatured,
+      isHidden: parsed.data.isHidden,
+      homeLane,
       technologies,
       categoryId: category.id,
     };
@@ -117,13 +164,12 @@ export async function upsertProjectAction(
         where: { id: parsed.data.id as string },
         data: payload,
       });
-      revalidatePath("/");
-      revalidatePath("/admin");
+      publishChanges();
+      revalidatePath(`/works/${parsed.data.slug}`);
       return { success: true, message: "Projet mis à jour avec succès" };
     } else {
-      await prisma.project.create({ data: payload });
-      revalidatePath("/");
-      revalidatePath("/admin");
+      await prisma.project.create({ data: { ...payload, isFeatured: false } });
+      publishChanges();
       return { success: true, message: "Nouveau projet publié avec succès" };
     }
   } catch (error) {
@@ -147,8 +193,7 @@ export async function deleteProjectAction(
 
   try {
     await prisma.project.delete({ where: { id } });
-    revalidatePath("/");
-    revalidatePath("/admin");
+    publishChanges();
     return { success: true, message: "Projet supprimé définitivement" };
   } catch (error) {
     console.error(error);
@@ -200,6 +245,46 @@ export async function markMessageReadAction(
   } catch (error) {
     console.error(error);
     return { success: false, message: "Erreur lors de la mise à jour" };
+  }
+}
+
+export async function updateIdentitySettingAction(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  try {
+    await checkAuth(formData);
+  } catch {
+    return { success: false, message: "Accès non autorisé" };
+  }
+
+  const slug = String(formData.get("slug") ?? "");
+  const identity = brandIdentities.find((item) => item.slug === slug);
+  if (!identity) return { success: false, message: "Cette identité n’existe pas." };
+
+  const isHidden = formData.get("isHidden") === "on";
+  const requested = formData.get("homeLane");
+  const homeLane = isHidden ? null : requested === "design" ? "design" : null;
+
+  try {
+    if (homeLane && (await laneIsFull("design", { identitySlug: slug }))) {
+      return {
+        success: false,
+        message: `L’onglet Design a déjà ${LANE_LIMIT} projets. Retire-en un avant d’en ajouter un autre.`,
+      };
+    }
+
+    await prisma.identitySetting.upsert({
+      where: { slug },
+      create: { slug, isHidden, homeLane },
+      update: { isHidden, homeLane },
+    });
+    publishChanges();
+    revalidatePath(`/identites/${slug}`);
+    return { success: true, message: isHidden ? `${identity.name} est masquée.` : `${identity.name} est à jour.` };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Le réglage n’a pas pu être enregistré." };
   }
 }
 

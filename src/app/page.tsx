@@ -1,8 +1,8 @@
 import HomeClient from "./HomeClient";
-import { getProjects } from "@/lib/db";
+import { getHomeLanes } from "@/lib/db";
 
 export default async function Home() {
-  const projects = await getProjects();
+  const lanes = await getHomeLanes();
 
-  return <HomeClient projects={projects} />;
+  return <HomeClient devProjects={lanes.dev} designProjects={lanes.design} />;
 }

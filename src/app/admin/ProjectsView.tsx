@@ -5,15 +5,28 @@ import React, { useMemo, useState } from "react";
 import { NEW_PROJECT } from "./admin-path";
 import { AdminLink } from "./nav";
 import { EmptyState, ScreenHeader } from "./ui";
-import { HOME_SLOTS, homePlacement, plural, siteFilterLabel, siteOrder, type Project } from "./model";
+import IdentitiesAdmin from "./IdentitiesAdmin";
+import { HOME_SLOTS, plural, siteFilterLabel, siteOrder, type IdentityAdmin, type Project } from "./model";
 
 const SEARCH_THRESHOLD = 8;
 
-export default function ProjectsView({ projects, dataUnavailable }: { projects: Project[]; dataUnavailable: boolean }) {
+export default function ProjectsView({
+  projects,
+  identities,
+  adminKey,
+  dataUnavailable,
+}: {
+  projects: Project[];
+  identities: IdentityAdmin[];
+  adminKey: string;
+  dataUnavailable: boolean;
+}) {
   const [query, setQuery] = useState("");
   const ordered = useMemo(() => siteOrder(projects), [projects]);
-  const placement = useMemo(() => homePlacement(projects), [projects]);
-  const featuredCount = projects.filter((p) => p.isFeatured).length;
+  const devCount = projects.filter((p) => !p.isHidden && p.homeLane === "dev").length;
+  const designCount =
+    projects.filter((p) => !p.isHidden && p.homeLane === "design").length +
+    identities.filter((item) => !item.isHidden && item.homeLane === "design").length;
 
   const q = query.trim().toLowerCase();
   const visible = q
@@ -51,6 +64,7 @@ export default function ProjectsView({ projects, dataUnavailable }: { projects: 
           }
           action={newButton}
         />
+        <IdentitiesAdmin identities={identities} adminKey={adminKey} />
       </div>
     );
   }
@@ -59,11 +73,7 @@ export default function ProjectsView({ projects, dataUnavailable }: { projects: 
     <div className="mx-auto max-w-4xl">
       <ScreenHeader
         title="Projets"
-        subtitle={`${plural(projects.length, "projet en ligne", "projets en ligne")}, dans l’ordre du site. ${
-          featuredCount
-            ? `${featuredCount} mis en avant pour ${HOME_SLOTS} places sur l’accueil.`
-            : `Aucun n’est mis en avant : l’accueil montre les ${HOME_SLOTS} premiers.`
-        }`}
+        subtitle={`${plural(projects.filter((p) => !p.isHidden).length, "projet visible", "projets visibles")}, dans l’ordre du site. Selected Works : ${devCount}/${HOME_SLOTS} en Développement, ${designCount}/${HOME_SLOTS} en Design. Un onglet sans choix reprend les quatre projets déjà mis en avant, ou les quatre premières identités.`}
         actions={newButton}
       />
 
@@ -97,8 +107,8 @@ export default function ProjectsView({ projects, dataUnavailable }: { projects: 
         <ol className="a-panel a-divide overflow-hidden" aria-label="Projets dans l’ordre du site">
           {visible.map((p) => {
             const position = ordered.indexOf(p) + 1;
-            const home = placement.get(p.id);
             const category = p.category?.name ?? "Sans catégorie";
+            const laneLabel = p.homeLane === "dev" ? "Développement" : p.homeLane === "design" ? "Design" : null;
             return (
               <li key={p.id} className="flex items-center">
                 <AdminLink to={{ view: "editor", project: p.id }} className="a-row min-w-0 flex-1">
@@ -114,22 +124,28 @@ export default function ProjectsView({ projects, dataUnavailable }: { projects: 
                       <span className="hidden sm:inline"> · filtre « {siteFilterLabel(category)} »</span>
                     </span>
                   </span>
-                  {home ? <span className="a-badge a-badge--outline shrink-0">Accueil n°{home}</span> : null}
+                  {p.isHidden ? <span className="a-badge a-badge--neutral shrink-0">Masqué</span> : null}
+                  {!p.isHidden && laneLabel ? (
+                    <span className="a-badge a-badge--outline shrink-0">{laneLabel}</span>
+                  ) : null}
                 </AdminLink>
-                <a
-                  href={`/works/${p.slug}`}
-                  target="_blank"
-                  rel="noopener"
-                  className="a-btn a-btn--quiet mr-2 hidden shrink-0 sm:inline-flex"
-                >
-                  Voir en ligne<span className="sr-only"> : {p.title} (nouvel onglet)</span>
-                </a>
+                {!p.isHidden && (
+                  <a
+                    href={`/works/${p.slug}`}
+                    target="_blank"
+                    rel="noopener"
+                    className="a-btn a-btn--quiet mr-2 hidden shrink-0 sm:inline-flex"
+                  >
+                    Voir en ligne<span className="sr-only"> : {p.title} (nouvel onglet)</span>
+                  </a>
+                )}
               </li>
             );
           })}
         </ol>
       )}
-      <p className="a-meta mt-3">Touche un projet pour le modifier, changer sa position ou le retirer du site.</p>
+      <p className="a-meta mt-3">Touche un projet pour le modifier, le masquer, choisir son onglet sur l’accueil, ou le retirer.</p>
+      <IdentitiesAdmin identities={identities} adminKey={adminKey} />
     </div>
   );
 }

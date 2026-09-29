@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { brandIdentities } from "@/lib/identities";
+import { getIdentityPlacements } from "@/lib/db";
+import { visibleIdentities } from "@/lib/identities";
 import IdentitesClient from "./IdentitesClient";
 
 export const metadata: Metadata = {
@@ -8,6 +9,9 @@ export const metadata: Metadata = {
     "Logos, déclinaisons et chartes graphiques conçus par Edo Sokpa, designer graphique à Lomé.",
 };
 
-export default function IdentitesPage() {
-  return <IdentitesClient identities={brandIdentities} />;
+export const dynamic = "force-dynamic";
+
+export default async function IdentitesPage() {
+  const placements = await getIdentityPlacements();
+  return <IdentitesClient identities={visibleIdentities(placements)} />;
 }

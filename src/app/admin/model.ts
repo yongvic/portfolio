@@ -10,6 +10,8 @@ export type Project = {
   repository: string | null;
   sortOrder: number;
   isFeatured: boolean;
+  isHidden: boolean;
+  homeLane: "dev" | "design" | null;
   category: { name: string } | null;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -28,6 +30,15 @@ export type Brief = {
 
 export type Category = { id: string; name: string; slug: string };
 
+export type IdentityAdmin = {
+  slug: string;
+  name: string;
+  excerpt: string;
+  coverImage: string;
+  isHidden: boolean;
+  homeLane: "dev" | "design" | null;
+};
+
 export const HOME_SLOTS = 4;
 
 // Mirrors getProjectFilterCategory + tab labels in src/components/Works/Works.tsx.
@@ -39,21 +50,13 @@ export function siteFilterLabel(category: string) {
   return "Web & SaaS";
 }
 
-type Orderable = Pick<Project, "id" | "isFeatured" | "sortOrder" | "createdAt">;
+type Orderable = Pick<Project, "id" | "sortOrder" | "createdAt">;
 
 // Same ordering as the public site: sortOrder asc, then newest first.
 export function siteOrder<T extends Orderable>(projects: T[]) {
   return [...projects].sort(
     (a, b) => a.sortOrder - b.sortOrder || toTime(b.createdAt) - toTime(a.createdAt)
   );
-}
-
-// Mirrors featuredProjects in Works.tsx: flagged projects first 4, else first 4 overall.
-export function homePlacement(projects: Orderable[]) {
-  const ordered = siteOrder(projects);
-  const flagged = ordered.filter((p) => p.isFeatured);
-  const shown = (flagged.length ? flagged : ordered).slice(0, HOME_SLOTS);
-  return new Map(shown.map((p, i) => [p.id, i + 1]));
 }
 
 export function slugify(value: string) {

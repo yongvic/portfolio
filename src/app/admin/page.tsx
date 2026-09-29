@@ -4,7 +4,8 @@ import path from "path";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import AdminClient from "./AdminClient";
-import type { Brief, Category, Project } from "./model";
+import { brandIdentities, type IdentityPlacement } from "@/lib/identities";
+import type { Brief, Category, IdentityAdmin, Project } from "./model";
 
 type AdminPageProps = {
   searchParams: Promise<{ key?: string }>;
@@ -74,20 +75,46 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   let projects: Project[] = [];
   let briefs: Brief[] = [];
   let categories: Category[] = [];
+  let placements: IdentityPlacement[] = [];
   let dataUnavailable = false;
 
   try {
-    [projects, briefs, categories] = await Promise.all([
+    const [projectRows, briefRows, categoryRows, placementRows] = await Promise.all([
       prisma.project.findMany({
         include: { category: true },
         orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
       }),
       prisma.contactMessage.findMany({ orderBy: { createdAt: "desc" } }),
       prisma.category.findMany({ orderBy: { name: "asc" } }),
+      prisma.identitySetting.findMany(),
     ]);
+    projects = projectRows.map((project) => ({
+      ...project,
+      homeLane: project.homeLane === "dev" || project.homeLane === "design" ? project.homeLane : null,
+    }));
+    briefs = briefRows;
+    categories = categoryRows;
+    placements = placementRows.map((row) => ({
+      slug: row.slug,
+      isHidden: row.isHidden,
+      homeLane: row.homeLane === "dev" || row.homeLane === "design" ? row.homeLane : null,
+    }));
   } catch {
     dataUnavailable = true;
   }
+
+  const identities: IdentityAdmin[] = brandIdentities.map((identity) => {
+    const cover = identity.variants[identity.coverVariant] ?? identity.variants[0];
+    const setting = placements.find((item) => item.slug === identity.slug);
+    return {
+      slug: identity.slug,
+      name: identity.name,
+      excerpt: identity.excerpt,
+      coverImage: cover.src,
+      isHidden: setting?.isHidden ?? false,
+      homeLane: setting?.homeLane ?? null,
+    };
+  });
 
   return (
     <AdminClient
@@ -96,6 +123,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       briefs={briefs}
       categories={categories}
       images={await listPublicImages()}
+      identities={identities}
       dataUnavailable={dataUnavailable}
     />
   );

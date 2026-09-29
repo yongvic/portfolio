@@ -179,8 +179,23 @@ export const brandIdentities: BrandIdentity[] = [
 
 export const IDENTITY_CATEGORY = "Identité visuelle";
 
+export type IdentityPlacement = {
+  slug: string;
+  isHidden: boolean;
+  homeLane: "dev" | "design" | null;
+};
+
 export function getBrandIdentity(slug: string): BrandIdentity | undefined {
   return brandIdentities.find((identity) => identity.slug === slug);
+}
+
+export function placementOf(settings: IdentityPlacement[], slug: string): IdentityPlacement {
+  return settings.find((item) => item.slug === slug) ?? { slug, isHidden: false, homeLane: null };
+}
+
+export function visibleIdentities(settings: IdentityPlacement[]) {
+  const hidden = new Set(settings.filter((item) => item.isHidden).map((item) => item.slug));
+  return brandIdentities.filter((identity) => !hidden.has(identity.slug));
 }
 
 export function identityToUiProject(identity: BrandIdentity): UiProject {

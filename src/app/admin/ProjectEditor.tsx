@@ -8,11 +8,11 @@ import { ConfirmDialog, Field, ScreenHeader, useActionFailure, useNow, useToast 
 import {
   HOME_SLOTS,
   formatDate,
-  homePlacement,
   siteFilterLabel,
   siteOrder,
   slugify,
   type Category,
+  type IdentityAdmin,
   type Project,
 } from "./model";
 
@@ -27,7 +27,8 @@ type Values = {
   projectUrl: string;
   repository: string;
   sortOrder: string;
-  isFeatured: boolean;
+  isHidden: boolean;
+  homeLane: "" | "dev" | "design";
 };
 
 type FieldName = keyof Values;
@@ -46,6 +47,7 @@ const FIELD_ORDER: FieldName[] = [
   "projectUrl",
   "repository",
   "sortOrder",
+  "homeLane",
 ];
 
 function toValues(p: Project | null): Values {
@@ -60,7 +62,8 @@ function toValues(p: Project | null): Values {
     projectUrl: p?.projectUrl ?? "",
     repository: p?.repository ?? "",
     sortOrder: String(p?.sortOrder ?? 0),
-    isFeatured: p?.isFeatured ?? false,
+    isHidden: p?.isHidden ?? false,
+    homeLane: p?.homeLane === "dev" || p?.homeLane === "design" ? p.homeLane : "",
   };
 }
 
@@ -72,7 +75,7 @@ const parseTools = (s: string) =>
     .map((t) => t.trim())
     .filter(Boolean);
 
-function validate(v: Values, others: Project[]) {
+function validate(v: Values, others: Project[], identities: IdentityAdmin[]) {
   const e: Partial<Record<FieldName, string>> = {};
   const len = (k: keyof typeof MIN) => v[k].trim().length;
   if (len("title") < MIN.title) e.title = `Donne un titre d’au moins ${MIN.title} caractères.`;
@@ -92,6 +95,15 @@ function validate(v: Values, others: Project[]) {
       e[k] = "Colle l’adresse complète, qui commence par https://";
   }
   if (!/^\d+$/.test(v.sortOrder.trim())) e.sortOrder = "Indique un nombre entier : 0, 1, 2…";
+  if (v.homeLane && !v.isHidden) {
+    const taken =
+      others.filter((p) => !p.isHidden && p.homeLane === v.homeLane).length +
+      identities.filter((item) => !item.isHidden && item.homeLane === v.homeLane).length;
+    if (taken >= HOME_SLOTS) {
+      const label = v.homeLane === "dev" ? "Développement" : "Design";
+      e.homeLane = `L’onglet ${label} a déjà ${HOME_SLOTS} projets. Retire-en un avant d’ajouter celui-ci.`;
+    }
+  }
   return e;
 }
 
@@ -100,10 +112,11 @@ type ProjectEditorProps = {
   projects: Project[];
   categories: Category[];
   images: string[];
+  identities: IdentityAdmin[];
   canSave: boolean;
 };
 
-export default function ProjectEditor({ project, projects, categories, images, canSave }: ProjectEditorProps) {
+export default function ProjectEditor({ project, projects, categories, images, identities, canSave }: ProjectEditorProps) {
   const { adminKey, go, setLeaveGuard } = useAdminNav();
   const toast = useToast();
   const fail = useActionFailure();
@@ -119,6 +132,8 @@ export default function ProjectEditor({ project, projects, categories, images, c
   const [attempted, setAttempted] = useState(false);
   const [serverErrors, setServerErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [coverBroken, setCoverBroken] = useState(false);
+  const [uploadingCover, setUploadingCover] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [saving, startSaving] = useTransition();
   const [deleting, startDeleting] = useTransition();
@@ -126,9 +141,9 @@ export default function ProjectEditor({ project, projects, categories, images, c
 
   const others = useMemo(() => projects.filter((p) => p.id !== project?.id), [projects, project?.id]);
   const dirty = !same(values, baseline);
-  const errors = { ...(attempted ? validate(values, others) : {}), ...serverErrors };
+  const errors = { ...(attempted ? validate(values, others, identities) : {}), ...serverErrors };
   const errorCount = Object.keys(errors).length;
-  const busy = saving || deleting;
+  const busy = saving || deleting || uploadingCover;
 
   useEffect(() => {
     try {
@@ -174,6 +189,29 @@ export default function ProjectEditor({ project, projects, categories, images, c
     if (key === "coverImage") setCoverBroken(false);
   };
 
+  const onCoverFile = async (file: File | undefined) => {
+    if (!file || busy) return;
+    setUploadError(null);
+    setUploadingCover(true);
+    const body = new FormData();
+    body.set("key", adminKey);
+    body.set("file", file);
+    try {
+      const response = await fetch("/api/admin/cover", { method: "POST", body });
+      const data = (await response.json().catch(() => null)) as { url?: string; error?: string } | null;
+      if (!response.ok || !data?.url) {
+        setUploadError(data?.error ?? "La photo n’a pas pu être envoyée.");
+        return;
+      }
+      set("coverImage", data.url);
+      setCoverBroken(false);
+    } catch {
+      setUploadError("La photo n’a pas pu être envoyée. Vérifie ta connexion, puis réessaie.");
+    } finally {
+      setUploadingCover(false);
+    }
+  };
+
   const discardDraft = () => {
     sessionStorage.removeItem(draftKey);
     setValues(baseline);
@@ -191,7 +229,7 @@ export default function ProjectEditor({ project, projects, categories, images, c
     if (busy || !canSave) return;
     setAttempted(true);
     const clean = { ...values, slug: slugify(values.slug) };
-    const errs = validate(clean, others);
+    const errs = validate(clean, others, identities);
     if (Object.keys(errs).length) {
       focusFirstError(errs);
       return;
@@ -202,9 +240,11 @@ export default function ProjectEditor({ project, projects, categories, images, c
     fd.set("key", adminKey);
     fd.set("id", project?.id ?? "");
     (Object.keys(clean) as FieldName[]).forEach((k) => {
-      if (k !== "isFeatured") fd.set(k, String(clean[k]).trim());
+      if (k === "isHidden" || k === "homeLane") return;
+      fd.set(k, String(clean[k]).trim());
     });
-    if (clean.isFeatured) fd.set("isFeatured", "on");
+    if (clean.isHidden) fd.set("isHidden", "on");
+    if (!clean.isHidden && clean.homeLane) fd.set("homeLane", clean.homeLane);
 
     startSaving(async () => {
       const res = await upsertProjectAction(null, fd).catch(() => undefined);
@@ -260,17 +300,16 @@ export default function ProjectEditor({ project, projects, categories, images, c
   const simulated = useMemo(() => {
     const self = {
       id: project?.id ?? "__nouveau",
-      isFeatured: values.isFeatured,
       sortOrder: Number.parseInt(values.sortOrder, 10) || 0,
       createdAt: project?.createdAt ?? "9999-12-31",
     };
-    const all = [...others, self];
+    const visible = [...others.filter((item) => !item.isHidden), ...(values.isHidden ? [] : [self])];
+    const ordered = siteOrder(visible);
     return {
-      position: siteOrder(all).findIndex((p) => p.id === self.id) + 1,
-      total: all.length,
-      home: homePlacement(all).get(self.id),
+      position: values.isHidden ? null : ordered.findIndex((item) => item.id === self.id) + 1,
+      total: ordered.length,
     };
-  }, [values.isFeatured, values.sortOrder, others, project?.id, project?.createdAt]);
+  }, [values.isHidden, values.sortOrder, others, project?.id, project?.createdAt]);
 
   const tools = parseTools(values.technologies);
   const categoryKnown = categories.some((c) => c.name.toLowerCase() === values.category.trim().toLowerCase());
@@ -390,6 +429,23 @@ export default function ProjectEditor({ project, projects, categories, images, c
                   <option key={src} value={src} />
                 ))}
               </datalist>
+              <div className="flex flex-wrap items-center gap-2">
+                <label className={`a-btn a-btn--secondary ${uploadingCover || !canSave ? "pointer-events-none opacity-50" : "cursor-pointer"}`}>
+                  {uploadingCover ? "Envoi de la photo…" : "Choisir une photo sur cet appareil"}
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
+                    className="sr-only"
+                    disabled={uploadingCover || !canSave}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      e.target.value = "";
+                      void onCoverFile(file);
+                    }}
+                  />
+                </label>
+              </div>
+              {uploadError ? <p className="a-error">{uploadError}</p> : null}
               {values.coverImage.trim().length >= MIN.coverImage && (
                 <div className={coverBroken ? "mt-2" : "mt-2 lg:hidden"}>
                   {coverBroken ? (
@@ -518,22 +574,41 @@ export default function ProjectEditor({ project, projects, categories, images, c
             </div>
           </Section>
 
-          <Section title="Place sur le site">
+          <Section title="Place sur le site" intro="Masquer retire le projet du site sans le supprimer. Selected Works montre quatre projets par onglet.">
             <label className="a-check">
               <input
                 type="checkbox"
-                name="isFeatured"
-                checked={values.isFeatured}
-                onChange={(e) => set("isFeatured", e.target.checked)}
-                aria-describedby={`${uid}-home`}
+                name="isHidden"
+                checked={values.isHidden}
+                onChange={(e) => {
+                  set("isHidden", e.target.checked);
+                  if (e.target.checked) set("homeLane", "");
+                }}
               />
               <span>
-                <span className="a-label block">Mettre en avant sur l’accueil</span>
-                <span id={`${uid}-home`} className="a-hint block">
-                  {homeMessage(values.isFeatured, simulated.home)}
+                <span className="a-label block">Masquer sur le site</span>
+                <span className="a-hint block">
+                  Il disparaît de l’accueil, du catalogue et de sa page. Tu le retrouves ici pour le réafficher.
                 </span>
               </span>
             </label>
+            <Field
+              label="Selected Works"
+              htmlFor={id("homeLane")}
+              error={errors.homeLane}
+              hint={values.isHidden ? "Un projet masqué ne peut pas être sur l’accueil." : "Quatre places dans Développement, quatre dans Design."}
+            >
+              <select
+                {...inputProps("homeLane")}
+                value={values.isHidden ? "" : values.homeLane}
+                disabled={values.isHidden}
+                onChange={(e) => set("homeLane", e.target.value as Values["homeLane"])}
+              >
+                <option value="">Pas sur l’accueil</option>
+                <option value="dev">Onglet Développement</option>
+                <option value="design">Onglet Design</option>
+              </select>
+            </Field>
             <Field
               label="Ordre"
               note="le plus petit nombre passe en premier"
@@ -615,12 +690,18 @@ export default function ProjectEditor({ project, projects, categories, images, c
             <dl className="mt-4 space-y-2 text-sm">
               <div className="flex justify-between gap-3">
                 <dt className="a-meta">Accueil</dt>
-                <dd className="a-strong">{simulated.home ? `n°${simulated.home} sur ${HOME_SLOTS}` : "Non affiché"}</dd>
+                <dd className="a-strong">
+                  {values.isHidden || !values.homeLane
+                    ? "Non affiché"
+                    : values.homeLane === "dev"
+                      ? "Développement"
+                      : "Design"}
+                </dd>
               </div>
               <div className="flex justify-between gap-3">
                 <dt className="a-meta">Catalogue</dt>
                 <dd className="a-strong">
-                  {simulated.position} sur {simulated.total}
+                  {simulated.position ? `${simulated.position} sur ${simulated.total}` : "Masqué"}
                 </dd>
               </div>
             </dl>
@@ -647,15 +728,6 @@ export default function ProjectEditor({ project, projects, categories, images, c
       )}
     </div>
   );
-}
-
-function homeMessage(featured: boolean, home: number | undefined) {
-  if (featured && home) return `Il sera visible sur l’accueil, en position ${home} sur ${HOME_SLOTS}.`;
-  if (featured)
-    return `Il ne sera pas visible sur l’accueil : ${HOME_SLOTS} autres projets mis en avant passent devant. Donne-lui une position plus petite, ou retire la mise en avant d’un autre projet.`;
-  if (home)
-    return `Aucun projet n’est mis en avant, donc l’accueil montre les ${HOME_SLOTS} premiers du catalogue — celui-ci en fait partie (n°${home}).`;
-  return "Pas sur l’accueil. Il reste visible sur la page Projets.";
 }
 
 function Section({ title, intro, children }: { title: string; intro?: string; children: React.ReactNode }) {

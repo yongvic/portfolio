@@ -26,6 +26,9 @@ model Project {
   projectUrl  String?
   repository  String?
   isFeatured  Boolean       @default(false)
+  isHidden    Boolean       @default(false)
+  /// "dev" or "design" when the project is one of the four Selected Works in that tab.
+  homeLane    String?
   sortOrder   Int           @default(0)
   technologies String[]
   categoryId  String?
@@ -71,6 +74,14 @@ model ProjectView {
 
   @@index([projectId])
   @@index([createdAt])
+}
+
+/// Visibility and homepage placement for identities that live in code, not in Project.
+model IdentitySetting {
+  slug      String   @id
+  isHidden  Boolean  @default(false)
+  homeLane  String?
+  updatedAt DateTime @updatedAt
 }
 
 model Testimonial {

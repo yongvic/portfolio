@@ -16,6 +16,8 @@ if (typeof window !== "undefined") {
 type WorksProps = {
   projects?: UiProject[];
   variant?: "featured" | "catalog";
+  devProjects?: UiProject[];
+  designProjects?: UiProject[];
 };
 
 type CategoryFilter = "ALL" | "WEB" | "BRAND" | "GRAPHIC" | "AUTO";
@@ -24,8 +26,14 @@ const CATEGORY_FILTERS: CategoryFilter[] = ["ALL", "WEB", "BRAND", "GRAPHIC", "A
 
 const projectHref = (project: UiProject) => project.href ?? `/works/${project.slug}`;
 
-export default function Works({ projects = staticProjects, variant = "featured" }: WorksProps) {
+export default function Works({
+  projects = staticProjects,
+  variant = "featured",
+  devProjects = [],
+  designProjects = [],
+}: WorksProps) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("ALL");
+  const [homeLane, setHomeLane] = useState<"dev" | "design">("dev");
 
   useEffect(() => {
     const filter = new URLSearchParams(window.location.search).get("filtre")?.toUpperCase();
@@ -48,12 +56,7 @@ export default function Works({ projects = staticProjects, variant = "featured" 
     return "WEB";
   };
 
-  const featuredProjects = useMemo(() => {
-    const flagged = projects.filter((project) => project.isFeatured);
-    return (flagged.length ? flagged : projects).slice(0, 4);
-  }, [projects]);
-
-  const catalogSource = variant === "featured" ? featuredProjects : projects;
+  const catalogSource = projects;
 
   // Filtrage combiné catégorie + recherche texte
   const filteredProjects = useMemo(() => {
@@ -136,7 +139,7 @@ export default function Works({ projects = staticProjects, variant = "featured" 
     });
 
     return () => ctx.revert();
-  }, [filteredProjects]);
+  }, [filteredProjects, homeLane, variant]);
 
   // Fermeture du Quick View avec la touche Escape
   useEffect(() => {
@@ -166,7 +169,7 @@ export default function Works({ projects = staticProjects, variant = "featured" 
         <p className="works-subtitle">
           {isCatalog
             ? "SaaS, sites clients, identités visuelles, automatisation et direction artistique — l'ensemble des livrables, filtrable par discipline."
-            : "Quatre livrables récents. Le catalogue complet est sur une page dédiée, pour garder cet accueil lisible."}
+            : "Développement et design, quatre projets dans chaque onglet. Le catalogue complet est sur une page dédiée."}
         </p>
       </div>
 
@@ -263,9 +266,36 @@ export default function Works({ projects = staticProjects, variant = "featured" 
       </div>
       )}
 
+      {!isCatalog && (
+        <div className="works-controls-container">
+          <div className="category-tabs" role="tablist" aria-label="Selected Works">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={homeLane === "dev"}
+              className={`cat-tab ${homeLane === "dev" ? "active" : ""}`}
+              onClick={() => setHomeLane("dev")}
+            >
+              <span>Développement</span>
+              <span className="cat-count">{devProjects.length}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={homeLane === "design"}
+              className={`cat-tab ${homeLane === "design" ? "active" : ""}`}
+              onClick={() => setHomeLane("design")}
+            >
+              <span>Design</span>
+              <span className="cat-count">{designProjects.length}</span>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Grille principale des projets */}
       <div className="container-works">
-        {filteredProjects.map((project, index) => {
+        {(isCatalog ? filteredProjects : homeLane === "dev" ? devProjects : designProjects).map((project, index) => {
           const caseStudy = projectCaseStudies[project.slug];
           const images = caseStudy?.images ?? {
             hero: project.coverImage,
@@ -409,7 +439,14 @@ export default function Works({ projects = staticProjects, variant = "featured" 
         })}
 
         {/* État vide quand la recherche / le filtre n'a aucun résultat */}
-        {filteredProjects.length === 0 && (
+        {!isCatalog && (homeLane === "dev" ? devProjects : designProjects).length === 0 && (
+          <div className="works-empty-state" role="status">
+            <h3>Aucun projet dans cet onglet</h3>
+            <p>Les quatre places se choisissent dans l’administration, sur chaque fiche.</p>
+          </div>
+        )}
+
+        {isCatalog && filteredProjects.length === 0 && (
           <div className="works-empty-state" role="status">
             <div className="empty-icon">
               <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
