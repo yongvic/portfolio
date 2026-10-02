@@ -164,13 +164,40 @@ html.charter-open body {
 
 @media (max-width: 640px) {
   .charter-toolbar {
-    padding: 0.75rem 1rem;
+    flex-wrap: wrap;
+    padding: max(0.75rem, env(safe-area-inset-top)) 0.85rem 0.75rem;
+    row-gap: 0.65rem;
+  }
+
+  .charter-toolbar-title {
+    flex: 1 1 100%;
   }
 
   .charter-toolbar-title span:last-child {
-    max-width: 40vw;
+    max-width: 70vw;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .charter-toolbar-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .charter-toolbar-nav button,
+  .charter-close {
+    width: 44px;
+    height: 44px;
+  }
+
+  .charter-scroller {
+    padding: 1rem 0.75rem max(1.5rem, env(safe-area-inset-bottom));
+  }
+
+  .charter-open-btn {
+    width: 100%;
+    justify-content: space-between;
+    box-sizing: border-box;
   }
 }
 

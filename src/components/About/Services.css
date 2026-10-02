@@ -141,25 +141,29 @@ body.works-active {
   }
 
   .card-svg svg {
-    width: 100px;
-    height: 100px;
+    width: 72px;
+    height: 72px;
   }
 
   .cards-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     row-gap: 1rem;
-    margin: 0 0.2rem;
-    width: 100vw;
-    min-height: 100%;
-    margin-bottom: 5rem;
+    margin: 0;
+    padding: 0 1rem 4rem;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    box-sizing: border-box;
   }
 
   .cards-container .card {
-    padding: 0.6rem;
-    width: 90%;
-    height: 340px;
-    margin: auto;
+    padding: 0.75rem;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    box-sizing: border-box;
   }
 
   .card hr {
@@ -182,19 +186,23 @@ body.works-active {
     border-left: 1px solid rgba(128, 128, 128, 0.63);
   }
 
-  .cards-pin {
-    height: 100%;
-    width: 100vw;
-    overflow: hidden;
-    position: relative;
-  }
-
   .services .services-desc {
     font-family: var(--font-generale-sans);
-    font-size: 1.6rem;
-    margin-left: 2.2rem;
-    margin-bottom: 1rem;
-    width: 80%;
+    font-size: clamp(1.05rem, 3.4vw, 1.45rem);
+    margin: 0 1.25rem 1rem;
+    width: auto;
+    max-width: 40rem;
+  }
+
+  .cards-pin {
+    height: auto;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .card-body {
+    font-size: 0.95rem;
+    opacity: 0.72;
   }
 }
 
@@ -219,11 +227,12 @@ body.works-active {
   .cards-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin: 0 0.2rem;
-    width: 100vw;
-    min-height: 100%;
-    margin-bottom: 5rem;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0 1rem 3.5rem;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
   }
 
   .card-head .card-number {
@@ -231,10 +240,10 @@ body.works-active {
   }
 
   .cards-container .card {
-    padding: 0.6rem;
-    width: 90%;
-    height: 335px;
-    margin: auto;
+    padding: 0.85rem 0.75rem 1rem;
+    width: 100%;
+    height: auto;
+    margin: 0;
   }
 
   .card hr {
@@ -258,16 +267,15 @@ body.works-active {
   }
 
   .cards-pin {
-    height: 100%;
-    width: 100vw;
+    height: auto;
+    width: 100%;
     position: relative;
   }
 
   .services .services-desc {
-    font-family: var(--font-generale-sans);
-    font-size: clamp(1.1rem, 2.2vw, 2rem);
-    width: 70%;
-    margin-left: 2.2rem;
+    font-size: 1.05rem;
+    width: auto;
+    margin: 0 1rem 0.5rem;
   }
 }
 @media (max-width: 380px) {

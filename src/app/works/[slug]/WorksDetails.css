@@ -541,9 +541,47 @@
 ---------------------------------------------- */
 @media (max-width: 900px) {
   .work-breadcrumb-bar {
-    top: 4.75rem;
-    margin-top: 4.75rem;
+    top: var(--site-nav-offset);
+    margin-top: var(--site-nav-offset);
     padding: 0.6rem 1rem;
+  }
+
+  .hero-work-section {
+    min-height: 0;
+    padding: 2rem 1.1rem 3rem;
+  }
+
+  .work-meta {
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .meta-pills {
+    flex-wrap: wrap;
+  }
+
+  .section-content {
+    padding: 3rem 1.1rem;
+  }
+
+  .challenge-item,
+  .result-item {
+    padding: 1.35rem;
+  }
+
+  .project-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    justify-content: center;
+    min-height: 44px;
+  }
+
+  .showcase-grid {
+    padding: 0 1.1rem;
   }
 
   .breadcrumb-trail {
@@ -565,11 +603,35 @@
   }
 
   .suggested-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .bottom-nav-inner {
     flex-direction: column;
     text-align: center;
+    padding: 1.25rem;
+  }
+
+  .bottom-project-card,
+  .back-to-all-btn {
+    width: 100%;
+  }
+
+  .back-to-all-btn {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .suggested-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .work-not-found-card {
+    padding: 2rem 1.15rem;
+  }
+
+  .work-not-found-card h1 {
+    font-size: 1.8rem;
   }
 }

@@ -34,6 +34,7 @@ export default function Works({
 }: WorksProps) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("ALL");
   const [homeLane, setHomeLane] = useState<"dev" | "design">("dev");
+  const [featuredLimit, setFeaturedLimit] = useState(4);
 
   useEffect(() => {
     const filter = new URLSearchParams(window.location.search).get("filtre")?.toUpperCase();
@@ -41,6 +42,17 @@ export default function Works({
       setSelectedCategory(filter as CategoryFilter);
     }
   }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 768px)");
+    const sync = () => setFeaturedLimit(media.matches ? 2 : 4);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  const visibleDevProjects = devProjects.slice(0, featuredLimit);
+  const visibleDesignProjects = designProjects.slice(0, featuredLimit);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [quickViewProject, setQuickViewProject] = useState<UiProject | null>(null);
 
@@ -100,6 +112,7 @@ export default function Works({
         const imageWrapper = el.querySelector(".works-image-wrapper");
         const textWrapper = el.querySelector(".works-text");
         const isEven = index % 2 === 0;
+        const shiftX = window.matchMedia("(max-width: 768px)").matches ? 0 : isEven ? -28 : 28;
 
         gsap.fromTo(
           imageWrapper,
@@ -121,7 +134,7 @@ export default function Works({
 
         gsap.fromTo(
           textWrapper,
-          { opacity: 0.2, x: isEven ? -28 : 28 },
+          { opacity: 0.2, x: shiftX },
           {
             opacity: 1,
             x: 0,
@@ -139,7 +152,7 @@ export default function Works({
     });
 
     return () => ctx.revert();
-  }, [filteredProjects, homeLane, variant]);
+  }, [filteredProjects, homeLane, variant, featuredLimit]);
 
   // Fermeture du Quick View avec la touche Escape
   useEffect(() => {
@@ -175,7 +188,9 @@ export default function Works({
         <p className="works-subtitle">
           {isCatalog
             ? "SaaS, sites clients, identités visuelles, automatisation et direction artistique — l'ensemble des livrables, filtrable par discipline."
-            : "Développement et design, quatre projets dans chaque onglet. Le catalogue complet est sur une page dédiée."}
+            : featuredLimit === 2
+              ? "Développement et design, deux projets dans chaque onglet. Le catalogue complet est sur une page dédiée."
+              : "Développement et design, quatre projets dans chaque onglet. Le catalogue complet est sur une page dédiée."}
         </p>
       </div>
 
@@ -283,7 +298,7 @@ export default function Works({
               onClick={() => setHomeLane("dev")}
             >
               <span>Développement</span>
-              <span className="cat-count">{devProjects.length}</span>
+              <span className="cat-count">{visibleDevProjects.length}</span>
             </button>
             <button
               type="button"
@@ -293,7 +308,7 @@ export default function Works({
               onClick={() => setHomeLane("design")}
             >
               <span>Design</span>
-              <span className="cat-count">{designProjects.length}</span>
+              <span className="cat-count">{visibleDesignProjects.length}</span>
             </button>
           </div>
         </div>
@@ -301,7 +316,7 @@ export default function Works({
 
       {/* Grille principale des projets */}
       <div className="container-works">
-        {(isCatalog ? filteredProjects : homeLane === "dev" ? devProjects : designProjects).map((project, index) => {
+        {(isCatalog ? filteredProjects : homeLane === "dev" ? visibleDevProjects : visibleDesignProjects).map((project, index) => {
           const caseStudy = projectCaseStudies[project.slug];
           const images = caseStudy?.images ?? {
             hero: project.coverImage,
@@ -445,7 +460,7 @@ export default function Works({
         })}
 
         {/* État vide quand la recherche / le filtre n'a aucun résultat */}
-        {!isCatalog && (homeLane === "dev" ? devProjects : designProjects).length === 0 && (
+        {!isCatalog && (homeLane === "dev" ? visibleDevProjects : visibleDesignProjects).length === 0 && (
           <div className="works-empty-state" role="status">
             <h3>Aucun projet dans cet onglet</h3>
             <p>Les quatre places se choisissent dans l’administration, sur chaque fiche.</p>

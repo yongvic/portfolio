@@ -70,7 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           ${Aeonik.variable}
           ${Generale_Sans.variable}
           ${gambarino.variable}
-          antialiased h-full
+          antialiased min-h-full
         `}
       >
         <PageTransition/>

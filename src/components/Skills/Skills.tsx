@@ -11,6 +11,8 @@ const Skills: React.FC = () => {
     useEffect(() => {
   if (!skillsRef.current) return
 
+  let revertMedia = () => {}
+
   const ctx = gsap.context(() => {
     const skills = skillsRef.current!
 
@@ -61,25 +63,42 @@ const Skills: React.FC = () => {
       borderColor: 'rgba(225,255,1,0.6)'
     })
 
-    if (categories.length > 0) {
+    const isNarrow = window.matchMedia('(max-width: 999px)').matches
+    if (!isNarrow && categories.length > 0) {
       activate(categories[0])
     }
 
-    // Timeline scroll
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: skills,
-        start: 'top 8%',
-        end: `+=${categories.length * stepDuration * 100}%`,
-        scrub: true,
-        pin: true,
-        invalidateOnRefresh: true,
-      }
+    const mm = gsap.matchMedia()
+    revertMedia = () => mm.revert()
+
+    mm.add('(min-width: 1000px)', () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: skills,
+          start: 'top 8%',
+          end: `+=${categories.length * stepDuration * 100}%`,
+          scrub: true,
+          pin: true,
+          invalidateOnRefresh: true,
+        }
+      })
+
+      categories.forEach(cat => {
+        tl.to({}, { duration: stepDuration }).call(() => activate(cat))
+      })
     })
 
-    categories.forEach(cat => {
-      tl.to({}, { duration: stepDuration }).call(() => activate(cat))
+    mm.add('(max-width: 999px)', () => {
+      gsap.killTweensOf([...categoryEls, ...tagEls])
+      gsap.set(categoryEls, { opacity: 1 })
+      gsap.set(tagEls, {
+        opacity: 1,
+        borderColor: 'rgba(225,255,1,1)',
+      })
     })
+
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    if (!canHover) return
 
     // Hover tags
     const enterHandlers = new Map<Element, EventListener>()
@@ -141,6 +160,7 @@ const Skills: React.FC = () => {
   }, skillsRef)
 
   return () => {
+    revertMedia()
     ctx.revert()
   }
 }, [])

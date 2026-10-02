@@ -611,13 +611,54 @@
 
 @media (max-width: 800px) {
   .identites-header {
-    padding-top: 6rem;
+    padding: calc(var(--site-nav-offset) + 1.5rem) 1.15rem 2.5rem;
+  }
+
+  .identites-title {
+    font-size: clamp(2.3rem, 12vw, 4rem);
   }
 
   .identity-breadcrumb {
-    top: 4.75rem;
-    margin-top: 4.75rem;
+    top: var(--site-nav-offset);
+    margin-top: var(--site-nav-offset);
     padding: 0.6rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  .identity-hero {
+    width: calc(100% - 1.5rem);
+    padding-bottom: 3rem;
+  }
+
+  .identity-hero-title {
+    font-size: clamp(2.2rem, 11vw, 3.6rem);
+    overflow-wrap: anywhere;
+  }
+
+  .identity-section,
+  .identity-bottom-nav {
+    width: calc(100% - 1.5rem);
+  }
+
+  .identity-section {
+    padding: 2.5rem 0;
+  }
+
+  .identity-card-name {
+    font-size: clamp(1.7rem, 8vw, 2.4rem);
+    overflow-wrap: anywhere;
+  }
+
+  .identity-bottom-card strong {
+    overflow-wrap: anywhere;
+  }
+
+  .charter-open-btn,
+  .identity-bottom-all {
+    width: 100%;
+    justify-content: center;
+    min-height: 48px;
+    box-sizing: border-box;
   }
 
   .identites-grid {
