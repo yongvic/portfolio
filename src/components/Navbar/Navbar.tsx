@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import "./Navbar.css";
 import { menuColumns } from "./navInfo";
 import { menuLinks } from "./navLinks";
+import { profile } from "@/lib/content";
 import { TimeDisplay } from "../Time/TimeDisplay";
 import AnimatedWords from "./AnimatedWords/AnimatedWords";
 import NavAreaClickSound from "../NavAreaClickSound";
@@ -17,7 +19,17 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(SplitText);
 }
 
+function isMenuLinkCurrent(href: string, pathname: string) {
+  if (href === "/#accueil") return pathname === "/";
+  if (href === "/projets") {
+    return pathname === "/projets" || pathname.startsWith("/works");
+  }
+  if (href.startsWith("/#")) return false;
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export default function Navbar() {
+  const pathname = usePathname();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const menuOpenRef = useRef(false);
   const toggleMenuRef = useRef<(() => void) | null>(null);
@@ -103,6 +115,7 @@ export default function Navbar() {
       const newOpenState = !menuOpenRef.current;
       menuOpenRef.current = newOpenState;
       setIsBurgerOpen(newOpenState);
+      document.body.classList.toggle("nav-menu-open", newOpenState);
 
       if (newOpenState) {
         gsap.to(menuOverlay, {
@@ -163,12 +176,27 @@ export default function Navbar() {
       navtoggle?.removeEventListener("click", handleNavToggleClick);
     });
 
+    const closeMenu = () => {
+      if (!menuOpenRef.current) return;
+      gsap.killTweensOf([menuOverlay, menuContent, menuImage, menuLinksEls, linkHighlighter, menuLinksWrapper]);
+      isMenuAnimating = false;
+      toggleMenu();
+    };
+
     menuLinksEls.forEach((linkEl) => {
       const handleLinkClick = () => {
         if (menuOpenRef.current) {
           toggleMenu();
         }
       };
+      linkEl.addEventListener("click", handleLinkClick);
+      cleanupFunctionsRef.current.push(() => {
+        linkEl.removeEventListener("click", handleLinkClick);
+      });
+    });
+
+    document.querySelectorAll<HTMLAnchorElement>(".mobile-menu a").forEach((linkEl) => {
+      const handleLinkClick = () => closeMenu();
       linkEl.addEventListener("click", handleLinkClick);
       cleanupFunctionsRef.current.push(() => {
         linkEl.removeEventListener("click", handleLinkClick);
@@ -323,6 +351,7 @@ export default function Navbar() {
       //  Réinitialiser l'état du menu
       menuOpenRef.current = false;
       setIsBurgerOpen(false);
+      document.body.classList.remove("nav-menu-open");
       
       // Tuer toutes les animations GSAP
       gsap.killTweensOf([menuOverlay, menuContent, menuImage, menuLinksEls, linkHighlighter, menuLinksWrapper]);
@@ -502,6 +531,42 @@ useEffect(() => {
               </div>
             ))}
             <div className="link-highlighter"></div>
+          </div>
+
+          <div className="mobile-menu">
+            <div className="mobile-menu-head">
+              <span>Menu</span>
+              <span>{profile.city}</span>
+            </div>
+
+            <ul className="mobile-menu-list">
+              {menuLinks.map((link, index) => {
+                const href = link.href || "/";
+                const current = isMenuLinkCurrent(href, pathname);
+                return (
+                  <li key={href}>
+                    <TransitionLink
+                      href={href}
+                      className={`mobile-menu-link${current ? " is-current" : ""}`}
+                    >
+                      <span className="mobile-menu-index">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="mobile-menu-label">{link.label}</span>
+                    </TransitionLink>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="mobile-menu-foot">
+              <a className="mobile-menu-mail" href={`mailto:${profile.email}`}>
+                <span>Écrire</span>
+                <span>{profile.email}</span>
+              </a>
+              <div className="mobile-menu-meta">
+                <a href={`tel:${profile.phone.replace(/\s/g, "")}`}>{profile.phone}</a>
+                <span>{profile.languages.join(" · ")}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
