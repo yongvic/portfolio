@@ -804,10 +804,13 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .works-featured .container-works .works-project:nth-child(n + 3) {
-    display: none;
+    display: none !important;
   }
+}
+
+@media (max-width: 768px) {
 
   .works {
     padding-bottom: 4.5rem;

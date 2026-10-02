@@ -44,7 +44,7 @@ export default function Works({
   }, []);
 
   useEffect(() => {
-    const media = window.matchMedia("(max-width: 768px)");
+    const media = window.matchMedia("(max-width: 1024px)");
     const sync = () => setFeaturedLimit(media.matches ? 2 : 4);
     sync();
     media.addEventListener("change", sync);
