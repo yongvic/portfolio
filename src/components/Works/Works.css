@@ -331,6 +331,7 @@
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--dark);
+  overflow-wrap: break-word;
 }
 
 .work-excerpt {
@@ -434,6 +435,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  min-height: 44px;
   font-family: var(--font-mono);
   font-size: 0.82rem;
   color: var(--dark-muted);
@@ -788,6 +790,20 @@
   }
 }
 
+@media (max-width: 1000px) {
+  .works-featured .works-header {
+    padding-top: 3.5rem;
+  }
+
+  .works-catalog .works-header {
+    padding-top: calc(var(--site-nav-offset) + 1.25rem);
+  }
+
+  .work-title {
+    letter-spacing: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .works-featured .container-works .works-project:nth-child(n + 3) {
     display: none;
@@ -884,15 +900,24 @@
     min-height: 44px;
   }
 
+  .btn-case-study {
+    display: flex;
+  }
+
+  .btn-case-study .link {
+    width: 100%;
+  }
+
   .quickview-backdrop {
-    padding: 0.75rem;
+    padding: 0.75rem 0 0;
     align-items: flex-end;
   }
 
   .quickview-modal {
     max-height: min(92dvh, 100%);
-    padding: 1.25rem 1rem 1.5rem;
+    padding: 1.25rem 1rem max(1.5rem, env(safe-area-inset-bottom));
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    overscroll-behavior: contain;
   }
 
   .quickview-close {

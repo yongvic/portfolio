@@ -373,6 +373,7 @@
 @media (max-width: 900px) {
   .site-footer {
     padding-top: 4.5rem;
+    scroll-margin-top: calc(var(--site-nav-offset) + 0.5rem);
   }
 
   .footer-grid {

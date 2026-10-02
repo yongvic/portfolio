@@ -50,7 +50,7 @@ export default function CursorBubble() {
 
 // Styles pour mobile
 const styles = `
-  @media (max-width: 1000px) {
+  @media (max-width: 1000px), (hover: none), (pointer: coarse) {
     .cursor-bubble {
       display: none !important;
     }

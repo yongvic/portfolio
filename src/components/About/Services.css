@@ -206,7 +206,7 @@ body.works-active {
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 700px) {
   .services {
     gap: 1rem;
   }

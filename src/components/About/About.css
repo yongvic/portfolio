@@ -14,7 +14,9 @@
     object-fit: cover;
 }
 .word {
+  display: inline-block;
   white-space: nowrap;
+  margin-right: 0.28em;
 }
 
 .char {
@@ -104,6 +106,7 @@
     font-size: clamp(0.75rem, 3.5vw, 0.95rem);
     font-family: var(--font-generale-sans);
     font-weight: 600;
+    white-space: pre;
 }
 .fill-btn:hover .text {
     transform: translateX(2px);
@@ -135,12 +138,15 @@
 }
 @media (max-width: 1000px) {
   .about-container {
-    margin-top: 12vh;
+    margin-top: 6vh;
+    min-height: auto;
+    padding-bottom: 2rem;
   }
 
   .about-container .about-title {
-    font-size: clamp(2.4rem, 12vw, 4.5rem);
+    font-size: clamp(2.2rem, 11vw, 3.6rem);
     padding: 0 1rem;
+    overflow-wrap: anywhere;
   }
 
   .about-content1 {
@@ -152,6 +158,10 @@
 
   .about-me-description {
     max-width: none;
+  }
+
+  .about-me-description p {
+    overflow-wrap: break-word;
   }
 
   .inversion-lens {
@@ -168,7 +178,7 @@
 
 @media (max-width: 480px) {
   .about-container {
-    margin-top: 8vh;
+    margin-top: 4vh;
   }
 
   .fill-btn {

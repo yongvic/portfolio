@@ -147,7 +147,6 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      e.preventDefault(); // Empêche le scroll pendant le drag
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         updateCursorState(touch.clientX, touch.clientY);
@@ -179,8 +178,8 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
       document.addEventListener('scroll', handleScroll);
       
       // Events tactiles
-      containerEl.addEventListener('touchstart', handleTouchStart, { passive: false });
-      containerEl.addEventListener('touchmove', handleTouchMove, { passive: false });
+      containerEl.addEventListener('touchstart', handleTouchStart, { passive: true });
+      containerEl.addEventListener('touchmove', handleTouchMove, { passive: true });
       containerEl.addEventListener('touchend', handleTouchEnd);
       containerEl.addEventListener('touchcancel', handleTouchEnd);
       
@@ -284,7 +283,7 @@ const InversionLens: React.FC<InversionLensProps> = ({ src, className }) => {
       <div 
         ref={containerRef} 
         className={`inversion-lens ${className || ''}`}
-        style={{ touchAction: 'none' }} // Empêche les gestes par défaut du navigateur
+        style={{ touchAction: 'pan-y' }} // L'image occupe presque tout l'écran mobile : le scroll vertical doit rester possible
       >
       </div>
     </div>

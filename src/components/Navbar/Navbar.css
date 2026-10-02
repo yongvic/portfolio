@@ -10,7 +10,7 @@ body{
 
 .navbar-wrapper {
     width: 100%;
-    max-width: 100vw;
+    max-width: 100%;
     overflow-x: hidden;
     z-index: 500;
 }
@@ -28,7 +28,7 @@ body{
 .container{
     position: relative;
     width: 100%;
-    max-width: 100vw;
+    max-width: 100%;
     height: 100%;
     will-change: transform, opacity;
     z-index: 0;
@@ -40,7 +40,7 @@ nav {
   top: 0;
   left: 0;
   width: 100%;
-  max-width: 100vw;
+  max-width: 100%;
   box-sizing: border-box;
   padding: 1.5rem 1.5rem;
   color: var(--dark);
@@ -144,14 +144,19 @@ nav p {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100svh;
     overflow-x: hidden;
-    max-width: 100vw;
+    max-width: 100%;
     background-color: var(--light);
     color: var(--dark);
     z-index: 400;
     will-change: clip-path;
+    pointer-events: none;
+}
+
+.menu-overlay.is-open {
+    pointer-events: auto;
 }
 
 .menu-content{
@@ -292,6 +297,7 @@ nav p {
 
     .menu-col p {
         line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .menu-img,
@@ -312,11 +318,21 @@ nav p {
         padding: 0.5rem 1.25rem max(1.25rem, env(safe-area-inset-bottom));
     }
 
+    .menu-link {
+        padding: 0.15rem 0;
+    }
+
     .menu-link a,
     .menu-link a span {
         font-size: clamp(2.15rem, 9vw, 3.4rem) !important;
         letter-spacing: 0 !important;
         line-height: 1.05 !important;
+    }
+
+    .menu-link a {
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
     }
 
     .nav-item .logo,

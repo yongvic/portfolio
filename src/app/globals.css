@@ -3,11 +3,25 @@
 
 html, body {
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+#accueil,
+#a-propos,
+#projets,
+#competences,
+#contact,
+.about-container,
+.works,
+.skills,
+.site-footer {
+  scroll-margin-top: calc(var(--site-nav-offset) + 0.75rem);
 }
 
 html.initial-load .navbar-wrapper,

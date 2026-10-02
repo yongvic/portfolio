@@ -50,6 +50,19 @@
   color: #ffffff;
 }
 
+.btn-back-breadcrumb svg,
+.pager-btn svg,
+.btn-primary svg,
+.btn-return-home svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.arrow-visite {
+  display: inline-flex;
+}
+
 .breadcrumb-trail {
   display: flex;
   align-items: center;
@@ -146,6 +159,7 @@
   margin-bottom: 1rem;
   line-height: 1.05;
   color: var(--dark);
+  overflow-wrap: break-word;
 }
 
 .work-subtitle {
@@ -540,10 +554,21 @@
    RESPONSIVE
 ---------------------------------------------- */
 @media (max-width: 900px) {
+  /* La navbar se masque au scroll : une barre collante sous elle laisserait un vide. */
   .work-breadcrumb-bar {
-    top: var(--site-nav-offset);
+    position: relative;
+    top: auto;
     margin-top: var(--site-nav-offset);
     padding: 0.6rem 1rem;
+  }
+
+  .pager-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .btn-back-breadcrumb {
+    min-height: 44px;
   }
 
   .hero-work-section {
@@ -619,6 +644,30 @@
 
   .back-to-all-btn {
     text-align: center;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .work-detail .work-title {
+    font-size: clamp(2rem, 10vw, 3.2rem);
+    letter-spacing: 0;
+  }
+
+  .work-subtitle,
+  .large-text,
+  .challenge-item p,
+  .result-item p {
+    overflow-wrap: break-word;
+  }
+
+  .hero-work-image {
+    width: 100%;
+  }
+
+  .project-name {
+    overflow-wrap: anywhere;
   }
 }
 

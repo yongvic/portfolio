@@ -126,7 +126,7 @@ const Hero = () => {
             <h1>
               <span className='firstname' translate="no" ref={firstnameRef}>{firstName}</span>
               {lastName && (
-                <span className='lastname' translate="no" ref={lastnameRef}>&nbsp;{lastName}</span>
+                <span className='lastname' translate="no" ref={lastnameRef}>{lastName}</span>
               )}
             </h1>
           </div>

@@ -519,6 +519,7 @@ export default function Works({
         >
           <div
             className="quickview-modal"
+            data-lenis-prevent
             onClick={(e) => e.stopPropagation()}
           >
             <button

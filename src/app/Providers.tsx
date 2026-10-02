@@ -1,9 +1,20 @@
 "use client";
 
-import ReactLenis from "lenis/react";
+import ReactLenis, { useLenis } from "lenis/react";
 import { usePathname } from "next/navigation";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CursorBubble from "@/components/CursorBubble/CursorBubble";
 import TrackVisit from "@/components/Track/TrackVisit";
+
+gsap.registerPlugin(ScrollTrigger);
+
+function LenisScrollTriggerSync() {
+  useLenis(() => {
+    ScrollTrigger.update();
+  });
+  return null;
+}
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -20,6 +31,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <ReactLenis root>
+      <LenisScrollTriggerSync />
       <TrackVisit />
       {children}
       <CursorBubble />

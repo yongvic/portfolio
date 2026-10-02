@@ -618,11 +618,22 @@
     font-size: clamp(2.3rem, 12vw, 4rem);
   }
 
+  /* La navbar se masque au scroll : une barre collante sous elle laisserait un vide. */
   .identity-breadcrumb {
-    top: var(--site-nav-offset);
+    position: relative;
+    top: auto;
     margin-top: var(--site-nav-offset);
     padding: 0.6rem 1rem;
     flex-wrap: wrap;
+  }
+
+  .identity-pager a {
+    width: 44px;
+    height: 44px;
+  }
+
+  .identity-back {
+    min-height: 44px;
   }
 
   .identity-hero {
@@ -686,5 +697,36 @@
     grid-column: 1 / -1;
     grid-row: 2;
     justify-self: center;
+  }
+
+  .identity-charter-cta {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  .identity-palette {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .identity-swatch-color {
+    height: 110px;
+  }
+
+  .identity-story p,
+  .identity-hero-excerpt,
+  .identites-subtitle {
+    overflow-wrap: break-word;
+  }
+}
+
+@media (max-width: 480px) {
+  .identity-palette {
+    grid-template-columns: 1fr;
+  }
+
+  .identites-grid {
+    width: calc(100% - 1.5rem);
+    padding-bottom: 4.5rem;
   }
 }

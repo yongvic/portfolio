@@ -475,7 +475,7 @@ useEffect(() => {
 
         <div
           id="navigation-overlay"
-          className="menu-overlay"
+          className={`menu-overlay${isBurgerOpen ? " is-open" : ""}`}
           role="dialog"
           aria-modal="true"
           aria-label="Menu plein écran"
