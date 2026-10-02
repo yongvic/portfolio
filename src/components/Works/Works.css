@@ -43,8 +43,8 @@
   align-items: center;
   gap: 0.7rem;
   padding: 0.95rem 1.5rem;
-  background: var(--dark);
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-contrast);
   border-radius: var(--radius-full);
   font-family: var(--font-generale-sans);
   font-weight: 600;
@@ -55,6 +55,7 @@
 
 .btn-all-projects:hover {
   transform: translateY(-2px);
+  background: var(--accent1);
 }
 
 .btn-all-projects svg {
