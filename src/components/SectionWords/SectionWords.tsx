@@ -49,7 +49,7 @@ const SectionWords: React.FC = () => {
         ScrollTrigger.create({
           trigger: title,
           start: "top bottom",
-          end: "top -25%",
+          end: isNarrow ? "top -25%" : "center center",
           scrub: 1,
           onUpdate: (self) => {
             const titleContainerX =
