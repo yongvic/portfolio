@@ -33,7 +33,7 @@ export const profile = {
     "avec une exigence studio internationale.",
   ],
   intro:
-    "Étudiant en Bachelor 2 Systèmes d'Information, je combine direction artistique, UX/UI et développement Next.js pour transformer des idées en produits digitaux élégants, performants et sécurisés.",
+    "Étudiant en Bachelor 3 Systèmes d'Information, je combine direction artistique, UX/UI et développement Next.js pour transformer des idées en produits digitaux élégants, performants et sécurisés.",
   languages: ["Français", "Anglais"],
   hobbies: ["Graphisme", "Jeux vidéos", "Manga"],
 };
@@ -97,7 +97,7 @@ export const timeline = [
   },
   {
     period: "2024 - 2026",
-    title: "Bachelor 2 - Systèmes d'Information",
+    title: "Bachelor 3 - Systèmes d'Information",
     subtitle: "Lomé Business School",
     details: "Parcours axé développement web, cybersécurité et architecture logicielle.",
   },
