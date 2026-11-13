@@ -28,7 +28,7 @@ export async function getIdentityPlacements(): Promise<IdentityPlacement[]> {
   }
 }
 
-export async function getHomeLanes(): Promise<{ dev: UiProject[]; design: UiProject[] }> {
+export async function getHomeLanes(): Promise<{ dev: UiProject[]; design: UiProject[]; total: number }> {
   const [projects, placements] = await Promise.all([getProjects(), getIdentityPlacements()]);
   const identities = visibleIdentities(placements).map((identity) => ({
     ...identityToUiProject(identity),
@@ -42,6 +42,8 @@ export async function getHomeLanes(): Promise<{ dev: UiProject[]; design: UiProj
   return {
     dev: (devChosen.length ? devChosen : flagged.length ? flagged : projects).slice(0, HOME_LIMIT),
     design: (designChosen.length ? designChosen : identities).slice(0, HOME_LIMIT),
+    // même total que le catalogue /projets (projets + identités visibles)
+    total: projects.length + identities.length,
   };
 }
 

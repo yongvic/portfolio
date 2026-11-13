@@ -18,6 +18,7 @@ type WorksProps = {
   variant?: "featured" | "catalog";
   devProjects?: UiProject[];
   designProjects?: UiProject[];
+  totalCount?: number;
 };
 
 type CategoryFilter = "ALL" | "WEB" | "BRAND" | "GRAPHIC" | "AUTO";
@@ -31,6 +32,7 @@ export default function Works({
   variant = "featured",
   devProjects = [],
   designProjects = [],
+  totalCount,
 }: WorksProps) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>("ALL");
   const [homeLane, setHomeLane] = useState<"dev" | "design">("dev");
@@ -499,7 +501,7 @@ export default function Works({
       {!isCatalog && (
         <div className="works-catalog-cta">
           <p>
-            {projects.length} réalisations au total — web, automatisation et direction artistique.
+            {totalCount ?? projects.length} réalisations au total — web, automatisation et direction artistique.
           </p>
           <TransitionLink href="/projets" className="btn-all-projects">
             <span>Voir tous les projets</span>

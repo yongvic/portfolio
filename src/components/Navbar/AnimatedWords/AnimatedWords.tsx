@@ -11,6 +11,11 @@ interface AnimatedWordsProps {
 
 export default function AnimatedWords({ isMenuOpen }: AnimatedWordsProps) {
   const [currentWord, setCurrentWord] = useState("");
+  // Masqué sur mobile/tablette : décidé après le montage pour que le HTML serveur et le premier rendu client restent identiques (sinon erreur d'hydratation React #418)
+  const [isNarrow, setIsNarrow] = useState(false);
+  useEffect(() => {
+    setIsNarrow(window.innerWidth < 1000);
+  }, []);
   const containerRef = useRef<HTMLDivElement>(null);
   const wordRef = useRef<HTMLDivElement>(null);
   
@@ -111,7 +116,7 @@ export default function AnimatedWords({ isMenuOpen }: AnimatedWordsProps) {
   }, [isMenuOpen, currentWord]);
 
   // Ne rien afficher sur mobile
-  if (typeof window !== "undefined" && window.innerWidth < 1000) {
+  if (isNarrow) {
     return null;
   }
 

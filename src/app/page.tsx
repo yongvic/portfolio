@@ -4,5 +4,5 @@ import { getHomeLanes } from "@/lib/db";
 export default async function Home() {
   const lanes = await getHomeLanes();
 
-  return <HomeClient devProjects={lanes.dev} designProjects={lanes.design} />;
+  return <HomeClient devProjects={lanes.dev} designProjects={lanes.design} totalCount={lanes.total} />;
 }

@@ -508,6 +508,7 @@ useEffect(() => {
           role="dialog"
           aria-modal="true"
           aria-label="Menu plein écran"
+          inert={!isBurgerOpen}
         >
           <div className="menu-content">
             {menuColumns.map((col, colIndex) => (

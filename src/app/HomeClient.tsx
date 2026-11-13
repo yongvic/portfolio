@@ -19,9 +19,10 @@ gsap.registerPlugin(ScrollTrigger);
 type HomeClientProps = {
   devProjects: UiProject[];
   designProjects: UiProject[];
+  totalCount?: number;
 };
 
-export default function HomeClient({ devProjects, designProjects }: HomeClientProps) {
+export default function HomeClient({ devProjects, designProjects, totalCount }: HomeClientProps) {
   useEffect(() => {
     // Force un reset complet de ScrollTrigger
     ScrollTrigger.refresh(true);
@@ -43,7 +44,7 @@ export default function HomeClient({ devProjects, designProjects }: HomeClientPr
         <Hero />
         <About />
         <Services />
-        <Works variant="featured" devProjects={devProjects} designProjects={designProjects} />
+        <Works variant="featured" devProjects={devProjects} designProjects={designProjects} totalCount={totalCount} />
         <Skills />
         <SectionWords />
         <Footer />
