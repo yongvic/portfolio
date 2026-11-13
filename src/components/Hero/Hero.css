@@ -135,6 +135,11 @@
 .hero .links a{
     color: inherit;
     display: flex;
+    /* zone de clic de 44px minimum, l'icône garde sa taille de 28px */
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero .links svg{
@@ -172,6 +177,14 @@
 @media (max-height: 820px) {
     .hero-name h1{
         font-size: min(9.2vw, 15svh, 8rem);
+    }
+}
+
+@media (min-width: 1001px) {
+    /* compense la zone de clic agrandie : l'espacement visuel entre icônes reste identique */
+    .hero .links{
+        gap: 0.2rem;
+        margin: -8px 0;
     }
 }
 

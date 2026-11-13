@@ -138,7 +138,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Marketplace B2B pour louer coworkings et salles au Togo.",
     description:
       "Garden met en relation propriétaires et entreprises à Lomé : coworking, salles de réunion, espaces événementiels. Le landlord valide la demande, le locataire paie via Stripe, les photos passent par un upload drag-and-drop. Tableau de bord, sinistres et rôles Auth.js — un cycle locatif complet, pas une vitrine.",
-    coverImage: "/Garden.png",
+    coverImage: "/Garden.webp",
     category: "Web",
     technologies: ["Next.js 16", "TypeScript", "Tailwind 4", "PostgreSQL", "Auth.js v5", "Stripe", "Vercel Blob"],
     projectUrl: "https://garden-one-silk.vercel.app",
@@ -153,7 +153,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "CRM hôtelier : chambres, restaurant, factures PDF, rôles staff.",
     description:
       "Résidence Moeris centralise l'exploitation d'une résidence multiservice : hébergement, consommations, caisse restaurant et activités. Chaque profil (Admin, Manager, Staff) ne voit que ce qu'il a le droit de faire. Les factures sortent en PDF avec logo, les exports CSV suivent la compta — un seul outil à la place de cahiers et de fils WhatsApp.",
-    coverImage: "/moeris.png",
+    coverImage: "/moeris.webp",
     category: "Web",
     technologies: ["Next.js", "TypeScript", "Prisma v7", "PostgreSQL", "React-pdf", "Auth.js"],
     projectUrl: "https://moeris.vercel.app",
@@ -168,7 +168,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Wishlist à deux : elle note ses envies, lui réserve, sans spoiler.",
     description:
       "Veloura est une wishlist cadeaux pensée mobile-first. Deux comptes se lient par un lien d'invitation — pas d'e-mail obligatoire. La personne qui offre voit les envies et réserve ; celle qui reçoit ne voit jamais qui a réservé quoi. Photos compressées côté client, stockées sur Vercel Blob, base Neon Postgres.",
-    coverImage: "/veloura.png",
+    coverImage: "/veloura.webp",
     category: "Web",
     technologies: ["Next.js", "TypeScript", "Prisma", "Neon", "Vercel Blob", "Vitest"],
     projectUrl: "https://veloura-sigma-ten.vercel.app",
@@ -183,7 +183,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Site officiel et boutique solaire de KYA Energy, au Togo.",
     description:
       "Site corporate et marketplace pour KYA Energy Group, entreprise solaire basée au Togo. Le visiteur comprend l'offre (panneaux, kits, installation), parcourt le catalogue et demande un devis ou un achat. Design orienté confiance : typo claire, cards produit, parcours mobile d'abord — pour un marché où le solaire se vend encore beaucoup en rendez-vous.",
-    coverImage: "/kya_marketplace.png",
+    coverImage: "/kya_marketplace.webp",
     category: "Web",
     technologies: ["Next.js", "TypeScript", "Tailwind", "PostgreSQL"],
     projectUrl: "https://kya-energy-website.vercel.app",
@@ -198,7 +198,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Un accord verbal devient une preuve PDF, en moins de deux minutes.",
     description:
       "Zéro-Palabre formalise les accords du quotidien au Togo et en Afrique de l'Ouest : prêts, locations, prestations. On décrit l'engagement, on invite l'autre partie par magic link, on valide, on télécharge un PDF et on vérifie le document via un lien public. Pensé pour remplacer la palabre et le « on s'est dit que » par une trace claire, y compris sur mobile.",
-    coverImage: "/zero-palabre.png",
+    coverImage: "/zero-palabre.webp",
     category: "Web",
     technologies: ["Next.js 14", "TypeScript", "Prisma", "PostgreSQL", "Auth.js", "React-pdf"],
     projectUrl: "https://zero-palabre.vercel.app",
@@ -212,7 +212,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Créez un sondage, partagez un code, lisez les résultats en direct.",
     description:
       "Outil d'enquêtes (CNAO et terrain) : le créateur compose ses questions dans un assistant, publie, puis récupère un lien, un code court ou un QR. Les répondants n'ont pas de compte. Le tableau de bord affiche les graphiques, exporte CSV / Excel / PDF, et peut rédiger une synthèse via Gemini. Interface FR / EN.",
-    coverImage: "/enquete.png",
+    coverImage: "/enquete.webp",
     category: "Web",
     technologies: ["Next.js 15", "TypeScript", "Prisma", "Neon", "Auth.js", "Recharts", "Gemini"],
     projectUrl: "https://enquete-pi.vercel.app",
@@ -226,7 +226,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Le client commande au QR ; la salle suit reçue, en préparation, servie.",
     description:
       "Ma table relie la table et la cuisine de la Résidence Moeris. Le client scanne le QR, voit le menu, choisit les goûts, commande, appelle le service et laisse un avis en partant. Le staff avance les tickets : reçue → préparation → servie. Temps réel (Pusher ou polling), photos des plats, comptes salle protégés par Auth.js.",
-    coverImage: "/moeris-ma-table.png",
+    coverImage: "/moeris-ma-table.webp",
     category: "Web",
     technologies: ["Next.js 16", "TypeScript", "Prisma", "Neon", "Auth.js", "Pusher"],
     projectUrl: "https://moeris-ma-table.vercel.app",
@@ -240,7 +240,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Marketplace multi-vendeurs : panier, checkout, admin RBAC.",
     description:
       "Execly est une boutique en ligne production-ready : catalogue, panier, codes promo, checkout multi-étapes. Côté admin, datatables, KPI et logs de sécurité. L'auth passe par JWT HttpOnly (jose), les rôles USER / ADMIN / MODERATOR / SUPER_ADMIN sont des enums PostgreSQL — pas un simple flag dans le front.",
-    coverImage: "/execly.png",
+    coverImage: "/execly.webp",
     category: "Web",
     technologies: ["Next.js", "TypeScript", "Tailwind v4", "Prisma", "PostgreSQL", "Jose JWT"],
     projectUrl: "https://execly-ashy.vercel.app",
@@ -254,7 +254,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Campagnes WhatsApp en file d'attente, GOWA jamais exposé sur Internet.",
     description:
       "WA Campaigns pilote des envois WhatsApp (texte, image, vidéo, document) depuis un dashboard. Les destinataires viennent d'un CSV, d'un collage ou du carnet. Une file SQLite envoie avec un délai aléatoire et reprend après redémarrage. GOWA reste dans Docker, sans port public : le navigateur ne parle qu'au dashboard.",
-    coverImage: "/wa-campaigns.png",
+    coverImage: "/wa-campaigns.webp",
     category: "Automatisation",
     technologies: ["React", "Vite", "Express", "SQLite", "Docker", "GOWA"],
     repository: "https://github.com/yongvic/wa-campaigns",
@@ -267,7 +267,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Pharmacie hors-ligne : stock, caisse, assurances INAM / NSIA, Windows.",
     description:
       "PharmaGestion Pro tourne 100 % en local, sans internet. Le pharmacien gère le catalogue (code-barres, alertes, import Excel), le stock, le POS et la caisse. Les assurances togolaises (INAM, NSIA, etc.) appliquent un taux de couverture. Trois rôles : Admin, Pharmacien, Caissier. Un seul Setup.exe pour le client, sans Python ni Node.",
-    coverImage: "/pharmagestion.png",
+    coverImage: "/pharmagestion.webp",
     category: "Web",
     technologies: ["Electron", "React 19", "Django REST", "SQLite", "JWT", "Tailwind 4"],
     repository: "https://github.com/yongvic/pharmagestion",
@@ -280,7 +280,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Assistant web Moeris : questions fréquentes, réponses automatisées n8n.",
     description:
       "Chatbot d'accueil pour la résidence Moeris. L'interface guide la conversation (chambre, resto, horaires) sans noyer le visiteur. Les réponses métier passent par des workflows n8n : on change un scénario sans redéployer le front. Version TypeScript, hébergée sur Vercel, lisible sur téléphone.",
-    coverImage: "/chatbot.png",
+    coverImage: "/chatbot.webp",
     category: "Automatisation",
     technologies: ["TypeScript", "Next.js", "n8n"],
     projectUrl: "https://chatbot-moeris.vercel.app",
@@ -294,7 +294,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Anglais cabine CEFR : modules, oraux notés, plan d'apprentissage en PDF.",
     description:
       "Ravi's entraîne l'anglais de cabine (interprétation) par niveaux CEFR A1→C1. L'app génère des modules, fait passer des oraux notés, attribue des badges et exporte le plan personnalisé en PDF via Puppeteer. Cinq compétences : reading, listening, writing, speaking, vocab. Un outil pédagogique, pas un site vitrine.",
-    coverImage: "/ravis.png",
+    coverImage: "/ravis.webp",
     category: "Web",
     technologies: ["Next.js 16", "TypeScript", "Prisma", "Auth.js", "Tailwind v4", "Puppeteer"],
     projectUrl: "https://ravi-s.vercel.app",
@@ -308,7 +308,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "App couples à distance : chat temps réel, jeux, souvenirs partagés.",
     description:
       "Zyra est un MVP pour les couples séparés géographiquement. Chat WebSocket (Socket.io), sept mini-jeux synchronisés, playlists et souvenirs. Front Next.js 16, API NestJS, auth JWT + Google. L'enjeu : une latence basse et une auth propre, pas une landing romantique vide.",
-    coverImage: "/zyra.png",
+    coverImage: "/zyra.webp",
     category: "Web",
     technologies: ["Next.js 16", "NestJS", "Socket.io", "TypeScript", "PostgreSQL"],
     repository: "https://github.com/yongvic/Zyra",
@@ -321,7 +321,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Vitrine d'un venture studio : branding sombre, cas produit et craft.",
     description:
       "Site vitrine pour Rudore, venture studio qui « forge » des produits numériques. Direction artistique sombre, typo tranchante, grille de créations (branding, fintech, marketplace, edtech). Le site doit faire sentir le positionnement « du brut au rare » en quelques scrolls, pas lister des services comme une agence générique.",
-    coverImage: "/rudore.png",
+    coverImage: "/rudore.webp",
     category: "Graphic",
     technologies: ["Next.js", "TypeScript", "Tailwind"],
     projectUrl: "https://rudore-portfolio.vercel.app",
@@ -335,7 +335,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Affiche mode éditoriale : contraste, typo, mémorisation.",
     description:
       "Affiche pour Word Fashion Agency. Composition éditoriale, hiérarchie typographique forte et contraste volontairement dur, pour tenir à la fois en print et en digital. L'objectif : une image de marque mode immédiatement reconnaissable, pas un flyer « événement + date + logo ».",
-    coverImage: "/WFA.png",
+    coverImage: "/WFA.webp",
     category: "Graphic",
     technologies: ["Figma", "Brand Design"],
   },
@@ -347,7 +347,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "API Spring Boot 3 : inscription, JWT, BCrypt, routes protégées.",
     description:
       "Backend REST prêt à brancher un front React ou une app mobile. Spring Boot 3, inscription et login, mots de passe BCrypt, filtre JWT, routes protégées, MySQL en prod et H2 en test. Projet propre, hot reload, collections REST Client — une base d'auth réutilisable, pas un tutoriel Hello World.",
-    coverImage: "/api-java.png",
+    coverImage: "/api-java.webp",
     category: "Web",
     technologies: ["Java", "Spring Boot", "JWT", "MySQL"],
     repository: "https://github.com/yongvic/api-java",
@@ -360,7 +360,7 @@ export const staticProjects: UiProject[] = [
     excerpt: "Mini-jeux pour couples, sessions courtes, d'abord sur mobile.",
     description:
       "Never Bored Lovers propose des mini-jeux à deux, pensés pour des sessions de quelques minutes sur téléphone. Parcours mobile-first, interactions immédiates, ton chaleureux. Destiné à relancer un moment à deux sans installation lourde ni compte obligatoire dès l'ouverture.",
-    coverImage: "/For our.png",
+    coverImage: "/For our.webp",
     category: "Web",
     technologies: ["Next.js", "React", "TypeScript"],
     projectUrl: "https://for-mira.vercel.app/",
@@ -400,10 +400,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#10B981",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/Garden.png",
-      desktop: "/Garden.png",
-      mobile: "/Garden.png",
-      details: ["/Garden.png"],
+      hero: "/Garden.webp",
+      desktop: "/Garden.webp",
+      mobile: "/Garden.webp",
+      details: ["/Garden.webp"],
     },
   },
   "moeris-facture": {
@@ -421,10 +421,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#3B82F6",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/moeris.png",
-      desktop: "/moeris.png",
-      mobile: "/moeris.png",
-      details: ["/moeris.png"],
+      hero: "/moeris.webp",
+      desktop: "/moeris.webp",
+      mobile: "/moeris.webp",
+      details: ["/moeris.webp"],
     },
   },
   "kya-marketplace": {
@@ -442,10 +442,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#FFB703",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/kya_marketplace.png",
-      desktop: "/KYA.png",
-      mobile: "/KYA.png",
-      details: ["/KYA.png", "/kya_marketplace.png"],
+      hero: "/kya_marketplace.webp",
+      desktop: "/KYA.webp",
+      mobile: "/KYA.webp",
+      details: ["/KYA.webp", "/kya_marketplace.webp"],
     },
   },
   "chatbot-moeris": {
@@ -463,10 +463,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#D7FB61",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/chatbot.png",
-      desktop: "/chatbot.png",
-      mobile: "/chatbot.png",
-      details: ["/chatbot.png"],
+      hero: "/chatbot.webp",
+      desktop: "/chatbot.webp",
+      mobile: "/chatbot.webp",
+      details: ["/chatbot.webp"],
     },
   },
   "affiche-wfa": {
@@ -484,10 +484,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#F43F5E",
     fontFamily: "var(--font-gambarino)",
     images: {
-      hero: "/WFA.png",
-      desktop: "/WFA.png",
-      mobile: "/ensemble.jpg",
-      details: ["/WFA.png", "/ensemble.jpg"],
+      hero: "/WFA.webp",
+      desktop: "/WFA.webp",
+      mobile: "/ensemble.webp",
+      details: ["/WFA.webp", "/ensemble.webp"],
     },
   },
   "api-java": {
@@ -505,10 +505,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#EF4444",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/api-java.png",
-      desktop: "/api-java.png",
-      mobile: "/api-java.png",
-      details: ["/api-java.png"],
+      hero: "/api-java.webp",
+      desktop: "/api-java.webp",
+      mobile: "/api-java.webp",
+      details: ["/api-java.webp"],
     },
   },
   "never-bored-lovers": {
@@ -526,10 +526,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#8B5CF6",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/For our.png",
-      desktop: "/For our.png",
-      mobile: "/For our.png",
-      details: ["/For our.png"],
+      hero: "/For our.webp",
+      desktop: "/For our.webp",
+      mobile: "/For our.webp",
+      details: ["/For our.webp"],
     },
   },
   "ravi-s": {
@@ -547,10 +547,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#06B6D4",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/ravis.png",
-      desktop: "/ravis.png",
-      mobile: "/ravis.png",
-      details: ["/ravis.png"],
+      hero: "/ravis.webp",
+      desktop: "/ravis.webp",
+      mobile: "/ravis.webp",
+      details: ["/ravis.webp"],
     },
   },
   "zyra": {
@@ -568,10 +568,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#EC4899",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/zyra.png",
-      desktop: "/zyra.png",
-      mobile: "/zyra.png",
-      details: ["/zyra.png"],
+      hero: "/zyra.webp",
+      desktop: "/zyra.webp",
+      mobile: "/zyra.webp",
+      details: ["/zyra.webp"],
     },
   },
   "execly": {
@@ -589,10 +589,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#2563EB",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/execly.png",
-      desktop: "/execly.png",
-      mobile: "/execly.png",
-      details: ["/execly.png"],
+      hero: "/execly.webp",
+      desktop: "/execly.webp",
+      mobile: "/execly.webp",
+      details: ["/execly.webp"],
     },
   },
   veloura: {
@@ -610,10 +610,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#C9A227",
     fontFamily: "var(--font-gambarino)",
     images: {
-      hero: "/veloura.png",
-      desktop: "/veloura.png",
-      mobile: "/veloura.png",
-      details: ["/veloura.png"],
+      hero: "/veloura.webp",
+      desktop: "/veloura.webp",
+      mobile: "/veloura.webp",
+      details: ["/veloura.webp"],
     },
   },
   "zero-palabre": {
@@ -631,10 +631,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#0F766E",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/zero-palabre.png",
-      desktop: "/zero-palabre.png",
-      mobile: "/zero-palabre.png",
-      details: ["/zero-palabre.png"],
+      hero: "/zero-palabre.webp",
+      desktop: "/zero-palabre.webp",
+      mobile: "/zero-palabre.webp",
+      details: ["/zero-palabre.webp"],
     },
   },
   enquete: {
@@ -652,10 +652,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#C9971C",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/enquete.png",
-      desktop: "/enquete.png",
-      mobile: "/enquete.png",
-      details: ["/enquete.png"],
+      hero: "/enquete.webp",
+      desktop: "/enquete.webp",
+      mobile: "/enquete.webp",
+      details: ["/enquete.webp"],
     },
   },
   "moeris-ma-table": {
@@ -673,10 +673,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#B45309",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/moeris-ma-table.png",
-      desktop: "/moeris-ma-table.png",
-      mobile: "/moeris-ma-table.png",
-      details: ["/moeris-ma-table.png"],
+      hero: "/moeris-ma-table.webp",
+      desktop: "/moeris-ma-table.webp",
+      mobile: "/moeris-ma-table.webp",
+      details: ["/moeris-ma-table.webp"],
     },
   },
   "wa-campaigns": {
@@ -694,10 +694,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#25D366",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/wa-campaigns.png",
-      desktop: "/wa-campaigns.png",
-      mobile: "/wa-campaigns.png",
-      details: ["/wa-campaigns.png"],
+      hero: "/wa-campaigns.webp",
+      desktop: "/wa-campaigns.webp",
+      mobile: "/wa-campaigns.webp",
+      details: ["/wa-campaigns.webp"],
     },
   },
   pharmagestion: {
@@ -715,10 +715,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#0EA5E9",
     fontFamily: "var(--font-clash-display)",
     images: {
-      hero: "/pharmagestion.png",
-      desktop: "/pharmagestion.png",
-      mobile: "/pharmagestion.png",
-      details: ["/pharmagestion.png"],
+      hero: "/pharmagestion.webp",
+      desktop: "/pharmagestion.webp",
+      mobile: "/pharmagestion.webp",
+      details: ["/pharmagestion.webp"],
     },
   },
   "rudore-portfolio": {
@@ -736,10 +736,10 @@ export const projectCaseStudies: Record<string, ProjectCaseStudy> = {
     accent: "#E8D5A3",
     fontFamily: "var(--font-gambarino)",
     images: {
-      hero: "/rudore.png",
-      desktop: "/rudore.png",
-      mobile: "/rudore.png",
-      details: ["/rudore.png"],
+      hero: "/rudore.webp",
+      desktop: "/rudore.webp",
+      mobile: "/rudore.webp",
+      details: ["/rudore.webp"],
     },
   },
 };
@@ -776,6 +776,11 @@ type ProjectAdapter = {
   category?: { name: string } | null;
 };
 
+// Les images du dossier public sont en WebP : on réécrit d'anciennes valeurs .png/.jpg (base de données) vers leur version .webp
+function toLocalWebp(src: string): string {
+  return src.startsWith("/") && !src.startsWith("//") ? src.replace(/\.(png|jpe?g)$/i, ".webp") : src;
+}
+
 export function projectToUi(project: ProjectAdapter): UiProject {
   return {
     id: project.id,
@@ -783,7 +788,7 @@ export function projectToUi(project: ProjectAdapter): UiProject {
     title: project.title,
     excerpt: project.excerpt,
     description: project.description,
-    coverImage: project.coverImage,
+    coverImage: toLocalWebp(project.coverImage),
     category: project.category?.name ?? "Web",
     technologies: project.technologies,
     projectUrl: project.projectUrl,

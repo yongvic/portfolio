@@ -22,10 +22,10 @@ export default async function WorkDetail({ params }: WorkDetailProps) {
 
   const caseStudy = projectCaseStudies[currentSlug];
   const images = caseStudy?.images ?? {
-    hero: baseProject?.coverImage ?? "/moi.png",
-    desktop: baseProject?.coverImage ?? "/moi.png",
-    mobile: baseProject?.coverImage ?? "/moi.png",
-    details: [baseProject?.coverImage ?? "/moi.png"],
+    hero: baseProject?.coverImage ?? "/moi.webp",
+    desktop: baseProject?.coverImage ?? "/moi.webp",
+    mobile: baseProject?.coverImage ?? "/moi.webp",
+    details: [baseProject?.coverImage ?? "/moi.webp"],
   };
 
   // Gestion de l'état 404 Projet Introuvable avec récupération élégante

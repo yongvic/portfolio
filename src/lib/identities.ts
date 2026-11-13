@@ -44,7 +44,7 @@ const variant = (
   width: number,
   height: number
 ): BrandVariant => ({
-  src: `/identites/${slug}/variante-${index}.png`,
+  src: `/identites/${slug}/variante-${index}.webp`,
   background,
   label,
   width,
@@ -180,7 +180,7 @@ export const brandIdentities: BrandIdentity[] = [
 export const IDENTITY_CATEGORY = "Identité visuelle";
 
 export function identityPlanche(slug: string) {
-  return `/identites/${slug}/planche.png`;
+  return `/identites/${slug}/planche.webp`;
 }
 
 export type IdentityPlacement = {

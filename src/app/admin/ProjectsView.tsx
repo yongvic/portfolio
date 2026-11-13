@@ -116,7 +116,7 @@ export default function ProjectsView({
                     <span className="sr-only">Position </span>
                     {position}
                   </span>
-                  <img src={p.coverImage || "/moi.png"} alt="" className="a-thumb" loading="lazy" />
+                  <img src={p.coverImage || "/moi.webp"} alt="" className="a-thumb" loading="lazy" />
                   <span className="min-w-0 flex-1">
                     <span className="a-strong block truncate font-semibold">{p.title}</span>
                     <span className="a-meta block truncate">

@@ -414,14 +414,14 @@ export default function ProjectEditor({ project, projects, categories, images, i
               label="Image de couverture"
               htmlFor={id("coverImage")}
               error={errors.coverImage}
-              hint="Un fichier du dossier public du site (ex. /Garden.png) ou une adresse web complète."
+              hint="Un fichier du dossier public du site (ex. /Garden.webp) ou une adresse web complète."
             >
               <input
                 {...inputProps("coverImage")}
                 list={`${uid}-images`}
                 value={values.coverImage}
                 onChange={(e) => set("coverImage", e.target.value)}
-                placeholder="/Garden.png"
+                placeholder="/Garden.webp"
                 autoComplete="off"
               />
               <datalist id={`${uid}-images`}>

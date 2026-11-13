@@ -139,7 +139,7 @@ const About = () => {
 
         <div className="img_inversed">
           <Signature className="sign" ref={svgRef} color="#d7fb61" />
-          <InversionLens src="/moi.png" className="inversion-lens" />
+          <InversionLens src="/moi.webp" className="inversion-lens" />
         </div>
       </div>
     </section>

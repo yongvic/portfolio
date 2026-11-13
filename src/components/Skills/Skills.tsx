@@ -180,7 +180,7 @@ const Skills: React.FC = () => {
     },
     {
       category: "Automatisation",
-      tags: safeTags(["Automatisation n8n", services[3]?.title]),
+      tags: safeTags([services[3]?.title]),
     },
     {
       category: "Sécurité",
